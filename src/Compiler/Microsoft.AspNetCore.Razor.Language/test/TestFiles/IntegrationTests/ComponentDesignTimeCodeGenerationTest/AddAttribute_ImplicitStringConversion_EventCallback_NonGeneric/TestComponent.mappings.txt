@@ -1,0 +1,29 @@
+﻿Source Location: (26:0,26 [1] x:\dir\subdir\Test\TestComponent.cshtml)
+|c|
+Generated Location: (1039:25,26 [1] )
+|c|
+
+Source Location: (38:0,38 [9] x:\dir\subdir\Test\TestComponent.cshtml)
+|() => { }|
+Generated Location: (1295:33,38 [9] )
+|() => { }|
+
+Source Location: (13:0,13 [11] x:\dir\subdir\Test\TestComponent.cshtml)
+|MyParameter|
+Generated Location: (1512:42,13 [11] )
+|MyParameter|
+
+Source Location: (29:0,29 [7] x:\dir\subdir\Test\TestComponent.cshtml)
+|MyEvent|
+Generated Location: (1745:51,29 [7] )
+|MyEvent|
+
+Source Location: (62:2,7 [42] x:\dir\subdir\Test\TestComponent.cshtml)
+|
+    private MyClass<string> c = new();
+|
+Generated Location: (2108:68,7 [42] )
+|
+    private MyClass<string> c = new();
+|
+

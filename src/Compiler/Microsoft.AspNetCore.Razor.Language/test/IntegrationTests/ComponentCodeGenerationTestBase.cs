@@ -1223,6 +1223,114 @@ namespace Test
 
         Assert.Empty(generated.Diagnostics);
     }
+
+    [Fact] // https://github.com/dotnet/aspnetcore/issues/18042
+    public void AddAttribute_ImplicitStringConversion_TypeInference()
+    {
+        AdditionalSyntaxTrees.Add(Parse("""
+            using Microsoft.AspNetCore.Components;
+
+            namespace Test;
+
+            public class MyClass<T>
+            {
+                public static implicit operator string(MyClass<T> c) => throw null!;
+            }
+
+            public class MyComponent<T> : ComponentBase
+            {
+                [Parameter]
+                public MyClass<T> MyParameter { get; set; } = null!;
+            }
+            """));
+
+        var generated = CompileToCSharp("""
+            <MyComponent MyParameter="c" />
+
+            @code {
+                private readonly MyClass<string> c = new();
+            }
+            """);
+
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+        Assert.Empty(generated.Diagnostics);
+    }
+
+    [Fact] // https://github.com/dotnet/aspnetcore/issues/18042
+    public void AddAttribute_ImplicitStringConversion_EventCallback()
+    {
+        AdditionalSyntaxTrees.Add(Parse("""
+            using Microsoft.AspNetCore.Components;
+
+            namespace Test;
+            
+            public class MyClass<T>
+            {
+                public static implicit operator string(MyClass<T> c) => throw null!;
+            }
+
+            public class MyComponent<T> : ComponentBase
+            {
+                [Parameter]
+                public MyClass<T> MyParameter { get; set; }
+
+                [Parameter]
+                public EventCallback<MyClass<T>> MyParameterChanged { get; set; }
+            }
+            """));
+
+        var generated = CompileToCSharp("""
+            <MyComponent @bind-MyParameter="c" />
+
+            @code {
+                private MyClass<string> c = new();
+            }
+            """);
+
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+        Assert.Empty(generated.Diagnostics);
+    }
+
+    [Fact] // https://github.com/dotnet/aspnetcore/issues/18042
+    public void AddAttribute_ImplicitStringConversion_EventCallback_NonGeneric()
+    {
+        AdditionalSyntaxTrees.Add(Parse("""
+            using Microsoft.AspNetCore.Components;
+
+            namespace Test;
+            
+            public class MyClass<T>
+            {
+                public static implicit operator string(MyClass<T> c) => throw null!;
+            }
+
+            public class MyComponent<T> : ComponentBase
+            {
+                [Parameter]
+                public MyClass<T> MyParameter { get; set; }
+
+                [Parameter]
+                public EventCallback MyEvent { get; set; }
+            }
+            """));
+
+        var generated = CompileToCSharp("""
+            <MyComponent MyParameter="c" MyEvent="() => { }" />
+
+            @code {
+                private MyClass<string> c = new();
+            }
+            """);
+
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+        Assert.Empty(generated.Diagnostics);
+    }
     #endregion
 
     #region Bind
