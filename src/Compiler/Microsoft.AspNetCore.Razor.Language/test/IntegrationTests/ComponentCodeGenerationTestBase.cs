@@ -1241,11 +1241,27 @@ namespace Test
             {
                 [Parameter]
                 public MyClass<T> MyParameter { get; set; } = null!;
+
+                [Parameter]
+                public bool BoolParameter { get; set; }
+
+                [Parameter]
+                public string StringParameter { get; set; } = null!;
+
+                [Parameter]
+                public System.Delegate DelegateParameter { get; set; } = null!;
+
+                [Parameter]
+                public object ObjectParameter { get; set; } = null!;
             }
             """));
 
         var generated = CompileToCSharp("""
-            <MyComponent MyParameter="c" />
+            <MyComponent MyParameter="c"
+                BoolParameter="true"
+                StringParameter="str"
+                DelegateParameter="() => { }"
+                ObjectParameter="c" />
 
             @code {
                 private readonly MyClass<string> c = new();
@@ -1278,11 +1294,27 @@ namespace Test
 
                 [Parameter]
                 public EventCallback<MyClass<T>> MyParameterChanged { get; set; }
+            
+                [Parameter]
+                public bool BoolParameter { get; set; }
+            
+                [Parameter]
+                public string StringParameter { get; set; } = null!;
+            
+                [Parameter]
+                public System.Delegate DelegateParameter { get; set; } = null!;
+            
+                [Parameter]
+                public object ObjectParameter { get; set; } = null!;
             }
             """));
 
         var generated = CompileToCSharp("""
-            <MyComponent @bind-MyParameter="c" />
+            <MyComponent @bind-MyParameter="c"
+                BoolParameter="true"
+                StringParameter="str"
+                DelegateParameter="() => { }"
+                ObjectParameter="c" />
 
             @code {
                 private MyClass<string> c = new();
@@ -1315,11 +1347,28 @@ namespace Test
 
                 [Parameter]
                 public EventCallback MyEvent { get; set; }
+            
+                [Parameter]
+                public bool BoolParameter { get; set; }
+            
+                [Parameter]
+                public string StringParameter { get; set; } = null!;
+            
+                [Parameter]
+                public System.Delegate DelegateParameter { get; set; } = null!;
+            
+                [Parameter]
+                public object ObjectParameter { get; set; } = null!;
             }
             """));
 
         var generated = CompileToCSharp("""
-            <MyComponent MyParameter="c" MyEvent="() => { }" />
+            <MyComponent MyParameter="c"
+                MyEvent="() => { }"
+                BoolParameter="true"
+                StringParameter="str"
+                DelegateParameter="() => { }"
+                ObjectParameter="c" />
 
             @code {
                 private MyClass<string> c = new();

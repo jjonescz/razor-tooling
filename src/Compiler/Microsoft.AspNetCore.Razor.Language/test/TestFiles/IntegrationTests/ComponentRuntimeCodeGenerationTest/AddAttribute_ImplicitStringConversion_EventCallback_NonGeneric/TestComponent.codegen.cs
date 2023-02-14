@@ -23,17 +23,41 @@ namespace Test
 #nullable disable
             , 2, global::Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, 
 #nullable restore
-#line 1 "x:\dir\subdir\Test\TestComponent.cshtml"
-                                      () => { }
+#line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
+             () => { }
 
 #line default
 #line hidden
 #nullable disable
-            ));
+            ), 3, 
+#nullable restore
+#line 3 "x:\dir\subdir\Test\TestComponent.cshtml"
+                   true
+
+#line default
+#line hidden
+#nullable disable
+            , 4, "str", 5, 
+#nullable restore
+#line 5 "x:\dir\subdir\Test\TestComponent.cshtml"
+                       () => { }
+
+#line default
+#line hidden
+#nullable disable
+            , 6, 
+#nullable restore
+#line 6 "x:\dir\subdir\Test\TestComponent.cshtml"
+                     c
+
+#line default
+#line hidden
+#nullable disable
+            );
         }
         #pragma warning restore 1998
 #nullable restore
-#line 3 "x:\dir\subdir\Test\TestComponent.cshtml"
+#line 8 "x:\dir\subdir\Test\TestComponent.cshtml"
        
     private MyClass<string> c = new();
 
@@ -47,11 +71,15 @@ namespace __Blazor.Test.TestComponent
     #line hidden
     internal static class TypeInference
     {
-        public static void CreateMyComponent_0<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::Test.MyClass<T> __arg0, int __seq1, global::Microsoft.AspNetCore.Components.EventCallback __arg1)
+        public static void CreateMyComponent_0<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::Test.MyClass<T> __arg0, int __seq1, global::Microsoft.AspNetCore.Components.EventCallback __arg1, int __seq2, global::System.Boolean __arg2, int __seq3, global::System.String __arg3, int __seq4, global::System.Delegate __arg4, int __seq5, global::System.Object __arg5)
         {
         __builder.OpenComponent<global::Test.MyComponent<T>>(seq);
         __builder.AddAttribute(__seq0, "MyParameter", __arg0);
         __builder.AddAttribute(__seq1, "MyEvent", __arg1);
+        __builder.AddAttribute(__seq2, "BoolParameter", __arg2);
+        __builder.AddAttribute(__seq3, "StringParameter", __arg3);
+        __builder.AddAttribute(__seq4, "DelegateParameter", __arg4);
+        __builder.AddAttribute(__seq5, "ObjectParameter", __arg5);
         __builder.CloseComponent();
         }
     }

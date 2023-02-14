@@ -28,11 +28,71 @@ namespace Test
 #line default
 #line hidden
 #nullable disable
+            , -1, 
+#nullable restore
+#line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
+                   true
+
+#line default
+#line hidden
+#nullable disable
+            , -1, "", -1, 
+#nullable restore
+#line 4 "x:\dir\subdir\Test\TestComponent.cshtml"
+                       () => { }
+
+#line default
+#line hidden
+#nullable disable
+            , -1, 
+#nullable restore
+#line 5 "x:\dir\subdir\Test\TestComponent.cshtml"
+                     c
+
+#line default
+#line hidden
+#nullable disable
             );
             __o = __typeInference_CreateMyComponent_0.
 #nullable restore
 #line 1 "x:\dir\subdir\Test\TestComponent.cshtml"
              MyParameter
+
+#line default
+#line hidden
+#nullable disable
+            ;
+            __o = __typeInference_CreateMyComponent_0.
+#nullable restore
+#line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
+    BoolParameter
+
+#line default
+#line hidden
+#nullable disable
+            ;
+            __o = __typeInference_CreateMyComponent_0.
+#nullable restore
+#line 3 "x:\dir\subdir\Test\TestComponent.cshtml"
+    StringParameter
+
+#line default
+#line hidden
+#nullable disable
+            ;
+            __o = __typeInference_CreateMyComponent_0.
+#nullable restore
+#line 4 "x:\dir\subdir\Test\TestComponent.cshtml"
+    DelegateParameter
+
+#line default
+#line hidden
+#nullable disable
+            ;
+            __o = __typeInference_CreateMyComponent_0.
+#nullable restore
+#line 5 "x:\dir\subdir\Test\TestComponent.cshtml"
+    ObjectParameter
 
 #line default
 #line hidden
@@ -48,7 +108,7 @@ __o = typeof(global::Test.MyComponent<>);
         }
         #pragma warning restore 1998
 #nullable restore
-#line 3 "x:\dir\subdir\Test\TestComponent.cshtml"
+#line 7 "x:\dir\subdir\Test\TestComponent.cshtml"
        
     private readonly MyClass<string> c = new();
 
@@ -62,10 +122,14 @@ namespace __Blazor.Test.TestComponent
     #line hidden
     internal static class TypeInference
     {
-        public static global::Test.MyComponent<T> CreateMyComponent_0<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::Test.MyClass<T> __arg0)
+        public static global::Test.MyComponent<T> CreateMyComponent_0<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::Test.MyClass<T> __arg0, int __seq1, global::System.Boolean __arg1, int __seq2, global::System.String __arg2, int __seq3, global::System.Delegate __arg3, int __seq4, global::System.Object __arg4)
         {
         __builder.OpenComponent<global::Test.MyComponent<T>>(seq);
         __builder.AddAttribute(__seq0, "MyParameter", __arg0);
+        __builder.AddAttribute(__seq1, "BoolParameter", __arg1);
+        __builder.AddAttribute(__seq2, "StringParameter", __arg2);
+        __builder.AddAttribute(__seq3, "DelegateParameter", __arg3);
+        __builder.AddAttribute(__seq4, "ObjectParameter", __arg4);
         __builder.CloseComponent();
         return default;
         }
