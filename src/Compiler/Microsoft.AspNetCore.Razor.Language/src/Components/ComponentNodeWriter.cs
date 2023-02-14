@@ -172,6 +172,14 @@ internal abstract class ComponentNodeWriter : IntermediateNodeWriter, ITemplateT
                     context.CodeWriter.Write($"\"{attribute.AttributeName}\"");
                     context.CodeWriter.Write(", ");
 
+                    if (!(attribute.BoundAttribute?.IsDelegateProperty() ?? false) &&
+                        !(attribute.BoundAttribute?.IsEventCallbackProperty() ?? false) &&
+                        parameter.TypeName != "global::System.Boolean" &&
+                        parameter.TypeName != "global::System.String")
+                    {
+                        context.CodeWriter.Write("(object)");
+                    }
+
                     context.CodeWriter.Write(parameter.ParameterName);
                     context.CodeWriter.WriteEndMethodInvocation();
                     break;
