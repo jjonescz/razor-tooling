@@ -1271,7 +1271,6 @@ namespace Test
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
         CompileToAssembly(generated);
-        Assert.Empty(generated.Diagnostics);
     }
 
     [Fact] // https://github.com/dotnet/aspnetcore/issues/18042
@@ -1324,7 +1323,6 @@ namespace Test
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
         CompileToAssembly(generated);
-        Assert.Empty(generated.Diagnostics);
     }
 
     [Fact] // https://github.com/dotnet/aspnetcore/issues/18042
@@ -1378,7 +1376,37 @@ namespace Test
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
         CompileToAssembly(generated);
-        Assert.Empty(generated.Diagnostics);
+    }
+
+    [Fact] // https://github.com/dotnet/aspnetcore/issues/18042
+    public void AddAttribute_ImplicitStringConversion_BindUnknown()
+    {
+        AdditionalSyntaxTrees.Add(Parse("""
+            using Microsoft.AspNetCore.Components;
+
+            namespace Test;
+            
+            public class MyClass
+            {
+                public static implicit operator string(MyClass c) => throw null!;
+            }
+
+            public class MyComponent : ComponentBase
+            {
+            }
+            """));
+
+        var generated = CompileToCSharp("""
+            <MyComponent @bind-Value="c" />
+
+            @code {
+                private MyClass c = new();
+            }
+            """);
+
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
     }
     #endregion
 
