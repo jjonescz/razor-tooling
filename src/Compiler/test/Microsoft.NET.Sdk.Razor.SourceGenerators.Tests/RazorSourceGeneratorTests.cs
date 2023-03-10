@@ -2628,9 +2628,14 @@ namespace MyApp
 
         private static GeneratorRunResult RunGenerator(Compilation compilation, ref GeneratorDriver driver, params Action<Diagnostic>[] expectedDiagnostics)
         {
-            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out compilation, out _);
+            return RunGenerator(compilation, ref driver, out _, expectedDiagnostics);
+        }
 
-            var actualDiagnostics = compilation.GetDiagnostics().Where(d => d.Severity != DiagnosticSeverity.Hidden);
+        private static GeneratorRunResult RunGenerator(Compilation compilation, ref GeneratorDriver driver, out Compilation outputCompilation, params Action<Diagnostic>[] expectedDiagnostics)
+        {
+            driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out outputCompilation, out _);
+
+            var actualDiagnostics = outputCompilation.GetDiagnostics().Where(d => d.Severity != DiagnosticSeverity.Hidden);
             Assert.Collection(actualDiagnostics, expectedDiagnostics);
 
             var result = driver.GetRunResult();
@@ -2703,6 +2708,11 @@ namespace MyApp
             {
                 foreach (var resolveReferencePath in defaultCompileLibrary.ResolveReferencePaths(new AppLocalResolver()))
                 {
+                    if (excludeReference(resolveReferencePath))
+                    {
+                        continue;
+                    }
+
                     project = project.AddMetadataReference(MetadataReference.CreateFromFile(resolveReferencePath));
                 }
             }
@@ -2714,11 +2724,18 @@ namespace MyApp
             {
                 if (!project.MetadataReferences.Any(c => string.Equals(Path.GetFileNameWithoutExtension(c.Display), Path.GetFileNameWithoutExtension(assembly), StringComparison.OrdinalIgnoreCase)))
                 {
+                    if (excludeReference(assembly))
+                    {
+                        continue;
+                    }
+
                     project = project.AddMetadataReference(MetadataReference.CreateFromFile(assembly));
                 }
             }
 
             return project;
+
+            static bool excludeReference(string path) => path.Contains(".MvcShim.");
         }
 
         private class TestAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
