@@ -2735,7 +2735,7 @@ namespace MyApp
 
             return project;
 
-            static bool excludeReference(string path) => path.Contains(".MvcShim.");
+            static bool excludeReference(string path) => path.Contains("Shim.");
         }
 
         private class TestAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider

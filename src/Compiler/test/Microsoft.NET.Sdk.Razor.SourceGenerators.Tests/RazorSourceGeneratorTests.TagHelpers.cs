@@ -7,6 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Bunit;
+using Bunit.Rendering;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -15,7 +18,6 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Roslyn.Test.Utilities;
@@ -85,7 +87,7 @@ public partial class RazorSourceGeneratorTests
             httpContext.RequestServices = services.BuildServiceProvider();
             var actionContext = new ActionContext(
                 httpContext,
-                new RouteData(),
+                new AspNetCore.Routing.RouteData(),
                 new ActionDescriptor());
             var viewMock = new Mock<IView>();
             var viewContext = new ViewContext(
@@ -108,6 +110,52 @@ public partial class RazorSourceGeneratorTests
                     <a>nested tag helper</a>
                 </a>
                 """, writer.ToString());
+        }
+
+        [Fact]
+        public async Task Blazor()
+        {
+            // Arrange
+            var project = CreateTestProject(new()
+            {
+                ["Shared/MyComponent.razor"] = """
+                    <p>@Greeting from component</p>
+
+                    @code {
+                        [Parameter, EditorRequired]
+                        public required string Greeting { get; init; }
+                    }
+                    """,
+                ["Pages/Index.razor"] = """
+                    @using MyApp.Shared
+
+                    <MyComponent Greeting="Hello" />
+                    """
+            });
+            var compilation = await project.GetCompilationAsync();
+            var driver = await GetDriverAsync(project);
+
+            // Act
+            var result = RunGenerator(compilation!, ref driver, out compilation);
+
+            //
+
+            Assembly assembly;
+            using (var peStream = new MemoryStream())
+            {
+                var emitResult = compilation.Emit(peStream);
+                Assert.True(emitResult.Success, string.Join(Environment.NewLine, emitResult.Diagnostics));
+                assembly = Assembly.Load(peStream.ToArray());
+            }
+
+            var componentType = assembly.GetType("MyApp.Pages.Index");
+            var rendered = new TestContext().Render(builder =>
+            {
+                builder.OpenComponent(0, componentType);
+                builder.CloseComponent();
+            });
+
+            rendered.MarkupMatches("<p>Hello from component</p>");
         }
 
         [Fact]

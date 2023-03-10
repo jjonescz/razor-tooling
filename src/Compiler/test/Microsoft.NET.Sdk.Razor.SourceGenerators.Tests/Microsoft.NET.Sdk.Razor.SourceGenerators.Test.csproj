@@ -28,11 +28,20 @@
     <PackageReference Include="xunit.assert" />
     <PackageReference Include="xunit.extensibility.execution" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" />
+    <PackageReference Include="bunit" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.NET.Sdk.Razor.SourceGenerators\Microsoft.NET.Sdk.Razor.SourceGenerators.csproj" />
     <ProjectReference Include="..\Microsoft.AspNetCore.Razor.Test.Common\Microsoft.AspNetCore.Razor.Test.Common.Compiler.csproj" />
   </ItemGroup>
+
+  <Target Name="ChangeAliasesOfBNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+    <ItemGroup>
+      <ReferencePath Condition="'%(FileName)' == 'Microsoft.AspNetCore.Razor.Test.ComponentShim.Compiler'">
+        <Aliases>nonmerged</Aliases>
+      </ReferencePath>
+    </ItemGroup>
+  </Target>
 
 </Project>
