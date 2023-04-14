@@ -1,0 +1,188 @@
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.CodeAnalysis.Razor.Serialization;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+
+namespace Microsoft.NET.Sdk.Razor.SourceGenerators;
+
+internal sealed class RazorCodeDocumentSerializer
+{
+    private const string TagHelperContext = nameof(TagHelperContext);
+    private const string ParserOptions = nameof(ParserOptions);
+    private const string Imports = nameof(Imports);
+
+    private readonly JsonSerializer _serializer;
+
+    public static readonly RazorCodeDocumentSerializer Instance = new();
+
+    private RazorCodeDocumentSerializer()
+    {
+        _serializer = new JsonSerializer
+        {
+            Converters =
+            {
+                RazorDiagnosticJsonConverter.Instance,
+                TagHelperDescriptorJsonConverter.Instance,
+            }
+        };
+    }
+
+    public RazorCodeDocument? Deserialize(string json, RazorSourceDocument source)
+    {
+        using var textReader = new StringReader(json);
+        using var jsonReader = new JsonTextReader(textReader);
+        return Deserialize(jsonReader, source);
+    }
+
+    public RazorCodeDocument? Deserialize(JsonReader reader, RazorSourceDocument source)
+    {
+        if (!reader.Read() || reader.TokenType != JsonToken.StartObject)
+        {
+            return null;
+        }
+
+        var document = RazorCodeDocument.Create(source);
+
+        reader.ReadProperties(propertyName =>
+        {
+            switch (propertyName)
+            {
+                case nameof(TagHelperContext) when reader.Read() && reader.TokenType == JsonToken.StartObject:
+                    {
+                        string? prefix = null;
+                        IReadOnlyList<TagHelperDescriptor>? tagHelpers = null;
+                        reader.ReadProperties(propertyName =>
+                        {
+                            switch (propertyName)
+                            {
+                                case nameof(TagHelperDocumentContext.Prefix) when reader.Read():
+                                    prefix = (string?)reader.Value;
+                                    break;
+                                case nameof(TagHelperDocumentContext.TagHelpers) when reader.Read():
+                                    tagHelpers = _serializer.Deserialize<IReadOnlyList<TagHelperDescriptor>?>(reader);
+                                    break;
+                            }
+                        });
+                        if (tagHelpers != null)
+                        {
+                            document.SetTagHelperContext(TagHelperDocumentContext.Create(prefix, tagHelpers));
+                        }
+                        break;
+                    }
+            }
+        });
+
+        return document;
+    }
+
+    public string Serialize(RazorCodeDocument? document)
+    {
+        using var textWriter = new StringWriter();
+        using var jsonWriter = new JsonTextWriter(textWriter);
+        Serialize(jsonWriter, document);
+        return textWriter.ToString();
+    }
+
+    public void Serialize(JsonWriter writer, RazorCodeDocument? document)
+    {
+        if (document == null)
+        {
+            writer.WriteNull();
+            return;
+        }
+
+        writer.WriteStartObject();
+
+        if (document.GetTagHelperContext() is { } tagHelperContext)
+        {
+            writer.WritePropertyName(TagHelperContext);
+            writer.WriteStartObject();
+
+            if (tagHelperContext.Prefix is { } prefix)
+            {
+                writer.WritePropertyName(nameof(TagHelperDocumentContext.Prefix));
+                writer.WriteValue(prefix);
+            }
+
+            if (tagHelperContext.TagHelpers is { Count: > 0 } tagHelpers)
+            {
+                writer.WritePropertyName(nameof(TagHelperDocumentContext.TagHelpers));
+                _serializer.Serialize(writer, tagHelpers);
+            }
+
+            writer.WriteEndObject();
+        }
+
+        if (document.GetParserOptions() is { } parserOptions)
+        {
+            writer.WritePropertyName(ParserOptions);
+            writer.WriteStartObject();
+            writer.WritePropertyName(nameof(RazorParserOptions.DesignTime));
+            writer.WriteValue(parserOptions.DesignTime);
+            writer.WritePropertyName(nameof(RazorParserOptions.ParseLeadingDirectives));
+            writer.WriteValue(parserOptions.ParseLeadingDirectives);
+            writer.WritePropertyName(nameof(RazorParserOptions.Version));
+            writer.WriteValue(parserOptions.Version.ToString());
+            writer.WritePropertyName(nameof(RazorParserOptions.FileKind));
+            writer.WriteValue(parserOptions.FileKind);
+            writer.WritePropertyName(nameof(RazorParserOptions.Directives));
+            writer.WriteStartArray();
+
+            foreach (var directive in parserOptions.Directives)
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName(nameof(DirectiveDescriptor.Description));
+                writer.WriteValue(directive.Description);
+                writer.WritePropertyName(nameof(DirectiveDescriptor.Directive));
+                writer.WriteValue(directive.Directive);
+                writer.WritePropertyName(nameof(DirectiveDescriptor.DisplayName));
+                writer.WriteValue(directive.DisplayName);
+                writer.WritePropertyName(nameof(DirectiveDescriptor.Kind));
+                writer.WriteValue(directive.Kind.ToString());
+                writer.WritePropertyName(nameof(DirectiveDescriptor.Usage));
+                writer.WriteValue(directive.Usage.ToString());
+                writer.WritePropertyName(nameof(DirectiveDescriptor.Tokens));
+                writer.WriteStartArray();
+
+                foreach (var token in directive.Tokens)
+                {
+                    writer.WriteStartObject();
+                    writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Kind));
+                    writer.WriteValue(token.Kind);
+                    writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Optional));
+                    writer.WriteValue(token.Optional);
+                    writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Name));
+                    writer.WriteValue(token.Name);
+                    writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Description));
+                    writer.WriteValue(token.Description);
+                    writer.WriteEndObject();
+                }
+
+                writer.WriteEndArray();
+                writer.WriteEndObject();
+            }
+
+            writer.WriteEndArray();
+            writer.WriteEndObject();
+        }
+
+        if (document.GetImportSyntaxTrees() is { Count: > 0 } imports)
+        {
+            writer.WritePropertyName(Imports);
+            writer.WriteStartArray();
+
+            foreach (var importSyntaxTree in imports)
+            {
+                writer.WriteValue(importSyntaxTree.Source.FilePath);
+            }
+
+            writer.WriteEndArray();
+        }
+
+        writer.WriteEndObject();
+    }
+}
