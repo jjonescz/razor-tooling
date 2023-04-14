@@ -56,4 +56,12 @@ internal static class JsonReaderExtensions
 
         throw new JsonSerializationException($"Could not find string property '{propertyName}'.");
     }
+
+    public static void ReadPropertyName(this JsonReader reader, string propertyName)
+    {
+        if (!reader.Read() || reader.TokenType != JsonToken.PropertyName || (string)reader.Value != propertyName)
+        {
+            throw new JsonSerializationException($"Expected property '{propertyName}' at '{reader.Path}'.");
+        }
+    }
 }
