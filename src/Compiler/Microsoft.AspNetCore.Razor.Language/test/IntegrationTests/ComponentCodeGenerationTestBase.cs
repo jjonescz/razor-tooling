@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Razor.Language.Components;
 using Microsoft.AspNetCore.Razor.Test.Common;
+using Microsoft.CodeAnalysis;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Language.IntegrationTests;
@@ -5380,11 +5381,14 @@ namespace Test
             }
             """,
             nullableEnable: true);
+        var result = CompileToAssembly(generated, throwOnFailure: false);
 
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
-        CompileToAssembly(generated);
+        var diagnostic = result.Diagnostics.Single();
+        // x:\dir\subdir\Test\TestComponent.cshtml(1,23): warning CS8622: Nullability of reference types in type of parameter 'arg' of 'void TestComponent.Handler(MyComponent arg)' doesn't match the target delegate 'Action<MyComponent?>' (possibly because of nullability attributes).
+        Assert.Equal((DiagnosticSeverity.Warning, "CS8622", "x:\\dir\\subdir\\Test\\TestComponent.cshtml: (0,22)-(0,29)"), (diagnostic.Severity, diagnostic.Id, diagnostic.Location.GetMappedLineSpan().ToString()));
     }
 
     #endregion
