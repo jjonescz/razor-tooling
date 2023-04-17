@@ -12,6 +12,9 @@ internal static class SymbolExtensions
             .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted)
             .RemoveMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
+    internal static readonly SymbolDisplayFormat FullNameTypeWithNullabilityDisplayFormat = FullNameTypeDisplayFormat
+        .AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+
     /// <summary>
     /// Checks if <paramref name="symbol"/> has the same fully qualified name as <paramref name="fullName"/>.
     /// </summary>
