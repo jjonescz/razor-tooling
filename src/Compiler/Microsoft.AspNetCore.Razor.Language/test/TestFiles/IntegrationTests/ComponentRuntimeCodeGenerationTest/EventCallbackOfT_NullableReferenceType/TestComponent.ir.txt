@@ -10,5 +10,5 @@
                 Component - (0:0,0 [33] x:\dir\subdir\Test\TestComponent.cshtml) - MyComponent
                     ComponentAttribute - (22:0,22 [7] x:\dir\subdir\Test\TestComponent.cshtml) - OnClick - OnClick - AttributeStructure.DoubleQuotes
                         LazyIntermediateToken - (22:0,22 [7] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - Handler
-            CSharpCode - (44:2,7 [109] x:\dir\subdir\Test\TestComponent.cshtml)
-                LazyIntermediateToken - (44:2,7 [109] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - \n    private int length;\n    private void Handler(string arg)\n    {\n        length = arg.Length;\n    }\n
+            CSharpCode - (44:2,7 [99] x:\dir\subdir\Test\TestComponent.cshtml)
+                LazyIntermediateToken - (44:2,7 [99] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - \n    private int x;\n    private void Handler(MyComponent arg)\n    {\n        x = arg.X;\n    }\n

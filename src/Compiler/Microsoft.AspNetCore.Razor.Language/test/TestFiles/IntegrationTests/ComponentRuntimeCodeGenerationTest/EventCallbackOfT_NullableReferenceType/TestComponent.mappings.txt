@@ -1,17 +1,17 @@
-﻿Source Location: (44:2,7 [109] x:\dir\subdir\Test\TestComponent.cshtml)
+﻿Source Location: (44:2,7 [99] x:\dir\subdir\Test\TestComponent.cshtml)
 |
-    private int length;
-    private void Handler(string arg)
+    private int x;
+    private void Handler(MyComponent arg)
     {
-        length = arg.Length;
+        x = arg.X;
     }
 |
-Generated Location: (1251:30,7 [109] )
+Generated Location: (1257:30,7 [99] )
 |
-    private int length;
-    private void Handler(string arg)
+    private int x;
+    private void Handler(MyComponent arg)
     {
-        length = arg.Length;
+        x = arg.X;
     }
 |
 

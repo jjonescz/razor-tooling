@@ -5360,8 +5360,10 @@ namespace Test
 
             public class MyComponent : ComponentBase
             {
+                public int X;
+
                 [Parameter]
-                public EventCallback<string?> OnClick { get; set; }
+                public EventCallback<MyComponent?> OnClick { get; set; }
             }
             """));
 
@@ -5370,10 +5372,10 @@ namespace Test
             <MyComponent OnClick="Handler" />
 
             @code {
-                private int length;
-                private void Handler(string arg)
+                private int x;
+                private void Handler(MyComponent arg)
                 {
-                    length = arg.Length;
+                    x = arg.X;
                 }
             }
             """,
