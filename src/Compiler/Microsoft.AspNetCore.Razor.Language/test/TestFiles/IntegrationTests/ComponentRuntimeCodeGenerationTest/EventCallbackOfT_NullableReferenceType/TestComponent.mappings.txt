@@ -1,0 +1,17 @@
+﻿Source Location: (44:2,7 [109] x:\dir\subdir\Test\TestComponent.cshtml)
+|
+    private int length;
+    private void Handler(string arg)
+    {
+        length = arg.Length;
+    }
+|
+Generated Location: (1251:30,7 [109] )
+|
+    private int length;
+    private void Handler(string arg)
+    {
+        length = arg.Length;
+    }
+|
+

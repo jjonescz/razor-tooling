@@ -5348,6 +5348,43 @@ namespace Test
         Assert.Collection(result.Diagnostics, d => { Assert.Equal("CS0411", d.Id); });
     }
 
+    [Fact, WorkItem("https://devdiv.visualstudio.com/DevDiv/_workitems/edit/1657213")]
+    public void EventCallbackOfT_NullableReferenceType()
+    {
+        // Arrange
+        AdditionalSyntaxTrees.Add(Parse("""
+            using System;
+            using Microsoft.AspNetCore.Components;
+
+            namespace Test;
+
+            public class MyComponent : ComponentBase
+            {
+                [Parameter]
+                public EventCallback<string?> OnClick { get; set; }
+            }
+            """));
+
+        // Act
+        var generated = CompileToCSharp("""
+            <MyComponent OnClick="Handler" />
+
+            @code {
+                private int length;
+                private void Handler(string arg)
+                {
+                    length = arg.Length;
+                }
+            }
+            """,
+            nullableEnable: true);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
     #endregion
 
     #region Event Handlers
