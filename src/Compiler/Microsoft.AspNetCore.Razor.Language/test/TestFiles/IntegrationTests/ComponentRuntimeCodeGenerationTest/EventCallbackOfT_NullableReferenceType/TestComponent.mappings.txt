@@ -6,7 +6,7 @@
         x = arg.X;
     }
 |
-Generated Location: (1259:30,7 [99] )
+Generated Location: (1531:46,7 [99] )
 |
     private int x;
     private void Handler(MyComponent arg)
