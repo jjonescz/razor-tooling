@@ -176,7 +176,9 @@ internal class ComponentTagHelperDescriptorProvider : RazorEngineFeatureBase, IT
         builder.BindAttribute(pb =>
         {
             pb.Name = property.Name;
-            pb.TypeName = property.Type.ToDisplayString(SymbolExtensions.FullNameTypeWithNullabilityDisplayFormat);
+            pb.TypeName = property.Type.ToDisplayString(kind == PropertyKind.EventCallback
+                ? SymbolExtensions.FullNameTypeWithNullabilityDisplayFormat
+                : SymbolExtensions.FullNameTypeDisplayFormat);
             pb.SetPropertyName(property.Name);
             pb.IsEditorRequired = property.GetAttributes().Any(a => a.AttributeClass.HasFullName("Microsoft.AspNetCore.Components.EditorRequiredAttribute"));
             pb.SetGloballyQualifiedTypeName(property.Type.ToDisplayString(GloballyQualifiedFullNameTypeDisplayFormat));
