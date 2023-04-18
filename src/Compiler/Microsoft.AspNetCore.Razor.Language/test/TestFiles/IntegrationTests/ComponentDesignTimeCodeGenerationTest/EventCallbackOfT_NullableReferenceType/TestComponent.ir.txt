@@ -1,0 +1,23 @@
+﻿Document - 
+    NamespaceDeclaration -  - Test
+        UsingDirective - (3:1,1 [12] ) - System
+        UsingDirective - (18:2,1 [32] ) - System.Collections.Generic
+        UsingDirective - (53:3,1 [17] ) - System.Linq
+        UsingDirective - (73:4,1 [28] ) - System.Threading.Tasks
+        UsingDirective - (104:5,1 [37] ) - Microsoft.AspNetCore.Components
+        ClassDeclaration -  - public partial - TestComponent - global::Microsoft.AspNetCore.Components.ComponentBase - 
+            DesignTimeDirective - 
+            CSharpCode - 
+                IntermediateToken -  - CSharp - #pragma warning disable 0414
+            CSharpCode - 
+                IntermediateToken -  - CSharp - private static object __o = null;
+            CSharpCode - 
+                IntermediateToken -  - CSharp - #pragma warning restore 0414
+            MethodDeclaration -  - protected override - void - BuildRenderTree
+                Component - (0:0,0 [33] x:\dir\subdir\Test\TestComponent.cshtml) - MyComponent
+                    ComponentAttribute - (22:0,22 [7] x:\dir\subdir\Test\TestComponent.cshtml) - OnClick - OnClick - AttributeStructure.DoubleQuotes
+                        LazyIntermediateToken - (22:0,22 [7] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - Handler
+                HtmlContent - (33:0,33 [4] x:\dir\subdir\Test\TestComponent.cshtml)
+                    LazyIntermediateToken - (33:0,33 [4] x:\dir\subdir\Test\TestComponent.cshtml) - Html - \n\n
+            CSharpCode - (44:2,7 [99] x:\dir\subdir\Test\TestComponent.cshtml)
+                LazyIntermediateToken - (44:2,7 [99] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - \n    private int x;\n    private void Handler(MyComponent arg)\n    {\n        x = arg.X;\n    }\n

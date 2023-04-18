@@ -829,7 +829,10 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
                 {
                     context.CodeWriter.Write(ComponentsApi.RuntimeHelpers.TypeCheck);
                     context.CodeWriter.Write("<");
-                    QualifyEventCallback(context.CodeWriter, node.TypeName, explicitType);
+                    using (context.CodeWriter.BuildLinePragma(node.Source.Value, context))
+                    {
+                        QualifyEventCallback(context.CodeWriter, node.TypeName, explicitType);
+                    }
                     context.CodeWriter.Write(">");
                     context.CodeWriter.Write("(");
                 }
@@ -845,13 +848,16 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
                 if (isInferred != true && node.TryParseEventCallbackTypeArgument(out StringSegment argument))
                 {
                     context.CodeWriter.Write("<");
-                    if (explicitType == true)
+                    using (context.CodeWriter.BuildLinePragma(node.Source.Value, context))
                     {
-                        context.CodeWriter.Write(argument);
-                    }
-                    else
-                    {
-                        TypeNameHelper.WriteGloballyQualifiedName(context.CodeWriter, argument);
+                        if (explicitType == true)
+                        {
+                            context.CodeWriter.Write(argument);
+                        }
+                        else
+                        {
+                            TypeNameHelper.WriteGloballyQualifiedName(context.CodeWriter, argument);
+                        }
                     }
                     context.CodeWriter.Write(">");
                 }

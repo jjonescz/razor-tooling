@@ -1,0 +1,27 @@
+﻿Source Location: (22:0,22 [7] x:\dir\subdir\Test\TestComponent.cshtml)
+|Handler|
+Generated Location: (1441:41,22 [7] )
+|Handler|
+
+Source Location: (13:0,13 [7] x:\dir\subdir\Test\TestComponent.cshtml)
+|OnClick|
+Generated Location: (1857:54,13 [7] )
+|OnClick|
+
+Source Location: (44:2,7 [99] x:\dir\subdir\Test\TestComponent.cshtml)
+|
+    private int x;
+    private void Handler(MyComponent arg)
+    {
+        x = arg.X;
+    }
+|
+Generated Location: (2272:72,7 [99] )
+|
+    private int x;
+    private void Handler(MyComponent arg)
+    {
+        x = arg.X;
+    }
+|
+
