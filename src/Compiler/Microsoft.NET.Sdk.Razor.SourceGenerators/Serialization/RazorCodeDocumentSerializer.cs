@@ -35,7 +35,6 @@ internal sealed class RazorCodeDocumentSerializer
                 RazorDiagnosticJsonConverter.Instance,
                 TagHelperDescriptorJsonConverter.Instance,
                 new EncodingConverter(),
-                new IntermediateNodeConverter(),
             },
             ContractResolver = new RazorContractResolver(),
         };
