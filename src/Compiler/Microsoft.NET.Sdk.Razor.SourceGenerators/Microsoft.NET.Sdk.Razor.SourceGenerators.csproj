@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Microsoft.CodeAnalysis.ExternalAccess.RazorCompiler" />
     <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
   <ItemGroup>

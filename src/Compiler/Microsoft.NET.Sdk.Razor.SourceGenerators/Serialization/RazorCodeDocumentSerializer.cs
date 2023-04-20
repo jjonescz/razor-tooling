@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.Serialization;
 using Newtonsoft.Json;
@@ -9,6 +10,8 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.NET.Sdk.Razor.SourceGenerators;
 
@@ -19,19 +22,29 @@ internal sealed class RazorCodeDocumentSerializer
     private const string Imports = nameof(Imports);
     private const string SyntaxTree = nameof(SyntaxTree);
     private const string Content = nameof(Content);
+    private const string DocumentIntermediateNode = nameof(DocumentIntermediateNode);
 
-    private readonly JsonSerializer _serializer;
+    private readonly Newtonsoft.Json.JsonSerializer _serializer;
+    private readonly JsonSerializerOptions _options;
 
     public static readonly RazorCodeDocumentSerializer Instance = new();
 
     private RazorCodeDocumentSerializer()
     {
-        _serializer = new JsonSerializer
+        _serializer = new Newtonsoft.Json.JsonSerializer
         {
             Converters =
             {
                 RazorDiagnosticJsonConverter.Instance,
                 TagHelperDescriptorJsonConverter.Instance,
+            }
+        };
+        _options = new JsonSerializerOptions
+        {
+            WriteIndented = true, // TODO: Remove
+            Converters =
+            {
+                new EncodingConverter()
             }
         };
     }
@@ -159,6 +172,13 @@ internal sealed class RazorCodeDocumentSerializer
             writer.WriteEndArray();
         }
 
+        if (document.GetDocumentIntermediateNode() is { } intermediateNode)
+        {
+            writer.WritePropertyName(DocumentIntermediateNode);
+            var json = System.Text.Json.JsonSerializer.Serialize(intermediateNode, _options);
+            writer.WriteRawValue(json);
+        }
+
         writer.WriteEndObject();
     }
 
@@ -253,3 +273,8 @@ internal sealed class RazorCodeDocumentSerializer
         writer.WriteEndObject();
     }
 }
+
+//[JsonSerializable(typeof(DocumentIntermediateNode))]
+//internal partial class SourceGenerationContext : JsonSerializerContext
+//{
+//}
