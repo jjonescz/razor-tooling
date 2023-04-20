@@ -17,7 +17,7 @@ internal sealed class RazorContractResolver : DefaultContractResolver
         {
             properties.Insert(0, new JsonProperty
             {
-                PropertyName = "$type",
+                PropertyName = IntermediateNodeConverter.TypePropertyName,
                 PropertyType = typeof(string),
                 DeclaringType = typeof(IntermediateNode),
                 ValueProvider = IntermediateNodeTypeProvider.Instance,

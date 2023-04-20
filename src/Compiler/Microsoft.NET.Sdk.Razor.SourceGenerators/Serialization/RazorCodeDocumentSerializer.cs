@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.Serialization;
 using Newtonsoft.Json;
@@ -35,6 +36,7 @@ internal sealed class RazorCodeDocumentSerializer
                 RazorDiagnosticJsonConverter.Instance,
                 TagHelperDescriptorJsonConverter.Instance,
                 new EncodingConverter(),
+                new IntermediateNodeConverter(),
             },
             ContractResolver = new RazorContractResolver(),
         };
@@ -60,7 +62,8 @@ internal sealed class RazorCodeDocumentSerializer
         {
             switch (propertyName)
             {
-                case nameof(TagHelperContext) when reader.Read() && reader.TokenType == JsonToken.StartObject:
+                case nameof(TagHelperContext):
+                    if (reader.Read() && reader.TokenType == JsonToken.StartObject)
                     {
                         string? prefix = null;
                         IReadOnlyList<TagHelperDescriptor>? tagHelpers = null;
@@ -80,8 +83,12 @@ internal sealed class RazorCodeDocumentSerializer
                         {
                             document.SetTagHelperContext(TagHelperDocumentContext.Create(prefix, tagHelpers));
                         }
-                        break;
                     }
+                    break;
+                case nameof(DocumentIntermediateNode):
+                    reader.Read();
+                    document.SetDocumentIntermediateNode(_serializer.Deserialize<DocumentIntermediateNode>(reader));
+                    break;
             }
         });
 
