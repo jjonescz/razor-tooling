@@ -17,6 +17,11 @@ internal sealed class RazorContractResolver : DefaultContractResolver
             property.Ignored = true;
         }
 
+        if (property.DeclaringType == typeof(DocumentIntermediateNode) && property.PropertyName == nameof(DocumentIntermediateNode.Target))
+        {
+            property.Ignored = true;
+        }
+
         return property;
     }
 
