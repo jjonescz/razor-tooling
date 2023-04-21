@@ -11,7 +11,7 @@ internal sealed class RazorParserOptionsConverter : JsonConverter<RazorParserOpt
 
     public override RazorParserOptions? ReadJson(JsonReader reader, Type objectType, RazorParserOptions? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
-        if (reader.TokenType == JsonToken.Null)
+        if (reader.TokenType != JsonToken.StartObject)
         {
             return null;
         }
@@ -19,7 +19,9 @@ internal sealed class RazorParserOptionsConverter : JsonConverter<RazorParserOpt
         var designTime = reader.ReadPropertyName(nameof(RazorParserOptions.DesignTime)).ReadAsBoolean().GetValueOrDefault();
         var fileKind = reader.ReadPropertyName(nameof(RazorParserOptions.FileKind)).ReadAsString();
         reader.ReadPropertyName(ValuePropertyName).Read();
-        return designTime ? RazorParserOptions.CreateDesignTime(factory, fileKind) : RazorParserOptions.Create(factory, fileKind);
+        var result = designTime ? RazorParserOptions.CreateDesignTime(factory, fileKind) : RazorParserOptions.Create(factory, fileKind);
+        reader.ReadTokenAndAdvance(JsonToken.EndObject, out _);
+        return result;
 
         void factory(RazorParserOptionsBuilder builder)
         {

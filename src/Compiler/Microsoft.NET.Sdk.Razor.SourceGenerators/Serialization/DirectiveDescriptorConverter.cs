@@ -23,7 +23,9 @@ internal sealed class DirectiveDescriptorConverter : JsonConverter<DirectiveDesc
         }
 
         reader.ReadPropertyName(ValuePropertyName).Read();
-        return DirectiveDescriptor.CreateDirective(directive, kind, builder => serializer.Populate(reader, builder));
+        var result = DirectiveDescriptor.CreateDirective(directive, kind, builder => serializer.Populate(reader, builder));
+        reader.ReadTokenAndAdvance(JsonToken.EndObject, out _);
+        return result;
     }
 
     public override void WriteJson(JsonWriter writer, DirectiveDescriptor? value, JsonSerializer serializer)
