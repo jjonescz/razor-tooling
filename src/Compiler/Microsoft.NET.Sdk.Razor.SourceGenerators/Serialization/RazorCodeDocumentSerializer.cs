@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -273,16 +271,4 @@ internal sealed class RazorCodeDocumentSerializer
 
         writer.WriteEndObject();
     }
-}
-
-internal sealed class DelegateCreationConverter<T> : CustomCreationConverter<T>
-{
-    private readonly Func<Type, T> _factory;
-
-    public DelegateCreationConverter(Func<Type, T> factory)
-    {
-        _factory = factory;
-    }
-
-    public override T Create(Type objectType) => _factory(objectType);
 }
