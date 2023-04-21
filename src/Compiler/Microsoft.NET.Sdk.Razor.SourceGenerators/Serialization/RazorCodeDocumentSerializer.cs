@@ -41,6 +41,7 @@ internal sealed class RazorCodeDocumentSerializer
                 new SourceSpanConverter(),
                 new RazorParserOptionsConverter(),
                 new DirectiveDescriptorConverter(),
+                new DirectiveTokenDescriptorConverter(),
             },
             ContractResolver = new RazorContractResolver(),
             TypeNameHandling = TypeNameHandling.Auto,
