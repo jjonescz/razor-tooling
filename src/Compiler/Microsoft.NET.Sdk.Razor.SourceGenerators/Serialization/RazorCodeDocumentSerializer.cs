@@ -37,7 +37,6 @@ internal sealed class RazorCodeDocumentSerializer
                 TagHelperDescriptorJsonConverter.Instance,
                 new EncodingConverter(),
                 new DelegateCreationConverter<RazorCodeGenerationOptions>(_ => RazorCodeGenerationOptions.CreateDefault()),
-                new DelegateCreationConverter<RazorParserOptions>(_ => RazorParserOptions.CreateDefault()),
             },
             ContractResolver = new RazorContractResolver(),
             TypeNameHandling = TypeNameHandling.Auto,
@@ -93,10 +92,6 @@ internal sealed class RazorCodeDocumentSerializer
                     reader.Read();
                     document.SetDocumentIntermediateNode(_serializer.Deserialize<DocumentIntermediateNode>(reader));
                     break;
-                case nameof(ParserOptions):
-                    reader.Read();
-                    document.SetParserOptions(_serializer.Deserialize<RazorParserOptions>(reader));
-                    break;
             }
         });
 
@@ -141,10 +136,10 @@ internal sealed class RazorCodeDocumentSerializer
             writer.WriteEndObject();
         }
 
-        if (document.GetParserOptions() is { } parserOptions)
+        if (false && document.GetParserOptions() is { } parserOptions)
         {
             writer.WritePropertyName(ParserOptions);
-            _serializer.Serialize(writer, parserOptions);
+            Serialize(writer, parserOptions);
         }
 
         if (false && document.GetSyntaxTree() is { } syntaxTree)
