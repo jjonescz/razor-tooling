@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
     <IsTestProject>true</IsTestProject>
+    <IsUnitTestProject>true</IsUnitTestProject>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
 
@@ -23,9 +24,6 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" />
     <PackageReference Include="Microsoft.Build.Locator" />
-
-    <!-- TestSDK brings in an earlier nuget frameworks that breaks loading the test project -->
-    <PackageReference Include="NuGet.Frameworks" VersionOverride="6.4.0" />
   </ItemGroup>
 
   <!-- Reference the local source generator when building in regular configurations -->
@@ -38,5 +36,12 @@
     <PackageReference Include="Microsoft.NET.Sdk.Razor.SourceGenerators.Transport" GeneratePathProperty="true" />
     <Reference Include="$(PkgMicrosoft_NET_Sdk_Razor_SourceGenerators_Transport)\source-generators\*.dll" />
   </ItemGroup>
+
+  <!-- Work around https://github.com/dotnet/roslyn/issues/61454.  -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Copy SourceFiles="$([System.IO.Directory]::GetParent($(BundledRuntimeIdentifierGraphFile)))\NuGet.Frameworks.dll"
+          DestinationFolder="$(OutputPath)"
+          ContinueOnError="false" />
+  </Target>
 
 </Project>
