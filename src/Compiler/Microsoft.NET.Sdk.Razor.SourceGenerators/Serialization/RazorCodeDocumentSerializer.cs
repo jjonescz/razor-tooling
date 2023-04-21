@@ -37,6 +37,7 @@ internal sealed class RazorCodeDocumentSerializer
                 TagHelperDescriptorJsonConverter.Instance,
                 new EncodingConverter(),
                 new DelegateCreationConverter<RazorCodeGenerationOptions>(_ => RazorCodeGenerationOptions.CreateDefault()),
+                new SourceSpanConverter(),
             },
             ContractResolver = new RazorContractResolver(),
             TypeNameHandling = TypeNameHandling.Auto,
