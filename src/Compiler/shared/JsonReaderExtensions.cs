@@ -59,10 +59,23 @@ internal static class JsonReaderExtensions
 
     public static JsonReader ReadPropertyName(this JsonReader reader, string propertyName)
     {
-        if (!reader.Read() || reader.TokenType != JsonToken.PropertyName || (string)reader.Value != propertyName)
+        string found;
+        if (!reader.Read())
         {
-            throw new JsonSerializationException($"Expected property '{propertyName}' at '{reader.Path}'.");
+            found = "EOF";
         }
-        return reader;
+        else if (reader.TokenType != JsonToken.PropertyName)
+        {
+            found = reader.TokenType.ToString();
+        }
+        else if ((string)reader.Value != propertyName)
+        {
+            found = $"'{reader.Value}'";
+        }
+        else
+        {
+            return reader;
+        }
+        throw new JsonSerializationException($"Expected property '{propertyName}' at '{reader.Path}', found {found}.");
     }
 }
