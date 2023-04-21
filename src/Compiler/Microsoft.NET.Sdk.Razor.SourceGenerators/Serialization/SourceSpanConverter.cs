@@ -5,7 +5,7 @@ using System;
 
 namespace Microsoft.NET.Sdk.Razor.SourceGenerators;
 
-internal class SourceSpanConverter : JsonConverter<SourceSpan?>
+internal sealed class SourceSpanConverter : JsonConverter<SourceSpan?>
 {
     public override SourceSpan? ReadJson(JsonReader reader, Type objectType, SourceSpan? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {

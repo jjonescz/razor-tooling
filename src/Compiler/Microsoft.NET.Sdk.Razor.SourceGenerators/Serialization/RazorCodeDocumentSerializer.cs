@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.Serialization;
 using Newtonsoft.Json;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,6 +39,8 @@ internal sealed class RazorCodeDocumentSerializer
                 new EncodingConverter(),
                 new DelegateCreationConverter<RazorCodeGenerationOptions>(_ => RazorCodeGenerationOptions.CreateDefault()),
                 new SourceSpanConverter(),
+                new RazorParserOptionsConverter(),
+                new DelegateCreationConverter<DirectiveDescriptor>(_ => DirectiveDescriptor.CreateDirective("temp", DirectiveKind.SingleLine)),
             },
             ContractResolver = new RazorContractResolver(),
             TypeNameHandling = TypeNameHandling.Auto,
@@ -89,6 +92,10 @@ internal sealed class RazorCodeDocumentSerializer
                         }
                     }
                     break;
+                case nameof(ParserOptions):
+                    reader.Read();
+                    document.SetParserOptions(_serializer.Deserialize<RazorParserOptions>(reader));
+                    break;
                 case nameof(DocumentIntermediateNode):
                     reader.Read();
                     document.SetDocumentIntermediateNode(_serializer.Deserialize<DocumentIntermediateNode>(reader));
@@ -137,10 +144,10 @@ internal sealed class RazorCodeDocumentSerializer
             writer.WriteEndObject();
         }
 
-        if (false && document.GetParserOptions() is { } parserOptions)
+        if (document.GetParserOptions() is { } parserOptions)
         {
             writer.WritePropertyName(ParserOptions);
-            Serialize(writer, parserOptions);
+            _serializer.Serialize(writer, parserOptions);
         }
 
         if (false && document.GetSyntaxTree() is { } syntaxTree)
@@ -149,7 +156,7 @@ internal sealed class RazorCodeDocumentSerializer
             writer.WriteStartObject();
 
             writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
-            Serialize(writer, syntaxTree.Options);
+            _serializer.Serialize(writer, syntaxTree.Options);
 
             if (syntaxTree.Source != document.Source)
             {
@@ -180,58 +187,6 @@ internal sealed class RazorCodeDocumentSerializer
             _serializer.Serialize(writer, intermediateNode);
         }
 
-        writer.WriteEndObject();
-    }
-
-    private void Serialize(JsonWriter writer, RazorParserOptions parserOptions)
-    {
-        writer.WriteStartObject();
-        writer.WritePropertyName(nameof(RazorParserOptions.DesignTime));
-        writer.WriteValue(parserOptions.DesignTime);
-        writer.WritePropertyName(nameof(RazorParserOptions.ParseLeadingDirectives));
-        writer.WriteValue(parserOptions.ParseLeadingDirectives);
-        writer.WritePropertyName(nameof(RazorParserOptions.Version));
-        writer.WriteValue(parserOptions.Version.ToString());
-        writer.WritePropertyName(nameof(RazorParserOptions.FileKind));
-        writer.WriteValue(parserOptions.FileKind);
-        writer.WritePropertyName(nameof(RazorParserOptions.Directives));
-        writer.WriteStartArray();
-
-        foreach (var directive in parserOptions.Directives)
-        {
-            writer.WriteStartObject();
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Description));
-            writer.WriteValue(directive.Description);
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Directive));
-            writer.WriteValue(directive.Directive);
-            writer.WritePropertyName(nameof(DirectiveDescriptor.DisplayName));
-            writer.WriteValue(directive.DisplayName);
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Kind));
-            writer.WriteValue(directive.Kind.ToString());
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Usage));
-            writer.WriteValue(directive.Usage.ToString());
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Tokens));
-            writer.WriteStartArray();
-
-            foreach (var token in directive.Tokens)
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Kind));
-                writer.WriteValue(token.Kind);
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Optional));
-                writer.WriteValue(token.Optional);
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Name));
-                writer.WriteValue(token.Name);
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Description));
-                writer.WriteValue(token.Description);
-                writer.WriteEndObject();
-            }
-
-            writer.WriteEndArray();
-            writer.WriteEndObject();
-        }
-
-        writer.WriteEndArray();
         writer.WriteEndObject();
     }
 
@@ -266,11 +221,16 @@ internal sealed class RazorCodeDocumentSerializer
         writer.WriteStartObject();
 
         writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
-        Serialize(writer, syntaxTree.Options);
+        _serializer.Serialize(writer, syntaxTree.Options);
 
         writer.WritePropertyName(nameof(RazorSyntaxTree.Source));
         Serialize(writer, syntaxTree.Source);
 
         writer.WriteEndObject();
+    }
+
+    private static BuilderCreationConverter<T> BuilderConverter<T>(Func<Action<object>, T> factory) where T : class
+    {
+        return new BuilderCreationConverter<T>(factory);
     }
 }
