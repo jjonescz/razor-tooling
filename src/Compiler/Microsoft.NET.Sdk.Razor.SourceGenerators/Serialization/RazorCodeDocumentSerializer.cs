@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.Serialization;
 using Newtonsoft.Json;
-using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,7 +37,6 @@ internal sealed class RazorCodeDocumentSerializer
                 TagHelperDescriptorJsonConverter.Instance,
                 new EncodingConverter(),
                 new DelegateCreationConverter<RazorCodeGenerationOptions>(_ => RazorCodeGenerationOptions.CreateDefault()),
-                new DelegateCreationConverter<TagHelperDocumentContext>(_ => TagHelperDocumentContext.Create("", Array.Empty<TagHelperDescriptor>())),
                 new DelegateCreationConverter<RazorParserOptions>(_ => RazorParserOptions.CreateDefault()),
             },
             ContractResolver = new RazorContractResolver(),
@@ -69,8 +67,27 @@ internal sealed class RazorCodeDocumentSerializer
             switch (propertyName)
             {
                 case nameof(TagHelperContext):
-                    reader.Read();
-                    document.SetTagHelperContext(_serializer.Deserialize<TagHelperDocumentContext>(reader));
+                    if (reader.Read() && reader.TokenType == JsonToken.StartObject)
+                    {
+                        string? prefix = null;
+                        IReadOnlyList<TagHelperDescriptor>? tagHelpers = null;
+                        reader.ReadProperties(propertyName =>
+                        {
+                            switch (propertyName)
+                            {
+                                case nameof(TagHelperDocumentContext.Prefix) when reader.Read():
+                                    prefix = (string?)reader.Value;
+                                    break;
+                                case nameof(TagHelperDocumentContext.TagHelpers) when reader.Read():
+                                    tagHelpers = _serializer.Deserialize<IReadOnlyList<TagHelperDescriptor>?>(reader);
+                                    break;
+                            }
+                        });
+                        if (tagHelpers != null)
+                        {
+                            document.SetTagHelperContext(TagHelperDocumentContext.Create(prefix, tagHelpers));
+                        }
+                    }
                     break;
                 case nameof(DocumentIntermediateNode):
                     reader.Read();
@@ -104,10 +121,24 @@ internal sealed class RazorCodeDocumentSerializer
 
         writer.WriteStartObject();
 
-        if (document.GetTagHelperContext() is { } tagHelperContext)
+        if (false && document.GetTagHelperContext() is { } tagHelperContext)
         {
             writer.WritePropertyName(TagHelperContext);
-            _serializer.Serialize(writer, tagHelperContext);
+            writer.WriteStartObject();
+
+            if (tagHelperContext.Prefix is { } prefix)
+            {
+                writer.WritePropertyName(nameof(TagHelperDocumentContext.Prefix));
+                writer.WriteValue(prefix);
+            }
+
+            if (tagHelperContext.TagHelpers is { Count: > 0 } tagHelpers)
+            {
+                writer.WritePropertyName(nameof(TagHelperDocumentContext.TagHelpers));
+                _serializer.Serialize(writer, tagHelpers);
+            }
+
+            writer.WriteEndObject();
         }
 
         if (document.GetParserOptions() is { } parserOptions)
