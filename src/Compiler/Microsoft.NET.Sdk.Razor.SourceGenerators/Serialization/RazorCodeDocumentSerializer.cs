@@ -125,6 +125,12 @@ internal sealed class RazorCodeDocumentSerializer
 
         writer.WriteStartObject();
 
+        if (document.GetDocumentIntermediateNode() is { } intermediateNode)
+        {
+            writer.WritePropertyName(DocumentIntermediateNode);
+            _serializer.Serialize(writer, intermediateNode);
+        }
+
         if (document.GetTagHelperContext() is { } tagHelperContext)
         {
             writer.WritePropertyName(TagHelperContext);
@@ -180,12 +186,6 @@ internal sealed class RazorCodeDocumentSerializer
             }
 
             writer.WriteEndArray();
-        }
-
-        if (document.GetDocumentIntermediateNode() is { } intermediateNode)
-        {
-            writer.WritePropertyName(DocumentIntermediateNode);
-            _serializer.Serialize(writer, intermediateNode);
         }
 
         writer.WriteEndObject();
