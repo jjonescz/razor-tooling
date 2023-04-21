@@ -14,6 +14,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.ExternalAccess.RazorCompiler;
 using Microsoft.CodeAnalysis.Text;
+using Roslyn.Test.Utilities;
 using Xunit;
 
 namespace Microsoft.NET.Sdk.Razor.SourceGenerators
@@ -147,6 +148,8 @@ namespace MyApp.Pages
 
             var document = RazorCodeDocumentSerializer.Instance.Deserialize(json, RazorSourceDocument.Create("", ""));
             Assert.NotNull(document);
+            var json2 = RazorCodeDocumentSerializer.Instance.Serialize(document);
+            AssertEx.EqualOrDiff(json, json2);
         }
 
         [Fact]
