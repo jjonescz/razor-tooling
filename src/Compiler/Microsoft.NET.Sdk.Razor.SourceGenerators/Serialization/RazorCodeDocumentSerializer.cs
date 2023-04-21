@@ -121,7 +121,7 @@ internal sealed class RazorCodeDocumentSerializer
 
         writer.WriteStartObject();
 
-        if (false && document.GetTagHelperContext() is { } tagHelperContext)
+        if (document.GetTagHelperContext() is { } tagHelperContext)
         {
             writer.WritePropertyName(TagHelperContext);
             writer.WriteStartObject();
