@@ -40,7 +40,7 @@ internal sealed class RazorCodeDocumentSerializer
                 new DelegateCreationConverter<RazorCodeGenerationOptions>(_ => RazorCodeGenerationOptions.CreateDefault()),
                 new SourceSpanConverter(),
                 new RazorParserOptionsConverter(),
-                new DelegateCreationConverter<DirectiveDescriptor>(_ => DirectiveDescriptor.CreateDirective("temp", DirectiveKind.SingleLine)),
+                new DirectiveDescriptorConverter(),
             },
             ContractResolver = new RazorContractResolver(),
             TypeNameHandling = TypeNameHandling.Auto,

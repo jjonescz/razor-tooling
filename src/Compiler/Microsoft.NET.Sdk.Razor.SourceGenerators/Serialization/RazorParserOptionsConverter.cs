@@ -51,36 +51,7 @@ internal sealed class RazorParserOptionsConverter : JsonConverter<RazorParserOpt
 
         foreach (var directive in value.Directives)
         {
-            writer.WriteStartObject();
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Description));
-            writer.WriteValue(directive.Description);
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Directive));
-            writer.WriteValue(directive.Directive);
-            writer.WritePropertyName(nameof(DirectiveDescriptor.DisplayName));
-            writer.WriteValue(directive.DisplayName);
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Kind));
-            writer.WriteValue(directive.Kind.ToString());
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Usage));
-            writer.WriteValue(directive.Usage.ToString());
-            writer.WritePropertyName(nameof(DirectiveDescriptor.Tokens));
-            writer.WriteStartArray();
-
-            foreach (var token in directive.Tokens)
-            {
-                writer.WriteStartObject();
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Kind));
-                writer.WriteValue(token.Kind);
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Optional));
-                writer.WriteValue(token.Optional);
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Name));
-                writer.WriteValue(token.Name);
-                writer.WritePropertyName(nameof(DirectiveTokenDescriptor.Description));
-                writer.WriteValue(token.Description);
-                writer.WriteEndObject();
-            }
-
-            writer.WriteEndArray();
-            writer.WriteEndObject();
+            serializer.Serialize(writer, directive);
         }
 
         writer.WriteEndArray();
