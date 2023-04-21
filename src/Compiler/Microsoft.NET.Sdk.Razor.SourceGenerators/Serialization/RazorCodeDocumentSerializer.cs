@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.Serialization;
 using Newtonsoft.Json;
-using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -228,10 +227,5 @@ internal sealed class RazorCodeDocumentSerializer
         Serialize(writer, syntaxTree.Source);
 
         writer.WriteEndObject();
-    }
-
-    private static BuilderCreationConverter<T> BuilderConverter<T>(Func<Action<object>, T> factory) where T : class
-    {
-        return new BuilderCreationConverter<T>(factory);
     }
 }
