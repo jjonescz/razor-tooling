@@ -143,6 +143,8 @@ namespace MyApp.Pages
             Assert.Empty(result.Diagnostics);
             Assert.Single(result.GeneratedSources);
 
+            File.WriteAllText("rsg.json", json); // TODO: Remove
+
             var document = RazorCodeDocumentSerializer.Instance.Deserialize(json, RazorSourceDocument.Create("", ""));
             Assert.NotNull(document);
         }
