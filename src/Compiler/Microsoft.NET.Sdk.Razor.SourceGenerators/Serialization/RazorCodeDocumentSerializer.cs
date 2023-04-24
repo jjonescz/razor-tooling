@@ -371,15 +371,19 @@ internal sealed class RazorCodeDocumentSerializer
                     generatedCode = reader.ReadAsString();
                     break;
                 case nameof(RazorCSharpDocument.Options):
+                    reader.Read();
                     options = _serializer.Deserialize<RazorCodeGenerationOptions>(reader);
                     break;
                 case nameof(RazorCSharpDocument.Diagnostics):
+                    reader.Read();
                     diagnostics = _serializer.Deserialize<IReadOnlyList<RazorDiagnostic>>(reader);
                     break;
                 case nameof(RazorCSharpDocument.SourceMappings):
+                    reader.Read();
                     sourceMappings = _serializer.Deserialize<IReadOnlyList<SourceMapping>>(reader);
                     break;
                 case nameof(RazorCSharpDocument.LinePragmas):
+                    reader.Read();
                     linePragmas = _serializer.Deserialize<IReadOnlyList<LinePragma>>(reader);
                     break;
             }
