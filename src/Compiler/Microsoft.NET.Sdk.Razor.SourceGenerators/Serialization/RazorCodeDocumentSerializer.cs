@@ -25,6 +25,7 @@ internal sealed class RazorCodeDocumentSerializer
     private const string CssScope = nameof(CssScope);
     private const string CSharpDocument = nameof(CSharpDocument);
     private const string HtmlDocument = nameof(HtmlDocument);
+    private const string Namespace = nameof(Namespace);
 
     private readonly JsonSerializer _serializer;
 
@@ -131,6 +132,9 @@ internal sealed class RazorCodeDocumentSerializer
                         document.Items[typeof(RazorHtmlDocument)] = htmlDocument;
                     }
                     break;
+                case nameof(Namespace):
+                    document.SetNamespace(reader.ReadAsString());
+                    break;
             }
         });
 
@@ -216,6 +220,10 @@ internal sealed class RazorCodeDocumentSerializer
             writer.WritePropertyName(HtmlDocument);
             SerializeHtmlDocument(writer, htmlDocument);
         }
+
+        document.TryComputeNamespace(fallbackToRootNamespace: true, check: false, out var @namespace);
+        writer.WritePropertyName(Namespace);
+        writer.WriteValue(@namespace);
 
         writer.WriteEndObject();
     }
