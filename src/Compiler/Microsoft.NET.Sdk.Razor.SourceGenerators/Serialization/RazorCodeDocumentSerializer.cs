@@ -21,6 +21,8 @@ internal sealed class RazorCodeDocumentSerializer
     private const string SyntaxTree = nameof(SyntaxTree);
     private const string Content = nameof(Content);
     private const string DocumentIntermediateNode = nameof(DocumentIntermediateNode);
+    private const string FileKind = nameof(FileKind);
+    private const string CssScope = nameof(CssScope);
 
     private readonly JsonSerializer _serializer;
 
@@ -70,6 +72,12 @@ internal sealed class RazorCodeDocumentSerializer
         {
             switch (propertyName)
             {
+                case nameof(FileKind):
+                    document.SetFileKind(reader.ReadAsString());
+                    break;
+                case nameof(CssScope):
+                    document.SetCssScope(reader.ReadAsString());
+                    break;
                 case nameof(TagHelperContext):
                     if (reader.Read() && reader.TokenType == JsonToken.StartObject)
                     {
@@ -143,6 +151,18 @@ internal sealed class RazorCodeDocumentSerializer
         }
 
         writer.WriteStartObject();
+
+        if (document.GetFileKind() is { } fileKind)
+        {
+            writer.WritePropertyName(nameof(FileKind));
+            writer.WriteValue(fileKind);
+        }
+
+        if (document.GetCssScope() is { } cssScope)
+        {
+            writer.WritePropertyName(nameof(CssScope));
+            writer.WriteValue(cssScope);
+        }
 
         if (document.GetDocumentIntermediateNode() is { } intermediateNode)
         {
