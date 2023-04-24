@@ -18,7 +18,6 @@ internal sealed class RazorCodeDocumentSerializer
 {
     private const string TagHelperContext = nameof(TagHelperContext);
     private const string ParserOptions = nameof(ParserOptions);
-    private const string Imports = nameof(Imports);
     private const string SyntaxTree = nameof(SyntaxTree);
     private const string Content = nameof(Content);
     private const string DocumentIntermediateNode = nameof(DocumentIntermediateNode);
@@ -120,17 +119,6 @@ internal sealed class RazorCodeDocumentSerializer
                         document.SetSyntaxTree(syntaxTree);
                     }
                     break;
-                case nameof(Imports):
-                    if (reader.Read() && reader.TokenType == JsonToken.StartArray)
-                    {
-                        using var _ = ArrayBuilderPool<RazorSyntaxTree>.GetPooledObject(out var importTrees);
-                        while (reader.Read() && DeserializeSyntaxTree(reader, document) is { } importTree)
-                        {
-                            importTrees.Add(importTree);
-                        }
-                        document.SetImportSyntaxTrees(importTrees.ToImmutable());
-                    }
-                    break;
                 case nameof(CSharpDocument):
                     if (reader.Read() && DeserializeCSharpDocument(reader, document) is { } cSharpDocument)
                     {
@@ -215,19 +203,6 @@ internal sealed class RazorCodeDocumentSerializer
         {
             writer.WritePropertyName(SyntaxTree);
             SerializeSyntaxTree(writer, document, syntaxTree);
-        }
-
-        if (document.GetImportSyntaxTrees() is { Count: > 0 } imports)
-        {
-            writer.WritePropertyName(Imports);
-            writer.WriteStartArray();
-
-            foreach (var importSyntaxTree in imports)
-            {
-                SerializeSyntaxTree(writer, document, importSyntaxTree);
-            }
-
-            writer.WriteEndArray();
         }
 
         if (document.GetCSharpDocument() is { } cSharpDocument)
