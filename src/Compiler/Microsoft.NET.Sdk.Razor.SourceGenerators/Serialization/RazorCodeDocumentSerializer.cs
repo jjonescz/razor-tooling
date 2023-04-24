@@ -8,7 +8,6 @@ using Microsoft.CodeAnalysis.Razor.Serialization;
 using Newtonsoft.Json;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace Microsoft.NET.Sdk.Razor.SourceGenerators;
@@ -184,32 +183,17 @@ internal sealed class RazorCodeDocumentSerializer
         if (document.GetSyntaxTree() is { } syntaxTree)
         {
             writer.WritePropertyName(SyntaxTree);
-            writer.WriteStartObject();
-
-            if (syntaxTree.Options != document.GetParserOptions())
-            {
-                writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
-                _serializer.Serialize(writer, syntaxTree.Options);
-            }
-
-            if (syntaxTree.Source != document.Source)
-            {
-                Debug.Assert(false);
-                writer.WritePropertyName(nameof(RazorSyntaxTree.Source));
-                Serialize(writer, syntaxTree.Source);
-            }
-
-            writer.WriteEndObject();
+            SerializeSyntaxTree(writer, document, syntaxTree);
         }
 
-        if (false && document.GetImportSyntaxTrees() is { Count: > 0 } imports)
+        if (document.GetImportSyntaxTrees() is { Count: > 0 } imports)
         {
             writer.WritePropertyName(Imports);
             writer.WriteStartArray();
 
             foreach (var importSyntaxTree in imports)
             {
-                writer.WriteValue(importSyntaxTree.Source.FilePath);
+                SerializeSyntaxTree(writer, document, importSyntaxTree);
             }
 
             writer.WriteEndArray();
@@ -218,7 +202,7 @@ internal sealed class RazorCodeDocumentSerializer
         writer.WriteEndObject();
     }
 
-    private void Serialize(JsonWriter writer, RazorSourceDocument source)
+    private void SerializeSourceDocument(JsonWriter writer, RazorSourceDocument source)
     {
         writer.WriteStartObject();
         writer.WritePropertyName(nameof(RazorSourceDocument.Encoding));
@@ -244,15 +228,21 @@ internal sealed class RazorCodeDocumentSerializer
         writer.WriteEndObject();
     }
 
-    private void Serialize(JsonWriter writer, RazorSyntaxTree syntaxTree)
+    private void SerializeSyntaxTree(JsonWriter writer, RazorCodeDocument owner, RazorSyntaxTree syntaxTree)
     {
         writer.WriteStartObject();
 
-        writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
-        _serializer.Serialize(writer, syntaxTree.Options);
+        if (syntaxTree.Options != owner.GetParserOptions())
+        {
+            writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
+            _serializer.Serialize(writer, syntaxTree.Options);
+        }
 
-        writer.WritePropertyName(nameof(RazorSyntaxTree.Source));
-        Serialize(writer, syntaxTree.Source);
+        if (syntaxTree.Source != owner.Source)
+        {
+            writer.WritePropertyName(nameof(RazorSyntaxTree.Source));
+            SerializeSourceDocument(writer, syntaxTree.Source);
+        }
 
         writer.WriteEndObject();
     }
