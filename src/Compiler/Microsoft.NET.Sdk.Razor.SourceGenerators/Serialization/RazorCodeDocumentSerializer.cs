@@ -79,10 +79,12 @@ internal sealed class RazorCodeDocumentSerializer
                         {
                             switch (propertyName)
                             {
-                                case nameof(TagHelperDocumentContext.Prefix) when reader.Read():
+                                case nameof(TagHelperDocumentContext.Prefix):
+                                    reader.Read();
                                     prefix = (string?)reader.Value;
                                     break;
-                                case nameof(TagHelperDocumentContext.TagHelpers) when reader.Read():
+                                case nameof(TagHelperDocumentContext.TagHelpers):
+                                    reader.Read();
                                     tagHelpers = _serializer.Deserialize<IReadOnlyList<TagHelperDescriptor>?>(reader);
                                     break;
                             }
@@ -100,6 +102,28 @@ internal sealed class RazorCodeDocumentSerializer
                 case nameof(DocumentIntermediateNode):
                     reader.Read();
                     document.SetDocumentIntermediateNode(_serializer.Deserialize<DocumentIntermediateNode>(reader));
+                    break;
+                case nameof(SyntaxTree):
+                    if (reader.Read() && reader.TokenType == JsonToken.StartObject)
+                    {
+                        RazorParserOptions? options = document.GetParserOptions();
+                        RazorSourceDocument source = document.Source;
+                        reader.ReadProperties(propertyName =>
+                        {
+                            switch (propertyName)
+                            {
+                                case nameof(RazorSyntaxTree.Options):
+                                    reader.Read();
+                                    options = _serializer.Deserialize<RazorParserOptions>(reader);
+                                    break;
+                                case nameof(RazorSyntaxTree.Source):
+                                    reader.Read();
+                                    source = _serializer.Deserialize<RazorSourceDocument>(reader)!;
+                                    break;
+                            }
+                        });
+                        document.SetSyntaxTree(RazorSyntaxTree.Parse(source, options));
+                    }
                     break;
             }
         });
@@ -157,13 +181,16 @@ internal sealed class RazorCodeDocumentSerializer
             _serializer.Serialize(writer, parserOptions);
         }
 
-        if (false && document.GetSyntaxTree() is { } syntaxTree)
+        if (document.GetSyntaxTree() is { } syntaxTree)
         {
             writer.WritePropertyName(SyntaxTree);
             writer.WriteStartObject();
 
-            writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
-            _serializer.Serialize(writer, syntaxTree.Options);
+            if (syntaxTree.Options != document.GetParserOptions())
+            {
+                writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
+                _serializer.Serialize(writer, syntaxTree.Options);
+            }
 
             if (syntaxTree.Source != document.Source)
             {
