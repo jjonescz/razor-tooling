@@ -36,7 +36,7 @@ internal sealed class RazorCodeDocumentSerializer
                 RazorDiagnosticJsonConverter.Instance,
                 TagHelperDescriptorJsonConverter.Instance,
                 new EncodingConverter(),
-                new DelegateCreationConverter<RazorCodeGenerationOptions>(_ => RazorCodeGenerationOptions.CreateDefault()),
+                new RazorCodeGenerationOptionsConverter(),
                 new SourceSpanConverter(),
                 new RazorParserOptionsConverter(),
                 new DirectiveDescriptorConverter(),
