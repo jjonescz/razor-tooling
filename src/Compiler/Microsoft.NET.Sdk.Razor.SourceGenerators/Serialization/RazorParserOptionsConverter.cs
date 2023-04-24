@@ -20,7 +20,7 @@ internal sealed class RazorParserOptionsConverter : JsonConverter<RazorParserOpt
         var fileKind = reader.ReadPropertyName(nameof(RazorParserOptions.FileKind)).ReadAsString();
         reader.ReadPropertyName(ValuePropertyName).Read();
         var result = designTime ? RazorParserOptions.CreateDesignTime(factory, fileKind) : RazorParserOptions.Create(factory, fileKind);
-        reader.ReadTokenAndAdvance(JsonToken.EndObject, out _);
+        reader.AssertTokenAndAdvance(JsonToken.EndObject);
         return result;
 
         void factory(RazorParserOptionsBuilder builder)

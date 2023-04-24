@@ -18,6 +18,12 @@ internal static class JsonReaderExtensions
         return reader.TokenType == expectedTokenType && reader.Read();
     }
 
+    public static bool AssertTokenAndAdvance(this JsonReader reader, JsonToken expectedTokenType)
+    {
+        Debug.Assert(reader.TokenType == expectedTokenType);
+        return reader.Read();
+    }
+
     public static void ReadProperties(this JsonReader reader, Action<string> onProperty)
     {
         while (reader.Read())

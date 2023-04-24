@@ -20,7 +20,7 @@ internal sealed class RazorCodeGenerationOptionsConverter : JsonConverter<RazorC
         var designTime = reader.ReadPropertyName(nameof(RazorCodeGenerationOptions.DesignTime)).ReadAsBoolean().GetValueOrDefault();
         reader.ReadPropertyName(ValuePropertyName).Read();
         var result = designTime ? RazorCodeGenerationOptions.CreateDesignTime(factory) : RazorCodeGenerationOptions.Create(factory);
-        reader.ReadTokenAndAdvance(JsonToken.EndObject, out _);
+        reader.AssertTokenAndAdvance(JsonToken.EndObject);
         return result;
 
         void factory(RazorCodeGenerationOptionsBuilder builder)
