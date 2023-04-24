@@ -103,25 +103,9 @@ internal sealed class RazorCodeDocumentSerializer
                     document.SetDocumentIntermediateNode(_serializer.Deserialize<DocumentIntermediateNode>(reader));
                     break;
                 case nameof(SyntaxTree):
-                    if (reader.Read() && reader.TokenType == JsonToken.StartObject)
+                    if (reader.Read() && DeserializeSyntaxTree(reader, document) is { } syntaxTree)
                     {
-                        RazorParserOptions? options = document.GetParserOptions();
-                        RazorSourceDocument source = document.Source;
-                        reader.ReadProperties(propertyName =>
-                        {
-                            switch (propertyName)
-                            {
-                                case nameof(RazorSyntaxTree.Options):
-                                    reader.Read();
-                                    options = _serializer.Deserialize<RazorParserOptions>(reader);
-                                    break;
-                                case nameof(RazorSyntaxTree.Source):
-                                    reader.Read();
-                                    source = _serializer.Deserialize<RazorSourceDocument>(reader)!;
-                                    break;
-                            }
-                        });
-                        document.SetSyntaxTree(RazorSyntaxTree.Parse(source, options));
+                        document.SetSyntaxTree(syntaxTree);
                     }
                     break;
             }
@@ -245,5 +229,31 @@ internal sealed class RazorCodeDocumentSerializer
         }
 
         writer.WriteEndObject();
+    }
+
+    private RazorSyntaxTree? DeserializeSyntaxTree(JsonReader reader, RazorCodeDocument owner)
+    {
+        if (reader.TokenType != JsonToken.StartObject)
+        {
+            return null;
+        }
+
+        RazorParserOptions? options = owner.GetParserOptions();
+        RazorSourceDocument source = owner.Source;
+        reader.ReadProperties(propertyName =>
+        {
+            switch (propertyName)
+            {
+                case nameof(RazorSyntaxTree.Options):
+                    reader.Read();
+                    options = _serializer.Deserialize<RazorParserOptions>(reader);
+                    break;
+                case nameof(RazorSyntaxTree.Source):
+                    reader.Read();
+                    source = _serializer.Deserialize<RazorSourceDocument>(reader)!;
+                    break;
+            }
+        });
+        return RazorSyntaxTree.Parse(source, options);
     }
 }
