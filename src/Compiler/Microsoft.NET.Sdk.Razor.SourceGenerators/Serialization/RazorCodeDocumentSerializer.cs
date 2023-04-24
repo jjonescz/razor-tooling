@@ -31,7 +31,6 @@ internal sealed class RazorCodeDocumentSerializer
     {
         _serializer = new JsonSerializer
         {
-            Formatting = Formatting.Indented, // TODO: Remove.
             Converters =
             {
                 RazorDiagnosticJsonConverter.Instance,

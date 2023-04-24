@@ -144,13 +144,10 @@ namespace MyApp.Pages
             Assert.Empty(result.Diagnostics);
             Assert.Single(result.GeneratedSources);
 
-            File.WriteAllText("rsg.json", json); // TODO: Remove
-
             var document = RazorCodeDocumentSerializer.Instance.Deserialize(json, RazorSourceDocument.Create("", ""));
             Assert.NotNull(document);
 
             var json2 = RazorCodeDocumentSerializer.Instance.Serialize(document);
-            File.WriteAllText("rsg2.json", json2); // TODO: Remove
             AssertEx.EqualOrDiff(json, json2);
         }
 
