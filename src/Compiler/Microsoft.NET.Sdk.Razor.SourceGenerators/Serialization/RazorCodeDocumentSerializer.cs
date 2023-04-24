@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Microsoft.NET.Sdk.Razor.SourceGenerators;
 
@@ -108,6 +109,17 @@ internal sealed class RazorCodeDocumentSerializer
                         document.SetSyntaxTree(syntaxTree);
                     }
                     break;
+                case nameof(Imports):
+                    if (reader.Read() && reader.TokenType == JsonToken.StartArray)
+                    {
+                        using var _ = ArrayBuilderPool<RazorSyntaxTree>.GetPooledObject(out var importTrees);
+                        while (reader.Read() && DeserializeSyntaxTree(reader, document) is { } importTree)
+                        {
+                            importTrees.Add(importTree);
+                        }
+                        document.SetImportSyntaxTrees(importTrees.ToImmutable());
+                    }
+                    break;
             }
         });
 
@@ -190,7 +202,7 @@ internal sealed class RazorCodeDocumentSerializer
     {
         writer.WriteStartObject();
         writer.WritePropertyName(nameof(RazorSourceDocument.Encoding));
-        writer.WriteValue(source.Encoding.WebName);
+        _serializer.Serialize(writer, source.Encoding);
         writer.WritePropertyName(nameof(RazorSourceDocument.FilePath));
         writer.WriteValue(source.FilePath);
         writer.WritePropertyName(nameof(RazorSourceDocument.RelativePath));
@@ -210,6 +222,38 @@ internal sealed class RazorCodeDocumentSerializer
         ArrayPool<char>.Shared.Return(content);
 
         writer.WriteEndObject();
+    }
+
+    private RazorSourceDocument? DeserializeSourceDocument(JsonReader reader)
+    {
+        if (reader.TokenType != JsonToken.StartObject)
+        {
+            return null;
+        }
+
+        Encoding? encoding = null;
+        string? filePath = null;
+        string? relativePath = null;
+        string? content = null;
+        reader.ReadProperties(propertyName =>
+        {
+            switch (propertyName)
+            {
+                case nameof(RazorSourceDocument.Encoding):
+                    encoding = _serializer.Deserialize<Encoding>(reader);
+                    break;
+                case nameof(RazorSourceDocument.FilePath):
+                    filePath = reader.ReadAsString();
+                    break;
+                case nameof(RazorSourceDocument.RelativePath):
+                    relativePath = reader.ReadAsString();
+                    break;
+                case nameof(Content):
+                    content = reader.ReadAsString();
+                    break;
+            }
+        });
+        return RazorSourceDocument.Create(content, encoding, new RazorSourceDocumentProperties(filePath, relativePath));
     }
 
     private void SerializeSyntaxTree(JsonWriter writer, RazorCodeDocument owner, RazorSyntaxTree syntaxTree)
@@ -250,7 +294,7 @@ internal sealed class RazorCodeDocumentSerializer
                     break;
                 case nameof(RazorSyntaxTree.Source):
                     reader.Read();
-                    source = _serializer.Deserialize<RazorSourceDocument>(reader)!;
+                    source = DeserializeSourceDocument(reader)!;
                     break;
             }
         });
