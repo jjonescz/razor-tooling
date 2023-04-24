@@ -197,12 +197,6 @@ internal sealed class RazorCodeDocumentSerializer
             writer.WriteEndObject();
         }
 
-        if (document.GetParserOptions() is { } parserOptions)
-        {
-            writer.WritePropertyName(ParserOptions);
-            _serializer.Serialize(writer, parserOptions);
-        }
-
         if (document.GetSyntaxTree() is { } syntaxTree)
         {
             writer.WritePropertyName(SyntaxTree);
@@ -290,11 +284,8 @@ internal sealed class RazorCodeDocumentSerializer
     {
         writer.WriteStartObject();
 
-        if (syntaxTree.Options != owner.GetParserOptions())
-        {
-            writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
-            _serializer.Serialize(writer, syntaxTree.Options);
-        }
+        writer.WritePropertyName(nameof(RazorSyntaxTree.Options));
+        _serializer.Serialize(writer, syntaxTree.Options);
 
         if (syntaxTree.Source != owner.Source)
         {
@@ -312,7 +303,7 @@ internal sealed class RazorCodeDocumentSerializer
             return null;
         }
 
-        RazorParserOptions? options = owner.GetParserOptions();
+        RazorParserOptions? options = null;
         RazorSourceDocument source = owner.Source;
         reader.ReadProperties(propertyName =>
         {
