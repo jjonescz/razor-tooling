@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.Language.CodeGeneration;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.Serialization;
@@ -23,6 +24,7 @@ internal sealed class RazorCodeDocumentSerializer
     private const string DocumentIntermediateNode = nameof(DocumentIntermediateNode);
     private const string FileKind = nameof(FileKind);
     private const string CssScope = nameof(CssScope);
+    private const string CSharpDocument = nameof(CSharpDocument);
 
     private readonly JsonSerializer _serializer;
 
@@ -128,6 +130,12 @@ internal sealed class RazorCodeDocumentSerializer
                         document.SetImportSyntaxTrees(importTrees.ToImmutable());
                     }
                     break;
+                case nameof(CSharpDocument):
+                    if (reader.Read() && DeserializeCSharpDocument(reader, document) is { } cSharpDocument)
+                    {
+                        document.SetCSharpDocument(cSharpDocument);
+                    }
+                    break;
             }
         });
 
@@ -213,6 +221,12 @@ internal sealed class RazorCodeDocumentSerializer
             }
 
             writer.WriteEndArray();
+        }
+
+        if (document.GetCSharpDocument() is { } cSharpDocument)
+        {
+            writer.WritePropertyName(CSharpDocument);
+            SerializeCSharpDocument(writer, cSharpDocument);
         }
 
         writer.WriteEndObject();
@@ -319,5 +333,57 @@ internal sealed class RazorCodeDocumentSerializer
             }
         });
         return RazorSyntaxTree.Parse(source, options);
+    }
+
+    private void SerializeCSharpDocument(JsonWriter writer, RazorCSharpDocument document)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName(nameof(RazorCSharpDocument.GeneratedCode));
+        writer.WriteValue(document.GeneratedCode);
+        writer.WritePropertyName(nameof(RazorCSharpDocument.Options));
+        _serializer.Serialize(writer, document.Options);
+        writer.WritePropertyName(nameof(RazorCSharpDocument.Diagnostics));
+        _serializer.Serialize(writer, document.Diagnostics);
+        writer.WritePropertyName(nameof(RazorCSharpDocument.SourceMappings));
+        _serializer.Serialize(writer, document.SourceMappings);
+        writer.WritePropertyName(nameof(RazorCSharpDocument.LinePragmas));
+        _serializer.Serialize(writer, document.LinePragmas);
+        writer.WriteEndObject();
+    }
+
+    private RazorCSharpDocument? DeserializeCSharpDocument(JsonReader reader, RazorCodeDocument owner)
+    {
+        if (reader.TokenType != JsonToken.StartObject)
+        {
+            return null;
+        }
+
+        string? generatedCode = null;
+        RazorCodeGenerationOptions? options = null;
+        IReadOnlyList<RazorDiagnostic>? diagnostics = null;
+        IReadOnlyList<SourceMapping>? sourceMappings = null;
+        IReadOnlyList<LinePragma>? linePragmas = null;
+        reader.ReadProperties((propertyName) =>
+        {
+            switch (propertyName)
+            {
+                case nameof(RazorCSharpDocument.GeneratedCode):
+                    generatedCode = reader.ReadAsString();
+                    break;
+                case nameof(RazorCSharpDocument.Options):
+                    options = _serializer.Deserialize<RazorCodeGenerationOptions>(reader);
+                    break;
+                case nameof(RazorCSharpDocument.Diagnostics):
+                    diagnostics = _serializer.Deserialize<IReadOnlyList<RazorDiagnostic>>(reader);
+                    break;
+                case nameof(RazorCSharpDocument.SourceMappings):
+                    sourceMappings = _serializer.Deserialize<IReadOnlyList<SourceMapping>>(reader);
+                    break;
+                case nameof(RazorCSharpDocument.LinePragmas):
+                    linePragmas = _serializer.Deserialize<IReadOnlyList<LinePragma>>(reader);
+                    break;
+            }
+        });
+        return RazorCSharpDocument.Create(owner, generatedCode, options, diagnostics, sourceMappings, linePragmas);
     }
 }
