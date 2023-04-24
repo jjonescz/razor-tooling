@@ -25,6 +25,7 @@ internal sealed class RazorCodeDocumentSerializer
     private const string FileKind = nameof(FileKind);
     private const string CssScope = nameof(CssScope);
     private const string CSharpDocument = nameof(CSharpDocument);
+    private const string HtmlDocument = nameof(HtmlDocument);
 
     private readonly JsonSerializer _serializer;
 
@@ -136,6 +137,12 @@ internal sealed class RazorCodeDocumentSerializer
                         document.SetCSharpDocument(cSharpDocument);
                     }
                     break;
+                case nameof(HtmlDocument):
+                    if (reader.Read() && DeserializeHtmlDocument(reader, document) is { } htmlDocument)
+                    {
+                        document.Items[typeof(RazorHtmlDocument)] = htmlDocument;
+                    }
+                    break;
             }
         });
 
@@ -227,6 +234,12 @@ internal sealed class RazorCodeDocumentSerializer
         {
             writer.WritePropertyName(CSharpDocument);
             SerializeCSharpDocument(writer, cSharpDocument);
+        }
+
+        if (document.GetHtmlDocument() is { } htmlDocument)
+        {
+            writer.WritePropertyName(HtmlDocument);
+            SerializeHtmlDocument(writer, htmlDocument);
         }
 
         writer.WriteEndObject();
@@ -389,5 +402,47 @@ internal sealed class RazorCodeDocumentSerializer
             }
         });
         return RazorCSharpDocument.Create(owner, generatedCode, options, diagnostics, sourceMappings, linePragmas);
+    }
+
+    private void SerializeHtmlDocument(JsonWriter writer, RazorHtmlDocument document)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName(nameof(RazorHtmlDocument.GeneratedCode));
+        writer.WriteValue(document.GeneratedCode);
+        writer.WritePropertyName(nameof(RazorHtmlDocument.Options));
+        _serializer.Serialize(writer, document.Options);
+        writer.WritePropertyName(nameof(RazorHtmlDocument.SourceMappings));
+        _serializer.Serialize(writer, document.SourceMappings);
+        writer.WriteEndObject();
+    }
+
+    private RazorHtmlDocument? DeserializeHtmlDocument(JsonReader reader, RazorCodeDocument owner)
+    {
+        if (reader.TokenType != JsonToken.StartObject)
+        {
+            return null;
+        }
+
+        string? generatedCode = null;
+        RazorCodeGenerationOptions? options = null;
+        SourceMapping[]? sourceMappings = null;
+        reader.ReadProperties((propertyName) =>
+        {
+            switch (propertyName)
+            {
+                case nameof(RazorCSharpDocument.GeneratedCode):
+                    generatedCode = reader.ReadAsString();
+                    break;
+                case nameof(RazorCSharpDocument.Options):
+                    reader.Read();
+                    options = _serializer.Deserialize<RazorCodeGenerationOptions>(reader);
+                    break;
+                case nameof(RazorCSharpDocument.SourceMappings):
+                    reader.Read();
+                    sourceMappings = _serializer.Deserialize<SourceMapping[]>(reader);
+                    break;
+            }
+        });
+        return RazorHtmlDocument.Create(owner, generatedCode, options, sourceMappings);
     }
 }
