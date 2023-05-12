@@ -6859,6 +6859,56 @@ namespace Test
         CompileToAssembly(generated);
     }
 
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/7428")]
+    public void CascadingGenericInference_NullableEnabled_NullableReferenceParameter()
+    {
+        // Arrange
+        AdditionalSyntaxTrees.Add(Parse("""
+            using Microsoft.AspNetCore.Components;
+
+            namespace Test;
+
+            [CascadingTypeParameter(nameof(TRow))]
+            public class Parent<TRow>: ComponentBase
+            {
+                [Parameter]
+                public RenderFragment<TRow>? ChildContent { get; set; }
+            }
+
+            public class Child<TRow> : ComponentBase
+            {
+                [Parameter]
+                public RenderFragment<TRow>? ChildContent { get; set; }
+            }
+            """));
+
+        // Act
+        var generated = CompileToCSharp("""
+            <Parent TRow="string?">
+                <Child Context="childContext">@childContext.Length</Child>
+            </Parent>
+            """, nullableEnable: true);
+        var result = CompileToAssembly(generated, throwOnFailure: false);
+
+        // Assert
+        // error CS8639: The typeof operator cannot be used on a nullable reference type
+        // warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
+        if (DesignTime)
+        {
+            Assert.Collection(result.Diagnostics,
+                d => Assert.Equal("CS8639", d.Id),
+                d => Assert.Equal("CS8669", d.Id),
+                d => Assert.Equal("CS8669", d.Id));
+        }
+        else
+        {
+            Assert.Collection(result.Diagnostics,
+                d => Assert.Equal("CS8669", d.Id),
+                d => Assert.Equal("CS8669", d.Id),
+                d => Assert.Equal("CS8669", d.Id));
+        }
+    }
+
     [Fact]
     public void ChildComponent_GenericWeaklyTypedAttribute()
     {
