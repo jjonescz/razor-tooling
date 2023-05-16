@@ -95,17 +95,18 @@ namespace Microsoft.NET.Sdk.Razor.SourceGenerators
                 });
 
             var tagHelpersFromComponents = generatedDeclarationSyntaxTrees
+                .Combine(generatedDeclarationSyntaxTrees.Collect())
                 .Combine(compilation)
                 .Combine(razorSourceGeneratorOptions)
                 .SelectMany(static (pair, ct) =>
                 {
-                    var ((generatedDeclarationSyntaxTree, compilation), razorSourceGeneratorOptions) = pair;
+                    var (((generatedDeclarationSyntaxTree, allGeneratedDeclarationSyntaxTrees), compilation), razorSourceGeneratorOptions) = pair;
                     RazorSourceGeneratorEventSource.Log.DiscoverTagHelpersFromComponentStart(generatedDeclarationSyntaxTree.FilePath);
 
                     var tagHelperFeature = new StaticCompilationTagHelperFeature();
                     var discoveryProjectEngine = GetDiscoveryProjectEngine(compilation.References.ToImmutableArray(), tagHelperFeature);
 
-                    var compilationWithDeclarations = compilation.AddSyntaxTrees(generatedDeclarationSyntaxTree);
+                    var compilationWithDeclarations = compilation.AddSyntaxTrees(allGeneratedDeclarationSyntaxTrees);
 
                     // try and find the specific root class this component is declaring, falling back to the assembly if for any reason the code is not in the shape we expect
                     ISymbol targetSymbol = compilationWithDeclarations.Assembly;
@@ -225,7 +226,12 @@ namespace Microsoft.NET.Sdk.Razor.SourceGenerators
                 .WithLambdaComparer((old, @new) => old.Left.Equals(@new.Left) && old.Right.SequenceEqual(@new.Right), (a) => a.GetHashCode())
                 .Combine(razorSourceGeneratorOptions);
 
-            IncrementalValuesProvider<(string, SourceGeneratorRazorCodeDocument)> processed(bool designTime) => withOptions
+            var withOptionsDesignTime = withOptions
+                .Combine(analyzerConfigOptions.Select(GetHostOutputsEnabledStatus))
+                .Where(pair => pair.Right)
+                .Select((pair, _) => pair.Left);
+
+            IncrementalValuesProvider<(string, SourceGeneratorRazorCodeDocument)> processed(bool designTime) => (designTime ? withOptionsDesignTime : withOptions)
                 .Select((pair, _) =>
                 {
                     var ((sourceItem, imports), razorSourceGeneratorOptions) = pair;
