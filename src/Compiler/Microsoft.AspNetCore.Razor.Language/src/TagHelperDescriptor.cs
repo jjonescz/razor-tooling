@@ -228,8 +228,7 @@ public abstract class TagHelperDescriptor : IEquatable<TagHelperDescriptor>
             name: x.Name,
             assemblyName: x.AssemblyName,
             displayName: x.DisplayName,
-            // TODO: Which to pick?
-            documentationObject: x.DocumentationObject,
+            documentationObject: x.DocumentationObject.Object is null ? y.DocumentationObject : x.DocumentationObject,
             tagOutputHint: x.TagOutputHint ?? y.TagOutputHint,
             caseSensitive: x.CaseSensitive || y.CaseSensitive,
             tagMatchingRules: x.TagMatchingRules.Union(y.TagMatchingRules).ToArray(),
