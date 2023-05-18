@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Razor.Language.Components;
 using Microsoft.Extensions.Internal;
 
 namespace Microsoft.AspNetCore.Razor.Language;
@@ -30,7 +31,8 @@ internal sealed class TagHelperDescriptorSimpleComparer : IEqualityComparer<TagH
 
         return x.Kind == y.Kind &&
             x.AssemblyName == y.AssemblyName &&
-            x.Name == y.Name;
+            x.Name == y.Name &&
+            x.IsComponentFullyQualifiedNameMatch() == y.IsComponentFullyQualifiedNameMatch();
     }
 
     public int GetHashCode(TagHelperDescriptor obj)
