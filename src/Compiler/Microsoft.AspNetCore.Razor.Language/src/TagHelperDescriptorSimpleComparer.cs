@@ -31,8 +31,10 @@ internal sealed class TagHelperDescriptorSimpleComparer : IEqualityComparer<TagH
 
         return x.Kind == y.Kind &&
             x.AssemblyName == y.AssemblyName &&
-            x.Name == y.Name &&
-            x.IsComponentFullyQualifiedNameMatch() == y.IsComponentFullyQualifiedNameMatch();
+            x.IsComponentFullyQualifiedNameMatch() == y.IsComponentFullyQualifiedNameMatch() &&
+            x.GetTypeName() is { } xTypeName &&
+            y.GetTypeName() is { } yTypeName &&
+            xTypeName == yTypeName;
     }
 
     public int GetHashCode(TagHelperDescriptor obj)
@@ -40,7 +42,7 @@ internal sealed class TagHelperDescriptorSimpleComparer : IEqualityComparer<TagH
         var hash = HashCodeCombiner.Start();
         hash.Add(obj.Kind, StringComparer.Ordinal);
         hash.Add(obj.AssemblyName, StringComparer.Ordinal);
-        hash.Add(obj.Name, StringComparer.Ordinal);
+        hash.Add(obj.GetTypeName(), StringComparer.Ordinal);
         return hash.CombinedHash;
     }
 }
