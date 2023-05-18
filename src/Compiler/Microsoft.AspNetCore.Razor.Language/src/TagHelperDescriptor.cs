@@ -234,13 +234,30 @@ public abstract class TagHelperDescriptor : IEquatable<TagHelperDescriptor>
             tagMatchingRules: x.TagMatchingRules.Union(y.TagMatchingRules).ToArray(),
             attributeDescriptors: x.BoundAttributes.Union(y.BoundAttributes).ToArray(),
             allowedChildTags: x.AllowedChildTags.Union(y.AllowedChildTags).ToArray(),
-            metadata: MetadataCollection.Create(x.Metadata.Union(y.Metadata).ToArray()),
+            metadata: MergeMetadata(x.Metadata, y.Metadata),
             diagnostics: x.Diagnostics.Union(y.Diagnostics).ToArray());
 
         Debug.Assert(TagHelperDescriptorSimpleComparer.Default.Equals(x, merged) &&
             TagHelperDescriptorSimpleComparer.Default.Equals(y, merged));
 
         return merged;
+
+        static MetadataCollection MergeMetadata(IReadOnlyDictionary<string, string> x, IReadOnlyDictionary<string, string> y)
+        {
+            var dict = new Dictionary<string, string>();
+
+            foreach (var (key, value) in x)
+            {
+                dict.Add(key, value);
+            }
+
+            foreach (var (key, value) in y)
+            {
+                dict[key] = value;
+            }
+
+            return MetadataCollection.Create(dict);
+        }
     }
 
     public override string ToString()
