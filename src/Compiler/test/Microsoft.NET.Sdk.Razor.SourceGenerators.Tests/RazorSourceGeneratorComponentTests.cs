@@ -102,4 +102,40 @@ public sealed class RazorSourceGeneratorComponentTests : RazorSourceGeneratorTes
         Assert.Equal(3, result.GeneratedSources.Length);
         await VerifyRazorPageMatchesBaselineAsync(compilation, "Views_Home_Index");
     }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/8718")]
+    public async Task ComponentInheritsFromComponent()
+    {
+        // Arrange
+        var project = CreateTestProject(new()
+        {
+            ["Views/Home/Index.cshtml"] = """
+                @(await Html.RenderComponentAsync<MyApp.Shared.Component1>(RenderMode.Static))
+                """,
+            ["Shared/Component1.razor"] = """
+                Hello from Component1
+                <DerivedComponent />
+                """,
+            ["Shared/BaseComponent.razor"] = """
+                Hello from Base
+                """,
+            ["Shared/DerivedComponent.razor"] = """
+                @inherits BaseComponent
+                Hello from Derived
+                """
+        });
+        var compilation = await project.GetCompilationAsync();
+        var driver = await GetDriverAsync(project, options =>
+        {
+            options.TestGlobalOptions["build_property.RazorLangVersion"] = "7.0";
+        });
+
+        // Act
+        var result = RunGenerator(compilation!, ref driver, out compilation);
+
+        // Assert
+        Assert.Empty(result.Diagnostics);
+        Assert.Equal(4, result.GeneratedSources.Length);
+        await VerifyRazorPageMatchesBaselineAsync(compilation, "Views_Home_Index");
+    }
 }
