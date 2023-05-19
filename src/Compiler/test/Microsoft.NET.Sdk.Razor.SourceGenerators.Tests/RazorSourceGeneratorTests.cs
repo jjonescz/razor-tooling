@@ -171,6 +171,10 @@ namespace MyApp.Pages
                 e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Index.razor"),
                 e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Counter.razor"),
                 e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Counter.razor"),
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                 e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromReferencesStart", e.EventName),
@@ -479,12 +483,12 @@ public class Person
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
+                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                 e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
-                e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor")
+                e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName)
                );
         }
 
@@ -592,12 +596,12 @@ public class Person
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
-               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor")
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName)
            );
         }
 
@@ -747,12 +751,12 @@ __builder.AddContent(3, count);
                e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Counter.razor"),
                e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Counter.razor"),
                e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Counter.razor"),
-               e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
-               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Counter.razor"),
                e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.razor"),
                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor"),
                e => e.AssertSingleItem("RazorCodeGenerateStart", "Pages/Counter.razor"),
@@ -911,8 +915,10 @@ __builder.AddContent(3, count);
                 e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Counter.razor"),
                e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Counter.razor"),
                e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Counter.razor"),
-               e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
-               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                 e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Counter.razor"),
                e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Counter.razor"),
                 e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.razor"),
@@ -1055,6 +1061,10 @@ using SurveyPromptRootNamspace;
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
+               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
                e => Assert.Equal("DiscoverTagHelpersFromReferencesStart", e.EventName),
