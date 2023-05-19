@@ -20,6 +20,8 @@ public static class TagHelperMetadata
         public static readonly string GloballyQualifiedTypeName = "Common.GloballyQualifiedTypeName";
 
         public static readonly string ClassifyAttributesOnly = "Common.ClassifyAttributesOnly";
+
+        internal static readonly string MatchingRuleFromClassName = "Common.MatchingRuleFromClassName";
     }
 
     public static class Runtime

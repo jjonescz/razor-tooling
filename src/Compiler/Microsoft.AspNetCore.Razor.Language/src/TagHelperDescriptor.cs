@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.AspNetCore.Razor.Language.Components;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 
 namespace Microsoft.AspNetCore.Razor.Language;
@@ -231,7 +232,7 @@ public abstract class TagHelperDescriptor : IEquatable<TagHelperDescriptor>
             documentationObject: x.DocumentationObject.Object is null ? y.DocumentationObject : x.DocumentationObject,
             tagOutputHint: x.TagOutputHint ?? y.TagOutputHint,
             caseSensitive: x.CaseSensitive || y.CaseSensitive,
-            tagMatchingRules: x.TagMatchingRules.Union(y.TagMatchingRules).ToArray(),
+            tagMatchingRules: MergeTagMatchingRules(x, y),
             attributeDescriptors: x.BoundAttributes.Union(y.BoundAttributes).ToArray(),
             allowedChildTags: x.AllowedChildTags.Union(y.AllowedChildTags).ToArray(),
             metadata: MergeMetadata(x.Metadata, y.Metadata),
@@ -241,6 +242,23 @@ public abstract class TagHelperDescriptor : IEquatable<TagHelperDescriptor>
             TagHelperDescriptorSimpleComparer.Default.Equals(y, merged));
 
         return merged;
+
+        static TagMatchingRuleDescriptor[] MergeTagMatchingRules(TagHelperDescriptor x, TagHelperDescriptor y)
+        {
+            if (x.HasMatchingRuleFromClassName())
+            {
+                return AsArray(y.TagMatchingRules);
+            }
+
+            if (y.HasMatchingRuleFromClassName())
+            {
+                return AsArray(x.TagMatchingRules);
+            }
+
+            return x.TagMatchingRules.Union(y.TagMatchingRules).ToArray();
+        }
+
+        static T[] AsArray<T>(IReadOnlyList<T> list) => list is T[] array ? array : list.ToArray();
 
         static MetadataCollection MergeMetadata(IReadOnlyDictionary<string, string> x, IReadOnlyDictionary<string, string> y)
         {

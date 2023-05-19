@@ -225,4 +225,9 @@ internal static class TagHelperDescriptorExtensions
 
         return false;
     }
+
+    public static bool HasMatchingRuleFromClassName(this TagHelperDescriptor tagHelper)
+    {
+        return tagHelper.Metadata.TryGetValue(TagHelperMetadata.Common.MatchingRuleFromClassName, out var value) && value == bool.TrueString;
+    }
 }

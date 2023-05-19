@@ -92,6 +92,8 @@ internal class DefaultTagHelperDescriptorFactory
                 ruleBuilder.TagName = htmlCasedName;
             });
 
+            descriptorBuilder.Metadata[TagHelperMetadata.Common.MatchingRuleFromClassName] = bool.TrueString;
+
             return;
         }
 
