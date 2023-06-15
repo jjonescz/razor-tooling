@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.Extensions.ObjectPool;
 using Newtonsoft.Json;
 
-namespace Microsoft.AspNetCore.Razor.ProjectEngineHost.Serialization;
+namespace Microsoft.AspNetCore.Razor.Serialization;
 
 internal delegate void WriteProperties<T>(JsonDataWriter writer, T value);
 internal delegate void WriteValue<T>(JsonDataWriter writer, T value);
@@ -41,6 +41,11 @@ internal partial class JsonDataWriter
     {
     }
 
+    public void Write(bool value)
+    {
+        _writer.WriteValue(value);
+    }
+
     public void Write(string propertyName, bool value)
     {
         _writer.WritePropertyName(propertyName);
@@ -49,7 +54,7 @@ internal partial class JsonDataWriter
 
     public void WriteIfNotTrue(string propertyName, bool value)
     {
-        if (value)
+        if (!value)
         {
             Write(propertyName, value);
         }
@@ -57,10 +62,15 @@ internal partial class JsonDataWriter
 
     public void WriteIfNotFalse(string propertyName, bool value)
     {
-        if (!value)
+        if (value)
         {
             Write(propertyName, value);
         }
+    }
+
+    public void Write(int value)
+    {
+        _writer.WriteValue(value);
     }
 
     public void Write(string propertyName, int value)
@@ -69,12 +79,22 @@ internal partial class JsonDataWriter
         _writer.WriteValue(value);
     }
 
-    public void WriteIfNotDefault(string propertyName, int value, int defaultValue = default)
+    public void WriteIfNotZero(string propertyName, int value)
+    {
+        WriteIfNotDefault(propertyName, value, defaultValue: 0);
+    }
+
+    public void WriteIfNotDefault(string propertyName, int value, int defaultValue)
     {
         if (value != defaultValue)
         {
             Write(propertyName, value);
         }
+    }
+
+    public void Write(string? value)
+    {
+        _writer.WriteValue(value);
     }
 
     public void Write(string propertyName, string? value)
@@ -96,6 +116,31 @@ internal partial class JsonDataWriter
         if (value is not null)
         {
             Write(propertyName, value);
+        }
+    }
+
+    public void WriteValue(object? value)
+    {
+        switch (value)
+        {
+            case string s:
+                Write(s);
+                break;
+
+            case int i:
+                Write(i);
+                break;
+
+            case bool b:
+                Write(b);
+                break;
+
+            case null:
+                Write((string?)null);
+                break;
+
+            default:
+                throw new NotSupportedException();
         }
     }
 
@@ -134,6 +179,22 @@ internal partial class JsonDataWriter
         _writer.WriteStartObject();
         writeProperties(this, value);
         _writer.WriteEndObject();
+    }
+
+    public void WriteObjectIfNotDefault<T>(string propertyName, T? value, T? defaultValue, WriteProperties<T> writeProperties)
+    {
+        if (!EqualityComparer<T?>.Default.Equals(value, defaultValue))
+        {
+            WriteObject(propertyName, value, writeProperties);
+        }
+    }
+
+    public void WriteObjectIfNotNull<T>(string propertyName, T? value, WriteProperties<T> writeProperties)
+    {
+        if (value is not null)
+        {
+            WriteObject(propertyName, value, writeProperties);
+        }
     }
 
     public void WriteArray<T>(IEnumerable<T>? elements, WriteValue<T> writeElement)

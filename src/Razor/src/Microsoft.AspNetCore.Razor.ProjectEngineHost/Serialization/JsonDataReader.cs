@@ -2,12 +2,13 @@
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.Extensions.ObjectPool;
 using Newtonsoft.Json;
 
-namespace Microsoft.AspNetCore.Razor.ProjectEngineHost.Serialization;
+namespace Microsoft.AspNetCore.Razor.Serialization;
 
 internal delegate void ReadPropertyValue<TData>(JsonDataReader reader, ref TData data);
 internal delegate T ReadValue<T>(JsonDataReader reader);
@@ -230,6 +231,25 @@ internal partial class JsonDataReader
         return ReadNonNullString();
     }
 
+    public object? ReadValue()
+    {
+        return _reader.TokenType switch
+        {
+            JsonToken.String => ReadString(),
+            JsonToken.Integer => ReadInt32(),
+            JsonToken.Boolean => ReadBoolean(),
+
+            var token => ThrowNotSupported(token)
+        };
+
+        [DoesNotReturn]
+        static object? ThrowNotSupported(JsonToken token)
+        {
+            throw new NotSupportedException(
+                SR.FormatCould_not_read_value_JSON_token_was_0(token));
+        }
+    }
+
     public Uri? ReadUri(string propertyName)
     {
         ReadPropertyName(propertyName);
@@ -276,6 +296,14 @@ internal partial class JsonDataReader
         return ReadObject(readProperties);
     }
 
+    [return: MaybeNull]
+    public T ReadObjectOrDefault<T>(string propertyName, ReadProperties<T> readProperties, T defaultValue)
+        => TryReadPropertyName(propertyName) ? ReadObject(readProperties) : defaultValue;
+
+    public T? ReadObjectOrNull<T>(string propertyName, ReadProperties<T> readProperties)
+        where T : class
+        => ReadObjectOrDefault(propertyName, readProperties!, defaultValue: null);
+
     public T ReadNonNullObject<T>(ReadProperties<T> readProperties)
     {
         _reader.ReadToken(JsonToken.StartObject);
@@ -289,7 +317,7 @@ internal partial class JsonDataReader
     {
         ReadPropertyName(propertyName);
 
-        return readProperties(this);
+        return ReadNonNullObject(readProperties);
     }
 
     public TData ReadObjectData<TData>(PropertyMap<TData> propertyMap)
@@ -400,11 +428,56 @@ internal partial class JsonDataReader
         return ReadArray(readElement);
     }
 
-    public T[] ReadArrayOrEmpty<T>(ReadValue<T> readElement)
-        => ReadArray(readElement) ?? Array.Empty<T>();
-
     public T[] ReadArrayOrEmpty<T>(string propertyName, ReadValue<T> readElement)
-        => ReadArray(propertyName, readElement) ?? Array.Empty<T>();
+        => TryReadPropertyName(propertyName) ? ReadArray(readElement) ?? Array.Empty<T>() : Array.Empty<T>();
+
+    public ImmutableArray<T> ReadImmutableArray<T>(ReadValue<T> readElement)
+    {
+        _reader.ReadToken(JsonToken.StartArray);
+
+        // First special case, is this an empty array?
+        if (_reader.TokenType == JsonToken.EndArray)
+        {
+            _reader.Read();
+            return ImmutableArray<T>.Empty;
+        }
+
+        // Second special case, is this an array of one element?
+        var firstElement = readElement(this);
+
+        if (_reader.TokenType == JsonToken.EndArray)
+        {
+            _reader.Read();
+            return ImmutableArray.Create(firstElement);
+        }
+
+        // There's more than one element, so we need to acquire a pooled list to
+        // read the rest of the array elements.
+        using var _ = ArrayBuilderPool<T>.GetPooledObject(out var elements);
+
+        // Be sure to add the element that we already read.
+        elements.Add(firstElement);
+
+        do
+        {
+            var element = readElement(this);
+            elements.Add(element);
+        }
+        while (_reader.TokenType != JsonToken.EndArray);
+
+        _reader.Read();
+
+        return elements.ToImmutable();
+    }
+
+    public ImmutableArray<T> ReadImmutableArray<T>(string propertyName, ReadValue<T> readElement)
+    {
+        ReadPropertyName(propertyName);
+        return ReadImmutableArray(readElement);
+    }
+
+    public ImmutableArray<T> ReadImmutableArrayOrEmpty<T>(string propertyName, ReadValue<T> readElement)
+        => TryReadPropertyName(propertyName) ? ReadImmutableArray(readElement) : ImmutableArray<T>.Empty;
 
     public void ProcessObject<T>(T arg, ProcessProperties<T> processProperties)
     {

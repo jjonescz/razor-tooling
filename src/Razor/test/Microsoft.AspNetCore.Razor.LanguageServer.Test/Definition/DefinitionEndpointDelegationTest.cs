@@ -1,8 +1,6 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
-#nullable disable
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -99,11 +97,37 @@ public class DefinitionEndpointDelegationTest : SingleServerDelegatingEndpointTe
         Assert.Equal(21, location.Range.Start.Line);
     }
 
-    [Fact]
-    public async Task Handle_SingleServer_ComponentAttribute_OtherRazorFile()
+    [Theory]
+    [InlineData("$$IncrementCount")]
+    [InlineData("In$$crementCount")]
+    [InlineData("IncrementCount$$")]
+    public async Task Handle_SingleServer_Attribute_SameFile(string method)
     {
-        var input = """
-                <SurveyPrompt @bind-Ti$$tle="InputValue" @bind-Value:after="BindAfter" />
+        var input = $$"""
+                <button @onclick="{{method}}"></div>
+
+                @code
+                {
+                    void [|IncrementCount|]()
+                    {
+                    }
+                }
+                """;
+
+        await VerifyCSharpGoToDefinitionAsync(input, "test.razor");
+    }
+
+    [Theory]
+    [InlineData("Ti$$tle")]
+    [InlineData("$$@bind-Title")]
+    [InlineData("@$$bind-Title")]
+    [InlineData("@bi$$nd-Title")]
+    [InlineData("@bind$$-Title")]
+    [InlineData("@bind-Ti$$tle")]
+    public async Task Handle_SingleServer_ComponentAttribute_OtherRazorFile(string attribute)
+    {
+        var input = $$"""
+                <SurveyPrompt {{attribute}}="InputValue" />
 
                 @code
                 {
@@ -117,7 +141,7 @@ public class DefinitionEndpointDelegationTest : SingleServerDelegatingEndpointTe
 
         // Need to put this in the right namespace, to match the tag helper defined in our test json
         var surveyPrompt = """
-                @namespace BlazorServer_31.Shared
+                @namespace BlazorApp1.Shared
 
                 <div></div>
 
@@ -158,12 +182,12 @@ public class DefinitionEndpointDelegationTest : SingleServerDelegatingEndpointTe
         Assert.Equal(range.Start.Character, location.Range.Start.Character);
     }
 
-    private async Task VerifyCSharpGoToDefinitionAsync(string input)
+    private async Task VerifyCSharpGoToDefinitionAsync(string input, string? filePath = null)
     {
         // Arrange
         TestFileMarkupParser.GetPositionAndSpan(input, out var output, out var cursorPosition, out var expectedSpan);
 
-        var codeDocument = CreateCodeDocument(output);
+        var codeDocument = CreateCodeDocument(output, filePath: filePath);
         var razorFilePath = "C:/path/to/file.razor";
 
         // Act
@@ -179,7 +203,7 @@ public class DefinitionEndpointDelegationTest : SingleServerDelegatingEndpointTe
         Assert.Equal(expectedRange, location.Range);
     }
 
-    private async Task<DefinitionResult?> GetDefinitionResultAsync(RazorCodeDocument codeDocument, string razorFilePath, int cursorPosition, IEnumerable<(string filePath, string contents)> additionalRazorDocuments = null)
+    private async Task<DefinitionResult?> GetDefinitionResultAsync(RazorCodeDocument codeDocument, string razorFilePath, int cursorPosition, IEnumerable<(string filePath, string contents)>? additionalRazorDocuments = null)
     {
         await CreateLanguageServerAsync(codeDocument, razorFilePath, additionalRazorDocuments);
 

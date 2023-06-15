@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 #nullable enable
@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.Test.Common;
@@ -268,41 +269,25 @@ namespace MyApp.Pages
 
             Assert.Collection(eventListener.Events,
                 e => Assert.Equal("ComputeRazorSourceGeneratorOptions", e.EventName),
-                e => e.AssertSingleItem("ParseRazorDocumentStart", "Pages/Index.razor"),
-                e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Index.razor"),
-                e => e.AssertSingleItem("ParseRazorDocumentStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Index.razor"),
-                e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Index.razor"),
-                e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
+                e => e.AssertSingleItem("GenerateDeclarationCodeStart", "/Pages/Index.razor"),
+                e => e.AssertSingleItem("GenerateDeclarationCodeStop", "/Pages/Index.razor"),
+                e => e.AssertSingleItem("GenerateDeclarationCodeStart", "/Pages/Counter.razor"),
+                e => e.AssertSingleItem("GenerateDeclarationCodeStop", "/Pages/Counter.razor"),
                 e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromReferencesStart", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromReferencesStop", e.EventName),
-                e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Index.razor"),
-                e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Index.razor"),
-                e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor"),
-                e => e.AssertPair("RazorCodeGenerateStart", "Pages/Index.razor", "Runtime"),
-                e => e.AssertPair("RazorCodeGenerateStop", "Pages/Index.razor", "Runtime"),
-                e => e.AssertPair("RazorCodeGenerateStart", "Pages/Counter.razor", "Runtime"),
-                e => e.AssertPair("RazorCodeGenerateStop", "Pages/Counter.razor", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Index.razor", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Index.razor", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Counter.razor", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Counter.razor", "Runtime"),
                 e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Index_razor.g.cs"),
                 e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Counter_razor.g.cs")
             );
         }
 
         [Fact]
-        public async Task IncrementalCompilation_DoesNotReExecuteSteps_WhenRazorFilesAreUnchanged()
+        public async Task IncrementalCompilation_DoesNotReexecuteSteps_WhenRazorFilesAreUnchanged()
         {
             // Arrange
             using var eventListener = new RazorEventListener();
@@ -484,16 +469,10 @@ namespace MyApp.Pages
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
-               e => e.AssertSingleItem("ParseRazorDocumentStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Pages/Counter.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Pages/Counter.razor", "Runtime"),
+               e => e.AssertSingleItem("GenerateDeclarationCodeStart", "/Pages/Counter.razor"),
+               e => e.AssertSingleItem("GenerateDeclarationCodeStop", "/Pages/Counter.razor"),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Counter.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Counter.razor", "Runtime"),
                e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Counter_razor.g.cs")
             );
         }
@@ -588,13 +567,8 @@ public class Person
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
-                e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
-                e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName)
-               );
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName));
         }
 
         [Fact]
@@ -692,8 +666,6 @@ public class Person
 }", Encoding.UTF8)).Project;
             compilation = await project.GetCompilationAsync();
 
-            eventListener.Events.Clear();
-
             result = RunGenerator(compilation!, ref driver, expectedDiagnostics)
                         .VerifyOutputsMatch(result);
 
@@ -701,13 +673,8 @@ public class Person
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
-               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName)
-           );
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName));
         }
 
         [Fact]
@@ -852,20 +819,12 @@ __builder.AddContent(3, count);
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
-               e => e.AssertSingleItem("ParseRazorDocumentStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Pages/Counter.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Pages/Counter.razor", "Runtime"),
+               e => e.AssertSingleItem("GenerateDeclarationCodeStart", "/Pages/Counter.razor"),
+               e => e.AssertSingleItem("GenerateDeclarationCodeStop", "/Pages/Counter.razor"),
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Counter.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Counter.razor", "Runtime"),
                e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Counter_razor.g.cs")
             );
         }
@@ -1016,24 +975,14 @@ __builder.AddContent(3, count);
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
-                e => e.AssertSingleItem("ParseRazorDocumentStart", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("GenerateDeclarationCodeStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("GenerateDeclarationCodeStop", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Counter.razor"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Pages/Index.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Pages/Index.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Pages/Counter.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Pages/Counter.razor", "Runtime"),
+               e => e.AssertSingleItem("GenerateDeclarationCodeStart", "/Pages/Counter.razor"),
+               e => e.AssertSingleItem("GenerateDeclarationCodeStop", "/Pages/Counter.razor"),
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Index.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Index.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Counter.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Counter.razor", "Runtime"),
                e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Counter_razor.g.cs")
             );
         }
@@ -1166,22 +1115,14 @@ using SurveyPromptRootNamspace;
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Index.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("DiscoverTagHelpersFromComponentStop", "Pages/Counter.razor"),
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
                e => Assert.Equal("DiscoverTagHelpersFromReferencesStart", e.EventName),
                e => Assert.Equal("DiscoverTagHelpersFromReferencesStop", e.EventName),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Counter.razor"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Counter.razor"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Pages/Index.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Pages/Index.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Pages/Counter.razor", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Pages/Counter.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Index.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Index.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Counter.razor", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Counter.razor", "Runtime"),
                e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Index_razor.g.cs")
             );
 
@@ -1335,26 +1276,14 @@ namespace AspNetCoreGeneratedDocument
 
             Assert.Collection(eventListener.Events,
                 e => Assert.Equal("ComputeRazorSourceGeneratorOptions", e.EventName),
-                e => e.AssertSingleItem("ParseRazorDocumentStart", "Pages/Index.cshtml"),
-                e => e.AssertSingleItem("ParseRazorDocumentStop", "Pages/Index.cshtml"),
-                e => e.AssertSingleItem("ParseRazorDocumentStart", "Views/Shared/_Layout.cshtml"),
-                e => e.AssertSingleItem("ParseRazorDocumentStop", "Views/Shared/_Layout.cshtml"),
                 e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromReferencesStart", e.EventName),
                 e => Assert.Equal("DiscoverTagHelpersFromReferencesStop", e.EventName),
-                e => e.AssertSingleItem("RewriteTagHelpersStart", "Pages/Index.cshtml"),
-                e => e.AssertSingleItem("RewriteTagHelpersStop", "Pages/Index.cshtml"),
-                e => e.AssertSingleItem("RewriteTagHelpersStart", "Views/Shared/_Layout.cshtml"),
-                e => e.AssertSingleItem("RewriteTagHelpersStop", "Views/Shared/_Layout.cshtml"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.cshtml"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.cshtml"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Views/Shared/_Layout.cshtml"),
-                e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Views/Shared/_Layout.cshtml"),
-                e => e.AssertPair("RazorCodeGenerateStart", "Pages/Index.cshtml", "Runtime"),
-                e => e.AssertPair("RazorCodeGenerateStop", "Pages/Index.cshtml", "Runtime"),
-                e => e.AssertPair("RazorCodeGenerateStart", "Views/Shared/_Layout.cshtml", "Runtime"),
-                e => e.AssertPair("RazorCodeGenerateStop", "Views/Shared/_Layout.cshtml", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Index.cshtml", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Index.cshtml", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStart", "/Views/Shared/_Layout.cshtml", "Runtime"),
+                e => e.AssertPair("RazorCodeGenerateStop", "/Views/Shared/_Layout.cshtml", "Runtime"),
                 e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Index_cshtml.g.cs"),
                 e => e.AssertSingleItem("AddSyntaxTrees", "Views_Shared__Layout_cshtml.g.cs")
             );
@@ -1368,9 +1297,7 @@ namespace AspNetCoreGeneratedDocument
             {
                 ["Pages/Index.cshtml"] = """
                 @addTagHelper *, TestProject
-
                 @{ await RenderMyRazor(); }
-
                 @functions {
                     async Task RenderMyRazor()
                     {
@@ -1379,6 +1306,58 @@ namespace AspNetCoreGeneratedDocument
                             second tag helper
                             <email>nested tag helper</email>
                         </email>
+                    }
+                }
+                """,
+            }, new()
+            {
+                ["EmailTagHelper.cs"] = """
+                using Microsoft.AspNetCore.Razor.TagHelpers;
+                public class EmailTagHelper : TagHelper
+                {
+                    public override void Process(TagHelperContext context, TagHelperOutput output)
+                    {
+                        output.TagName = "a";
+                    }
+                }
+                """
+            });
+            var compilation = await project.GetCompilationAsync();
+            var driver = await GetDriverAsync(project);
+
+            // Act
+            var result = RunGenerator(compilation!, ref driver,
+                // warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+                d => Assert.StartsWith("Microsoft.NET.Sdk.Razor.SourceGenerators\\Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator\\Pages_Index_cshtml.g.cs(64,207): warning CS1998: ", d.ToString()),
+                d => Assert.StartsWith("Microsoft.NET.Sdk.Razor.SourceGenerators\\Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator\\Pages_Index_cshtml.g.cs(80,211): warning CS1998: ", d.ToString()));
+
+            // Assert
+            Assert.Empty(result.Diagnostics);
+            Assert.Single(result.GeneratedSources);
+        }
+
+        [Fact, WorkItem("https://github.com/dotnet/razor/issues/7049")]
+        public async Task SourceGenerator_CshtmlFiles_TagHelperInFunction_ManualSuppression()
+        {
+            // Arrange
+            var project = CreateTestProject(new()
+            {
+                ["Pages/Index.cshtml"] = """
+                @addTagHelper *, TestProject
+
+                @{ await RenderMyRazor(); }
+
+                @functions {
+                    #pragma warning disable 1998
+                    async Task RenderMyRazor()
+                    {
+                        var lambdaWithUnnecessaryAsync1 = async () => { };
+                        <email>first tag helper</email>
+                        <email>
+                            second tag helper
+                            <email>nested tag helper</email>
+                        </email>
+                        var lambdaWithUnnecessaryAsync2 = async () => { };
                     }
                 }
                 """,
@@ -1403,154 +1382,45 @@ namespace AspNetCoreGeneratedDocument
             var result = RunGenerator(compilation!, ref driver);
 
             // Assert
-            result.VerifyPageOutput(
-@"#pragma checksum ""Pages/Index.cshtml"" ""{ff1816ec-aa5e-4d10-87f7-6f4963833460}"" ""1ab81cc1745859ce8adebe81695571658979cf30""
-// <auto-generated/>
-#pragma warning disable 1591
-[assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(AspNetCoreGeneratedDocument.Pages_Index), @""mvc.1.0.view"", @""/Pages/Index.cshtml"")]
-namespace AspNetCoreGeneratedDocument
-{
-    #line hidden
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemMetadataAttribute(""Identifier"", ""/Pages/Index.cshtml"")]
-    [global::System.Runtime.CompilerServices.CreateNewOnMetadataUpdateAttribute]
-    #nullable restore
-    internal sealed class Pages_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
-    #nullable disable
-    {
-        #line hidden
-        #pragma warning disable 0649
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
-        #pragma warning restore 0649
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
-        #pragma warning disable 0169
-        private string __tagHelperStringValueBuffer;
-        #pragma warning restore 0169
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __backed__tagHelperScopeManager = null;
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __tagHelperScopeManager
+            Assert.Empty(result.Diagnostics);
+            Assert.Single(result.GeneratedSources);
+        }
+
+        [Fact, WorkItem("https://github.com/dotnet/razor/issues/7049")]
+        public async Task SourceGenerator_CshtmlFiles_TagHelperInBody()
         {
-            get
+            // Arrange
+            var project = CreateTestProject(new()
             {
-                if (__backed__tagHelperScopeManager == null)
-                {
-                    __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
+                ["Pages/Index.cshtml"] = """
+                @addTagHelper *, TestProject
+
+                <email>tag helper</email>
+                @section MySection {
+                    <p>my section</p>
                 }
-                return __backed__tagHelperScopeManager;
-            }
-        }
-        private global::EmailTagHelper __EmailTagHelper;
-        #pragma warning disable 1998
-        public async override global::System.Threading.Tasks.Task ExecuteAsync()
-        {
-            WriteLiteral(""\r\n"");
-#nullable restore
-#line 3 ""Pages/Index.cshtml""
-   await RenderMyRazor(); 
-
-#line default
-#line hidden
-#nullable disable
-            WriteLiteral(""\r\n"");
-        }
-        #pragma warning restore 1998
-#nullable restore
-#line 5 ""Pages/Index.cshtml""
-            
-    async Task RenderMyRazor()
-    {
-
-#line default
-#line hidden
-#nullable disable
-        WriteLiteral(""        "");
-        __tagHelperExecutionContext = __tagHelperScopeManager.Begin(""email"", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, ""1ab81cc1745859ce8adebe81695571658979cf302909"", 
-        #pragma warning disable 1998
-        async() => {
-            #pragma warning restore 1998
-            WriteLiteral(""first tag helper"");
-        }
-        );
-        __EmailTagHelper = CreateTagHelper<global::EmailTagHelper>();
-        __tagHelperExecutionContext.Add(__EmailTagHelper);
-        await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
-        if (!__tagHelperExecutionContext.Output.IsContentModified)
-        {
-            await __tagHelperExecutionContext.SetOutputContentAsync();
-        }
-        Write(__tagHelperExecutionContext.Output);
-        __tagHelperExecutionContext = __tagHelperScopeManager.End();
-        WriteLiteral(""\r\n        "");
-        __tagHelperExecutionContext = __tagHelperScopeManager.Begin(""email"", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, ""1ab81cc1745859ce8adebe81695571658979cf303807"", 
-        #pragma warning disable 1998
-        async() => {
-            #pragma warning restore 1998
-            WriteLiteral(""\r\n            second tag helper\r\n            "");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin(""email"", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, ""1ab81cc1745859ce8adebe81695571658979cf304193"", 
-            #pragma warning disable 1998
-            async() => {
-                #pragma warning restore 1998
-                WriteLiteral(""nested tag helper"");
-            }
-            );
-            __EmailTagHelper = CreateTagHelper<global::EmailTagHelper>();
-            __tagHelperExecutionContext.Add(__EmailTagHelper);
-            await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
-            if (!__tagHelperExecutionContext.Output.IsContentModified)
+                """,
+            }, new()
             {
-                await __tagHelperExecutionContext.SetOutputContentAsync();
-            }
-            Write(__tagHelperExecutionContext.Output);
-            __tagHelperExecutionContext = __tagHelperScopeManager.End();
-            WriteLiteral(""\r\n        "");
-        }
-        );
-        __EmailTagHelper = CreateTagHelper<global::EmailTagHelper>();
-        __tagHelperExecutionContext.Add(__EmailTagHelper);
-        await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
-        if (!__tagHelperExecutionContext.Output.IsContentModified)
-        {
-            await __tagHelperExecutionContext.SetOutputContentAsync();
-        }
-        Write(__tagHelperExecutionContext.Output);
-        __tagHelperExecutionContext = __tagHelperScopeManager.End();
-        WriteLiteral(""\r\n"");
-#nullable restore
-#line 13 ""Pages/Index.cshtml""
-    }
+                ["EmailTagHelper.cs"] = """
+                using Microsoft.AspNetCore.Razor.TagHelpers;
 
-#line default
-#line hidden
-#nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic> Html { get; private set; } = default!;
-        #nullable disable
-    }
-}
-#pragma warning restore 1591
-");
+                public class EmailTagHelper : TagHelper
+                {
+                    public override void Process(TagHelperContext context, TagHelperOutput output)
+                    {
+                        output.TagName = "a";
+                    }
+                }
+                """
+            });
+            var compilation = await project.GetCompilationAsync();
+            var driver = await GetDriverAsync(project);
+
+            // Act
+            var result = RunGenerator(compilation!, ref driver);
+
+            // Assert
             Assert.Empty(result.Diagnostics);
             Assert.Single(result.GeneratedSources);
         }
@@ -1744,14 +1614,8 @@ namespace AspNetCoreGeneratedDocument
             Assert.Equal(2, result.GeneratedSources.Length);
 
             Assert.Collection(eventListener.Events,
-               e => e.AssertSingleItem("ParseRazorDocumentStart", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertSingleItem("ParseRazorDocumentStop", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertSingleItem("RewriteTagHelpersStart", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertSingleItem("RewriteTagHelpersStop", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Views/Shared/_Layout.cshtml", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Views/Shared/_Layout.cshtml", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Views/Shared/_Layout.cshtml", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Views/Shared/_Layout.cshtml", "Runtime"),
                e => e.AssertSingleItem("AddSyntaxTrees", "Views_Shared__Layout_cshtml.g.cs")
             );
         }
@@ -1912,8 +1776,8 @@ public class Person
 
             Assert.Collection(eventListener.Events,
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
-               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName)
-               );
+               e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName));
+
         }
 
         [Fact]
@@ -2063,95 +1927,7 @@ public class HeaderTagHelper : TagHelper
 }", Encoding.UTF8)).Project;
             compilation = await project.GetCompilationAsync();
 
-            result = RunGenerator(compilation!, ref driver)
-                  .VerifyOutputsMatch(result, (0, @"
-#pragma checksum ""Pages/Index.cshtml"" ""{ff1816ec-aa5e-4d10-87f7-6f4963833460}"" ""5d59ecd7b7cf7355d7f60234988be34b81a8b614""
-// <auto-generated/>
-#pragma warning disable 1591
-[assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(AspNetCoreGeneratedDocument.Pages_Index), @""mvc.1.0.view"", @""/Pages/Index.cshtml"")]
-namespace AspNetCoreGeneratedDocument
-{
-    #line hidden
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemMetadataAttribute(""Identifier"", ""/Pages/Index.cshtml"")]
-    [global::System.Runtime.CompilerServices.CreateNewOnMetadataUpdateAttribute]
-    #nullable restore
-    internal sealed class Pages_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
-    #nullable disable
-    {
-        #line hidden
-        #pragma warning disable 0649
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
-        #pragma warning restore 0649
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
-        #pragma warning disable 0169
-        private string __tagHelperStringValueBuffer;
-        #pragma warning restore 0169
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __backed__tagHelperScopeManager = null;
-        private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __tagHelperScopeManager
-        {
-            get
-            {
-                if (__backed__tagHelperScopeManager == null)
-                {
-                    __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
-                }
-                return __backed__tagHelperScopeManager;
-            }
-        }
-        private global::MyApp.HeaderTagHelper __MyApp_HeaderTagHelper;
-        #pragma warning disable 1998
-        public async override global::System.Threading.Tasks.Task ExecuteAsync()
-        {
-            WriteLiteral(""\r\n"");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin(""h2"", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, ""5d59ecd7b7cf7355d7f60234988be34b81a8b6142529"", 
-            #pragma warning disable 1998
-            async() => {
-                #pragma warning restore 1998
-                WriteLiteral(""Hello world"");
-            }
-            );
-            __MyApp_HeaderTagHelper = CreateTagHelper<global::MyApp.HeaderTagHelper>();
-            __tagHelperExecutionContext.Add(__MyApp_HeaderTagHelper);
-            await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
-            if (!__tagHelperExecutionContext.Output.IsContentModified)
-            {
-                await __tagHelperExecutionContext.SetOutputContentAsync();
-            }
-            Write(__tagHelperExecutionContext.Output);
-            __tagHelperExecutionContext = __tagHelperScopeManager.End();
-        }
-        #pragma warning restore 1998
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
-        #nullable disable
-        #nullable restore
-        [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic> Html { get; private set; } = default!;
-        #nullable disable
-    }
-}
-#pragma warning restore 1591
-"));
+            result = RunGenerator(compilation!, ref driver);
 
             Assert.Empty(result.Diagnostics);
             Assert.Equal(2, result.GeneratedSources.Length);
@@ -2159,12 +1935,10 @@ namespace AspNetCoreGeneratedDocument
             Assert.Collection(eventListener.Events,
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStart", e.EventName),
                e => Assert.Equal("DiscoverTagHelpersFromCompilationStop", e.EventName),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Pages/Index.cshtml"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Pages/Index.cshtml"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStart", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertSingleItem("CheckAndRewriteTagHelpersStop", "Views/Shared/_Layout.cshtml"),
-               e => e.AssertPair("RazorCodeGenerateStart", "Pages/Index.cshtml", "Runtime"),
-               e => e.AssertPair("RazorCodeGenerateStop", "Pages/Index.cshtml", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Pages/Index.cshtml", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Pages/Index.cshtml", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStart", "/Views/Shared/_Layout.cshtml", "Runtime"),
+               e => e.AssertPair("RazorCodeGenerateStop", "/Views/Shared/_Layout.cshtml", "Runtime"),
                e => e.AssertSingleItem("AddSyntaxTrees", "Pages_Index_cshtml.g.cs")
            );
         }
@@ -2612,10 +2386,7 @@ namespace AspNetCoreGeneratedDocument
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin(""vc:test"", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, ""209ff2a910aa467bb7942ed3e6cb586652327a442587"", 
-            #pragma warning disable 1998
-            async() => {
-                #pragma warning restore 1998
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin(""vc:test"", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, ""209ff2a910aa467bb7942ed3e6cb586652327a442587"", async() => {
             }
             );
             __TestViewComponentTagHelper = CreateTagHelper<global::AspNetCoreGeneratedDocument.Views_Home_Index.__Generated__TestViewComponentTagHelper>();
