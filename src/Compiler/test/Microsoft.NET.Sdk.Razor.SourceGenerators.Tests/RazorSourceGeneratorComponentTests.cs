@@ -138,4 +138,53 @@ public sealed class RazorSourceGeneratorComponentTests : RazorSourceGeneratorTes
         Assert.Equal(4, result.GeneratedSources.Length);
         await VerifyRazorPageMatchesBaselineAsync(compilation, "Views_Home_Index");
     }
+
+    [Theory, WorkItem("https://github.com/dotnet/aspnetcore/issues/48778")]
+    [InlineData("StringParameter")]
+    [InlineData("stringParameter")]
+    public async Task ImplicitConversion(string paramName)
+    {
+        // Arrange
+        var project = CreateTestProject(new()
+        {
+            ["Views/Home/Index.cshtml"] = """
+                @(await Html.RenderComponentAsync<MyApp.Shared.Component1>(RenderMode.Static))
+                """,
+            ["Shared/Component1.razor"] = $$"""
+                @{ var c = new MyClass(); }
+                <MyComponent {{paramName}}="@c" />
+                """,
+            ["Shared/MyComponent.razor"] = """
+                MyComponent: @StringParameter
+                @code {
+                    [Parameter]
+                    public string StringParameter { get; set; } = null!;
+                }
+                """,
+        }, new()
+        {
+            ["Shared/MyComponent.cs"] = """
+                using Microsoft.AspNetCore.Components;
+                
+                namespace MyApp.Shared;
+                
+                public class MyClass
+                {
+                    public static implicit operator string(MyClass c) => "c converted to string";
+                }
+                """
+        });
+        var compilation = await project.GetCompilationAsync();
+        var driver = await GetDriverAsync(project, options =>
+        {
+            options.TestGlobalOptions["build_property.RazorLangVersion"] = "7.0";
+        });
+
+        // Act
+        var result = RunGenerator(compilation!, ref driver, out compilation);
+
+        // Assert
+        Assert.Empty(result.Diagnostics);
+        await VerifyRazorPageMatchesBaselineAsync(compilation, "Views_Home_Index");
+    }
 }
