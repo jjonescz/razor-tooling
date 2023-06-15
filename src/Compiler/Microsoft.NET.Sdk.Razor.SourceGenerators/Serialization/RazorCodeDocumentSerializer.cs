@@ -25,12 +25,14 @@ internal sealed class RazorCodeDocumentSerializer
 
     private readonly JsonSerializer _serializer;
 
-    public static readonly RazorCodeDocumentSerializer Instance = new();
+    public static readonly RazorCodeDocumentSerializer Instance = new(Formatting.None);
 
-    private RazorCodeDocumentSerializer()
+    // internal for testing
+    internal RazorCodeDocumentSerializer(Formatting formatting)
     {
         _serializer = new JsonSerializer
         {
+            Formatting = formatting,
             Converters =
             {
                 RazorDiagnosticJsonConverter.Instance,
