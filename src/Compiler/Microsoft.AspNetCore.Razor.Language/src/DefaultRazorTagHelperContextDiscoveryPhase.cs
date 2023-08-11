@@ -336,10 +336,21 @@ internal sealed class DefaultRazorTagHelperContextDiscoveryPhase : RazorEnginePh
                     case AddImportChunkGenerator { IsStatic: false } usingStatement:
                         // Get the namespace from the using statement.
                         var @namespace = usingStatement.ParsedNamespace;
-                        if (@namespace.IndexOf('=') != -1)
+                        if (@namespace.IndexOf('=') is not -1 and var equalsIndex)
                         {
-                            // We don't support usings with alias.
-                            continue;
+                            // Alias using.
+                            var alias = @namespace.AsSpan(0, equalsIndex).TrimEnd();
+                            var targetName = @namespace.AsSpan(equalsIndex + 1).TrimStart();
+
+                            string aliasString = null;
+                            foreach (var tagHelper in _notFullyQualifiedComponents)
+                            {
+                                if (targetName.Equals(tagHelper.GetTypeName().AsSpan(), StringComparison.Ordinal))
+                                {
+                                    Matches.Add(tagHelper.WithTagName(aliasString ??= alias.ToString()));
+                                }
+                            }
+                            break;
                         }
 
                         foreach (var tagHelper in _notFullyQualifiedComponents)

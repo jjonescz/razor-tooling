@@ -241,4 +241,24 @@ public abstract class TagHelperDescriptor : IEquatable<TagHelperDescriptor>
     {
         return $"{DisplayName} - {string.Join(" | ", TagMatchingRules.Select(r => r.GetDebuggerDisplay()))}";
     }
+
+    // TODO: Should this be abstract and implemented by descendants?
+    internal TagHelperDescriptor WithTagName(string tagName)
+    {
+        var clone = (TagHelperDescriptor)MemberwiseClone();
+        clone._hashCode = null;
+        // TODO: Use pooled array builder.
+        clone.TagMatchingRules = new TagMatchingRuleDescriptor[]
+        {
+            new DefaultTagMatchingRuleDescriptor(
+                tagName: tagName,
+                // TODO: What to fill in all these parameters?
+                parentTag: null,
+                TagStructure.Unspecified,
+                caseSensitive: false,
+                attributes: Array.Empty<RequiredAttributeDescriptor>(),
+                diagnostics: Array.Empty<RazorDiagnostic>())
+        };
+        return clone;
+    }
 }
