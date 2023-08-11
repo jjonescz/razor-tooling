@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
 using Roslyn.Test.Utilities;
 using Xunit;
 
@@ -102,6 +103,190 @@ public sealed class RazorSourceGeneratorComponentTests : RazorSourceGeneratorTes
         // Assert
         Assert.Empty(result.Diagnostics);
         Assert.Equal(3, result.GeneratedSources.Length);
+        await VerifyRazorPageMatchesBaselineAsync(compilation, "Views_Home_Index");
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/7670")]
+    public async Task UsingAlias()
+    {
+        // Arrange
+        var project = CreateTestProject(new()
+        {
+            ["Views/Home/Index.cshtml"] = """
+                @(await Html.RenderComponentAsync<MyApp.Shared.ComponentA>(RenderMode.Static))
+                @(await Html.RenderComponentAsync<MyApp.Shared.ComponentB>(RenderMode.Static))
+                @(await Html.RenderComponentAsync<MyApp.Shared.ComponentC>(RenderMode.Static))
+                @(await Html.RenderComponentAsync<Namespace1.ComponentD>(RenderMode.Static))
+                @(await Html.RenderComponentAsync<Namespace1.ComponentE>(RenderMode.Static))
+                """,
+            ["Shared/Component1.razor"] = """
+                @namespace Namespace1
+                Component1
+                """,
+            ["Shared/Component2.razor"] = """
+                @namespace Namespace1.Namespace2
+                Component2
+                """,
+            ["Shared/ComponentA.razor"] = """
+                @using C1 = Namespace1.Component1
+                @using C2 = Namespace1.Namespace2.Component2
+                @using N1 = Namespace1
+                @using N2 = Namespace1.Namespace2
+                ComponentA
+                ok: <C1 />
+                ok: <C2 />
+                ok: <Namespace1.Component1 />
+                ok: <N1.Component1 />
+                ok: <Namespace1.Namespace2.Component2 />
+                ok: <N1.Namespace2.Component2 />
+                ok: <N2.Component2 />
+                fail: <Component1 />
+                fail: <Component2 />
+                fail: <N1.C1 />
+                fail: <N1 />
+                fail: <Namespace1.C1 />
+                fail: <N1.N1.Component1 />
+                fail: <Namespace1.Component2 />
+                fail: <N1.N2.Component2 />
+                fail: <N1.N2.C2 />
+                fail: <N2.Component1 />
+                """,
+            ["Shared/ComponentB.razor"] = """
+                @using Namespace1
+                @using C1 = Namespace1.Component1
+                @using C2 = Namespace1.Namespace2.Component2
+                @using N1 = Namespace1
+                @using N2 = Namespace1.Namespace2
+                ComponentB
+                ok: <C1 />
+                ok: <C2 />
+                ok: <Namespace1.Component1 />
+                ok: <N1.Component1 />
+                ok: <Namespace1.Namespace2.Component2 />
+                ok: <N1.Namespace2.Component2 />
+                ok: <N2.Component2 />
+                ok: <Component1 />
+                fail: <Component2 />
+                fail: <N1.C1 />
+                fail: <N1 />
+                fail: <Namespace1.C1 />
+                fail: <N1.N1.Component1 />
+                fail: <Namespace1.Component2 />
+                fail: <N1.N2.Component2 />
+                fail: <N1.N2.C2 />
+                fail: <N2.Component1 />
+                """,
+            ["Shared/ComponentC.razor"] = """
+                @using Namespace1
+                @using Namespace1.Namespace2
+                @using C1 = Namespace1.Component1
+                @using C2 = Namespace1.Namespace2.Component2
+                @using N1 = Namespace1
+                @using N2 = Namespace1.Namespace2
+                ComponentC
+                ok: <C1 />
+                ok: <C2 />
+                ok: <Namespace1.Component1 />
+                ok: <N1.Component1 />
+                ok: <Namespace1.Namespace2.Component2 />
+                ok: <N1.Namespace2.Component2 />
+                ok: <N2.Component2 />
+                ok: <Component1 />
+                ok: <Component2 />
+                fail: <N1.C1 />
+                fail: <N1 />
+                fail: <Namespace1.C1 />
+                fail: <N1.N1.Component1 />
+                fail: <Namespace1.Component2 />
+                fail: <N1.N2.Component2 />
+                fail: <N1.N2.C2 />
+                fail: <N2.Component1 />
+                """,
+            ["Shared/ComponentD.razor"] = """
+                @namespace Namespace1
+                @using C1 = Namespace1.Component1
+                @using C1r = Component1
+                @using C2 = Namespace1.Namespace2.Component2
+                @using C2r = Namespace2.Component2
+                @using N1 = Namespace1
+                @using N2 = Namespace1.Namespace2
+                @using N2r = Namespace2
+                ComponentD
+                ok: <C1 />
+                ok: <C1r />
+                ok: <C2 />
+                ok: <C2r />
+                ok: <Namespace1.Component1 />
+                ok: <N1.Component1 />
+                ok: <Namespace1.Namespace2.Component2 />
+                ok: <N1.Namespace2.Component2 />
+                ok: <N2.Component2 />
+                ok: <N2r.Component2 />
+                ok: <Component1 />
+                fail: <Component2 />
+                fail: <N1.C1 />
+                fail: <N1.C1r />
+                fail: <N1 />
+                fail: <Namespace1.C1 />
+                fail: <N1.N1.Component1 />
+                fail: <Namespace1.Component2 />
+                fail: <N1.N2.Component2 />
+                fail: <N1.N2r.Component2 />
+                fail: <N1.N2.C2 />
+                fail: <N1.N2r.C2 />
+                fail: <N1.N2.C2r />
+                fail: <N1.N2r.C2r />
+                fail: <N2.Component1 />
+                fail: <N2r.Component1 />
+                """,
+            ["Shared/ComponentE.razor"] = """
+                @namespace Namespace1
+                @using Namespace2
+                @using C1 = Namespace1.Component1
+                @using C1r = Component1
+                @using C2 = Namespace1.Namespace2.Component2
+                @using C2r = Namespace2.Component2
+                @using N1 = Namespace1
+                @using N2 = Namespace1.Namespace2
+                @using N2r = Namespace2
+                ComponentE
+                ok: <C1 />
+                ok: <C1r />
+                ok: <C2 />
+                ok: <C2r />
+                ok: <Namespace1.Component1 />
+                ok: <N1.Component1 />
+                ok: <Namespace1.Namespace2.Component2 />
+                ok: <N1.Namespace2.Component2 />
+                ok: <N2.Component2 />
+                ok: <N2r.Component2 />
+                ok: <Component1 />
+                ok: <Component2 />
+                fail: <N1.C1 />
+                fail: <N1.C1r />
+                fail: <N1 />
+                fail: <Namespace1.C1 />
+                fail: <N1.N1.Component1 />
+                fail: <Namespace1.Component2 />
+                fail: <N1.N2.Component2 />
+                fail: <N1.N2r.Component2 />
+                fail: <N1.N2.C2 />
+                fail: <N1.N2r.C2 />
+                fail: <N1.N2.C2r />
+                fail: <N1.N2r.C2r />
+                fail: <N2.Component1 />
+                fail: <N2r.Component1 />
+                """,
+        });
+        var compilation = await project.GetCompilationAsync();
+        var driver = await GetDriverAsync(project);
+
+        // Act
+        var result = RunGenerator(compilation!, ref driver, out compilation);
+
+        // Assert
+        //result.Diagnostics.Verify();
+        //Assert.Equal(4, result.GeneratedSources.Length);
         await VerifyRazorPageMatchesBaselineAsync(compilation, "Views_Home_Index");
     }
 
