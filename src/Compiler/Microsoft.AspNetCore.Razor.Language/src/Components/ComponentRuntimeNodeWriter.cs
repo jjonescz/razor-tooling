@@ -380,6 +380,8 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             // We can skip type arguments during runtime codegen, they are handled in the
             // type/parameter declarations.
 
+            bool hasFormName = false;
+
             // Preserve order of attributes and splats
             foreach (var child in node.Children)
             {
@@ -390,6 +392,12 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
                 else if (child is SplatIntermediateNode splat)
                 {
                     context.RenderNode(splat);
+                }
+                else if (child is FormNameIntermediateNode formName)
+                {
+                    Debug.Assert(!hasFormName);
+                    context.RenderNode(formName);
+                    hasFormName = true;
                 }
             }
 
@@ -406,6 +414,19 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             foreach (var capture in node.Captures)
             {
                 context.RenderNode(capture);
+            }
+
+            if (hasFormName)
+            {
+                // _builder.AddNamedEvent("onsubmit", __formName);
+                context.CodeWriter.Write(_scopeStack.BuilderVarName);
+                context.CodeWriter.Write(".");
+                context.CodeWriter.Write(ComponentsApi.RenderTreeBuilder.AddNamedEvent);
+                context.CodeWriter.Write("(\"onsubmit\", ");
+                context.CodeWriter.Write(_scopeStack.FormNameVarName);
+                context.CodeWriter.Write(");");
+                context.CodeWriter.WriteLine();
+                _scopeStack.IncrementFormName();
             }
 
             // _builder.CloseComponent();
@@ -512,6 +533,9 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
                 break;
             case SplatIntermediateNode splat:
                 WriteSplatInnards(context, splat, canTypeCheck: false);
+                break;
+            case FormNameIntermediateNode formName:
+                WriteFormNameInnards(context, formName, canTypeCheck: false);
                 break;
             case ComponentChildContentIntermediateNode childNode:
                 WriteComponentChildContentInnards(context, childNode);
@@ -892,6 +916,36 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         for (var i = 0; i < tokens.Count; i++)
         {
             WriteCSharpToken(context, tokens[i]);
+        }
+
+        if (canTypeCheck)
+        {
+            context.CodeWriter.Write(")");
+        }
+    }
+
+    public sealed override void WriteFormName(CodeRenderingContext context, FormNameIntermediateNode node)
+    {
+        // string __formName = expression;
+        context.CodeWriter.Write("string ");
+        context.CodeWriter.Write(_scopeStack.FormNameVarName);
+        context.CodeWriter.Write(" = ");
+        WriteFormNameInnards(context, node, canTypeCheck: true);
+        context.CodeWriter.Write(";");
+    }
+
+    private void WriteFormNameInnards(CodeRenderingContext context, FormNameIntermediateNode node, bool canTypeCheck)
+    {
+        if (canTypeCheck)
+        {
+            context.CodeWriter.Write(ComponentsApi.RuntimeHelpers.TypeCheck);
+            context.CodeWriter.Write("<string>(");
+        }
+
+        foreach (var token in node.FindDescendantNodes<IntermediateToken>())
+        {
+            Debug.Assert(token.IsCSharp);
+            WriteCSharpToken(context, token);
         }
 
         if (canTypeCheck)

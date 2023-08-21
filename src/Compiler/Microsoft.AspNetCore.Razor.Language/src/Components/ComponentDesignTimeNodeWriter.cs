@@ -397,6 +397,10 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
                 {
                     context.RenderNode(splat);
                 }
+                else if (child is FormNameIntermediateNode formName)
+                {
+                    context.RenderNode(formName);
+                }
             }
 
             if (node.ChildContents.Any())
@@ -598,6 +602,9 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
                 break;
             case SplatIntermediateNode splat:
                 WriteSplatInnards(context, splat, canTypeCheck: false);
+                break;
+            case FormNameIntermediateNode formName:
+                WriteFormNameInnards(context, formName, canTypeCheck: false);
                 break;
             case ComponentChildContentIntermediateNode childNode:
                 WriteComponentChildContentInnards(context, childNode);
@@ -1143,6 +1150,35 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
         for (var i = 0; i < tokens.Count; i++)
         {
             WriteCSharpToken(context, tokens[i]);
+        }
+
+        if (canTypeCheck)
+        {
+            context.CodeWriter.Write(")");
+        }
+    }
+
+    public sealed override void WriteFormName(CodeRenderingContext context, FormNameIntermediateNode node)
+    {
+        // __o = expression;
+        context.CodeWriter.Write(DesignTimeVariable);
+        context.CodeWriter.Write(" = ");
+        WriteFormNameInnards(context, node, canTypeCheck: true);
+        context.CodeWriter.Write(";");
+    }
+
+    private void WriteFormNameInnards(CodeRenderingContext context, FormNameIntermediateNode node, bool canTypeCheck)
+    {
+        if (canTypeCheck)
+        {
+            context.CodeWriter.Write(ComponentsApi.RuntimeHelpers.TypeCheck);
+            context.CodeWriter.Write("<string>(");
+        }
+
+        foreach (var token in node.FindDescendantNodes<IntermediateToken>())
+        {
+            Debug.Assert(token.IsCSharp);
+            WriteCSharpToken(context, token);
         }
 
         if (canTypeCheck)
