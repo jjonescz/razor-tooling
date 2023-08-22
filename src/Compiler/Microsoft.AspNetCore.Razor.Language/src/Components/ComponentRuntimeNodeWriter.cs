@@ -931,7 +931,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         context.CodeWriter.Write(_scopeStack.FormNameVarName);
         context.CodeWriter.Write(" = ");
         WriteFormNameInnards(context, node, canTypeCheck: true);
-        context.CodeWriter.Write(";");
+        context.CodeWriter.WriteLine(";");
     }
 
     private void WriteFormNameInnards(CodeRenderingContext context, FormNameIntermediateNode node, bool canTypeCheck)
@@ -942,11 +942,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             context.CodeWriter.Write("<string>(");
         }
 
-        foreach (var token in node.FindDescendantNodes<IntermediateToken>())
-        {
-            Debug.Assert(token.IsCSharp);
-            WriteCSharpToken(context, token);
-        }
+        WriteAttributeValue(context, node.FindDescendantNodes<IntermediateToken>());
 
         if (canTypeCheck)
         {
@@ -1003,7 +999,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         }
     }
 
-    private void WriteAttribute(CodeRenderingContext context, string key, IList<IntermediateToken> value)
+    private void WriteAttribute(CodeRenderingContext context, string key, IReadOnlyList<IntermediateToken> value)
     {
         BeginWriteAttribute(context, key);
 
@@ -1023,7 +1019,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         context.CodeWriter.WriteEndMethodInvocation();
     }
 
-    private void WriteAttribute(CodeRenderingContext context, IntermediateNode nameExpression, IList<IntermediateToken> value)
+    private void WriteAttribute(CodeRenderingContext context, IntermediateNode nameExpression, IReadOnlyList<IntermediateToken> value)
     {
         BeginWriteAttribute(context, nameExpression);
         if (value.Count > 0)
@@ -1077,7 +1073,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
     // Only the mixed case is complicated, we want to turn it into code that will concatenate
     // the values into a string at runtime.
 
-    private static void WriteAttributeValue(CodeRenderingContext context, IList<IntermediateToken> tokens)
+    private static void WriteAttributeValue(CodeRenderingContext context, IReadOnlyList<IntermediateToken> tokens)
     {
         if (tokens == null)
         {

@@ -29,7 +29,7 @@ internal sealed class ComponentFormNameLoweringPass : ComponentIntermediateNodeP
                     Source = node.Source
                 };
 
-                replacement.Children.AddRange(node.FindDescendantNodes<IntermediateToken>().Where(t => t.IsCSharp));
+                replacement.Children.AddRange(node.Children);
                 replacement.Diagnostics.AddRange(node.Diagnostics);
 
                 reference.Replace(replacement);
