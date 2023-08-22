@@ -7,6 +7,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Razor.Language.Components;
+using Microsoft.CodeAnalysis;
 using Roslyn.Test.Utilities;
 using Xunit;
 
@@ -10018,6 +10019,27 @@ Time: @DateTime.Now
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
         CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_CSharpValue_Integer()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="@x"></form>
+            @code {
+                int x = 1;
+            }
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        var result = CompileToAssembly(generated, throwOnFailure: false);
+        result.Diagnostics.Verify(
+            // x:\dir\subdir\Test\TestComponent.cshtml(1,55): error CS1503: Argument 1: cannot convert from 'int' to 'string'
+            //                                                       x
+            Diagnostic(ErrorCode.ERR_BadArgType, "x").WithArguments("1", "int", "string").WithLocation(1, 55));
     }
 
     [Fact]

@@ -23,7 +23,7 @@ namespace Test
             global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
 #nullable restore
 #line 1 "x:\dir\subdir\Test\TestComponent.cshtml"
-                                                       "named-form-handler"
+                                                      x
 
 #line default
 #line hidden
@@ -31,6 +31,14 @@ namespace Test
             );
         }
         #pragma warning restore 1998
+#nullable restore
+#line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
+       
+    int x = 1;
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591

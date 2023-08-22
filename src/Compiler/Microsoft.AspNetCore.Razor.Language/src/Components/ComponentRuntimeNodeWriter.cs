@@ -535,7 +535,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
                 WriteSplatInnards(context, splat, canTypeCheck: false);
                 break;
             case FormNameIntermediateNode formName:
-                WriteFormNameInnards(context, formName, canTypeCheck: false);
+                WriteFormNameInnards(context, formName);
                 break;
             case ComponentChildContentIntermediateNode childNode:
                 WriteComponentChildContentInnards(context, childNode);
@@ -930,24 +930,16 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         context.CodeWriter.Write("string ");
         context.CodeWriter.Write(_scopeStack.FormNameVarName);
         context.CodeWriter.Write(" = ");
-        WriteFormNameInnards(context, node, canTypeCheck: true);
+        WriteFormNameInnards(context, node);
         context.CodeWriter.WriteLine(";");
     }
 
-    private void WriteFormNameInnards(CodeRenderingContext context, FormNameIntermediateNode node, bool canTypeCheck)
+    private void WriteFormNameInnards(CodeRenderingContext context, FormNameIntermediateNode node)
     {
-        if (canTypeCheck)
-        {
-            context.CodeWriter.Write(ComponentsApi.RuntimeHelpers.TypeCheck);
-            context.CodeWriter.Write("<string>(");
-        }
-
+        context.CodeWriter.Write(ComponentsApi.RuntimeHelpers.TypeCheck);
+        context.CodeWriter.Write("<string>(");
         WriteAttributeValue(context, node.FindDescendantNodes<IntermediateToken>());
-
-        if (canTypeCheck)
-        {
-            context.CodeWriter.Write(")");
-        }
+        context.CodeWriter.Write(")");
     }
 
     public override void WriteReferenceCapture(CodeRenderingContext context, ReferenceCaptureIntermediateNode node)
