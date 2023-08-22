@@ -10020,5 +10020,21 @@ Time: @DateTime.Now
         CompileToAssembly(generated);
     }
 
+    [Fact]
+    public void FormName_MixedValue()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="start @("literal") @x end"></form>
+            @code {
+                int x = 1;
+            }
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+    }
+
     #endregion
 }
