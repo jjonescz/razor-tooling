@@ -28,8 +28,6 @@
 
     This means we end up with the package for this project including the following additional DLLs:
       * Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
-      * Microsoft.AspNetCore.Mvc.Razor.Extensions.Version1_X.dll
-      * Microsoft.AspNetCore.Mvc.Razor.Extensions.Version2_X.dll
       * Microsoft.AspNetCore.Razor.Language.dll
       * Microsoft.AspNetCore.Razor.ProjectEngineHost.dll
       * Microsoft.AspNetCore.Razor.Utilities.Shared.dll

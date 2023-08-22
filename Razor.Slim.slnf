@@ -2,10 +2,6 @@
   "solution": {
     "path": "Razor.sln",
     "projects": [
-      "src\\Compiler\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version1_X\\src\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version1_X.csproj",
-      "src\\Compiler\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version1_X\\test\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version1_X.Test.csproj",
-      "src\\Compiler\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version2_X\\src\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version2_X.csproj",
-      "src\\Compiler\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version2_X\\test\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Version2_X.Test.csproj",
       "src\\Compiler\\Microsoft.AspNetCore.Mvc.Razor.Extensions\\src\\Microsoft.AspNetCore.Mvc.Razor.Extensions.csproj",
       "src\\Compiler\\Microsoft.AspNetCore.Mvc.Razor.Extensions\\test\\Microsoft.AspNetCore.Mvc.Razor.Extensions.Test.csproj",
       "src\\Compiler\\Microsoft.AspNetCore.Razor.Language\\src\\Microsoft.AspNetCore.Razor.Language.csproj",
