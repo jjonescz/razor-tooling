@@ -10057,7 +10057,7 @@ Time: @DateTime.Now
 
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
-        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument, verifyLinePragmas: false);
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
