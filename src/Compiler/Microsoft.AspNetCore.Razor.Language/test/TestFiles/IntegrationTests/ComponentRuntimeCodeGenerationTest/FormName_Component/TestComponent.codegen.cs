@@ -16,11 +16,21 @@ namespace Test
             __builder.OpenComponent<global::Test.TestComponent>(0);
             __builder.AddComponentParameter(1, "method", "post");
             __builder.AddComponentParameter(2, "@onsubmit", "() => { }");
+            __builder.AddComponentParameter(3, "@formname", "named-form-handler");
             __builder.CloseComponent();
-            __builder.AddMarkupContent(3, "\r\n");
-            __builder.OpenComponent<global::Test.TestComponent>(4);
-            __builder.AddComponentParameter(5, "method", "post");
-            __builder.AddComponentParameter(6, "@onsubmit", "() => { }");
+            __builder.AddMarkupContent(4, "\r\n");
+            __builder.OpenComponent<global::Test.TestComponent>(5);
+            __builder.AddComponentParameter(6, "method", "post");
+            __builder.AddComponentParameter(7, "@onsubmit", "() => { }");
+            __builder.AddComponentParameter(8, "@formname", 
+#nullable restore
+#line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
+                                                                "named-form-handler"
+
+#line default
+#line hidden
+#nullable disable
+            );
             __builder.CloseComponent();
         }
         #pragma warning restore 1998

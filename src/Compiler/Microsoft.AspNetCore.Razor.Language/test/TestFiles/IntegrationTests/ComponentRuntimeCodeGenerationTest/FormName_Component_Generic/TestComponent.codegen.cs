@@ -21,7 +21,7 @@ T
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
-            global::__Blazor.Test.TestComponent.TypeInference.CreateTestComponent_0(__builder, 0, 1, "post", 2, "() => { }", 3, 
+            global::__Blazor.Test.TestComponent.TypeInference.CreateTestComponent_0(__builder, 0, 1, "post", 2, "() => { }", 3, "named-form-handler", 4, 
 #nullable restore
 #line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
                                                                                              1
@@ -30,8 +30,16 @@ T
 #line hidden
 #nullable disable
             );
-            __builder.AddMarkupContent(4, "\r\n");
-            global::__Blazor.Test.TestComponent.TypeInference.CreateTestComponent_1(__builder, 5, 6, "post", 7, "() => { }", 8, 
+            __builder.AddMarkupContent(5, "\r\n");
+            global::__Blazor.Test.TestComponent.TypeInference.CreateTestComponent_1(__builder, 6, 7, "post", 8, "() => { }", 9, 
+#nullable restore
+#line 3 "x:\dir\subdir\Test\TestComponent.cshtml"
+                                                                "named-form-handler"
+
+#line default
+#line hidden
+#nullable disable
+            , 10, 
 #nullable restore
 #line 3 "x:\dir\subdir\Test\TestComponent.cshtml"
                                                                                                   2
@@ -57,20 +65,22 @@ namespace __Blazor.Test.TestComponent
     #line hidden
     internal static class TypeInference
     {
-        public static void CreateTestComponent_0<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::System.Object __arg0, int __seq1, global::System.Object __arg1, int __seq2, T __arg2)
+        public static void CreateTestComponent_0<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::System.Object __arg0, int __seq1, global::System.Object __arg1, int __seq2, global::System.Object __arg2, int __seq3, T __arg3)
         {
         __builder.OpenComponent<global::Test.TestComponent<T>>(seq);
         __builder.AddComponentParameter(__seq0, "method", __arg0);
         __builder.AddComponentParameter(__seq1, "@onsubmit", __arg1);
-        __builder.AddComponentParameter(__seq2, "Parameter", __arg2);
+        __builder.AddComponentParameter(__seq2, "@formname", __arg2);
+        __builder.AddComponentParameter(__seq3, "Parameter", __arg3);
         __builder.CloseComponent();
         }
-        public static void CreateTestComponent_1<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::System.Object __arg0, int __seq1, global::System.Object __arg1, int __seq2, T __arg2)
+        public static void CreateTestComponent_1<T>(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder, int seq, int __seq0, global::System.Object __arg0, int __seq1, global::System.Object __arg1, int __seq2, global::System.Object __arg2, int __seq3, T __arg3)
         {
         __builder.OpenComponent<global::Test.TestComponent<T>>(seq);
         __builder.AddComponentParameter(__seq0, "method", __arg0);
         __builder.AddComponentParameter(__seq1, "@onsubmit", __arg1);
-        __builder.AddComponentParameter(__seq2, "Parameter", __arg2);
+        __builder.AddComponentParameter(__seq2, "@formname", __arg2);
+        __builder.AddComponentParameter(__seq3, "Parameter", __arg3);
         __builder.CloseComponent();
         }
     }

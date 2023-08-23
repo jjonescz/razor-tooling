@@ -7,7 +7,7 @@ Source Location: (226:3,7 [52] x:\dir\subdir\Test\TestComponent.cshtml)
 |
     [Parameter] public T Parameter { get; set; }
 |
-Generated Location: (1608:46,7 [52] )
+Generated Location: (1859:54,7 [52] )
 |
     [Parameter] public T Parameter { get; set; }
 |

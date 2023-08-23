@@ -16,19 +16,23 @@ namespace Test
             __builder.OpenElement(0, "form");
             __builder.AddAttribute(1, "method", "post");
             __builder.AddAttribute(2, "onsubmit", "");
-            __builder.AddContent(3, "named-form-handler");
+            string __formName = global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>("named-form-handler");
+            __builder.AddNamedEvent("onsubmit", __formName);
             __builder.CloseElement();
-            __builder.AddMarkupContent(4, "\r\n");
-            __builder.OpenElement(5, "form");
-            __builder.AddAttribute(6, "method", "post");
-            __builder.AddAttribute(7, "onsubmit", "");
+            __builder.AddMarkupContent(3, "\r\n");
+            __builder.OpenElement(4, "form");
+            __builder.AddAttribute(5, "method", "post");
+            __builder.AddAttribute(6, "onsubmit", "");
+            string __formName1_1 = global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
 #nullable restore
-#line (2,46)-(2,66) 24 "x:\dir\subdir\Test\TestComponent.cshtml"
-__builder.AddContent(8, "named-form-handler");
+#line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
+                                             "named-form-handler"
 
 #line default
 #line hidden
 #nullable disable
+            );
+            __builder.AddNamedEvent("onsubmit", __formName1_1);
             __builder.CloseElement();
         }
         #pragma warning restore 1998

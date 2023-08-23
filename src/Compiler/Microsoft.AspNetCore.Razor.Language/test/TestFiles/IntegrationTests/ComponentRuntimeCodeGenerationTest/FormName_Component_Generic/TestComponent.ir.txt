@@ -14,7 +14,7 @@
                     ComponentAttribute -  - @onsubmit -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (54:1,40 [9] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (54:1,40 [9] x:\dir\subdir\Test\TestComponent.cshtml) - Html - () => { }
-                    TagHelperDirectiveAttribute - (76:1,62 [18] x:\dir\subdir\Test\TestComponent.cshtml) - formname - string Microsoft.AspNetCore.Components.FormName.FormName - HtmlAttributeValueStyle.DoubleQuotes
+                    ComponentAttribute - (76:1,62 [18] x:\dir\subdir\Test\TestComponent.cshtml) - @formname -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (76:1,62 [18] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (76:1,62 [18] x:\dir\subdir\Test\TestComponent.cshtml) - Html - named-form-handler
                     ComponentAttribute - (107:1,93 [1] x:\dir\subdir\Test\TestComponent.cshtml) - Parameter - Parameter - AttributeStructure.DoubleQuotes
@@ -28,7 +28,7 @@
                     ComponentAttribute -  - @onsubmit -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (154:2,40 [9] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (154:2,40 [9] x:\dir\subdir\Test\TestComponent.cshtml) - Html - () => { }
-                    TagHelperDirectiveAttribute - (176:2,62 [23] x:\dir\subdir\Test\TestComponent.cshtml) - formname - string Microsoft.AspNetCore.Components.FormName.FormName - HtmlAttributeValueStyle.DoubleQuotes
+                    ComponentAttribute - (176:2,62 [23] x:\dir\subdir\Test\TestComponent.cshtml) - @formname -  - AttributeStructure.DoubleQuotes
                         CSharpExpression - (178:2,64 [20] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (178:2,64 [20] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - "named-form-handler"
                     ComponentAttribute - (212:2,98 [1] x:\dir\subdir\Test\TestComponent.cshtml) - Parameter - Parameter - AttributeStructure.DoubleQuotes
