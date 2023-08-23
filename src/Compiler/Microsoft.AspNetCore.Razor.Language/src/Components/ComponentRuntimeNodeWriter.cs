@@ -535,9 +535,6 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             case SplatIntermediateNode splat:
                 WriteSplatInnards(context, splat, canTypeCheck: false);
                 break;
-            case FormNameIntermediateNode formName:
-                WriteFormNameInnards(context, formName);
-                break;
             case ComponentChildContentIntermediateNode childNode:
                 WriteComponentChildContentInnards(context, childNode);
                 break;
@@ -931,16 +928,11 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         context.CodeWriter.Write("string ");
         context.CodeWriter.Write(_scopeStack.FormNameVarName);
         context.CodeWriter.Write(" = ");
-        WriteFormNameInnards(context, node);
-        context.CodeWriter.WriteLine(";");
-    }
-
-    private void WriteFormNameInnards(CodeRenderingContext context, FormNameIntermediateNode node)
-    {
         context.CodeWriter.Write(ComponentsApi.RuntimeHelpers.TypeCheck);
         context.CodeWriter.Write("<string>(");
         WriteAttributeValue(context, node.FindDescendantNodes<IntermediateToken>());
         context.CodeWriter.Write(")");
+        context.CodeWriter.WriteLine(";");
     }
 
     public override void WriteReferenceCapture(CodeRenderingContext context, ReferenceCaptureIntermediateNode node)

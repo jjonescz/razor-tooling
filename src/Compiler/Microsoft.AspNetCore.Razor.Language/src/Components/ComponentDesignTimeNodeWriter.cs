@@ -599,9 +599,6 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
             case SplatIntermediateNode splat:
                 WriteSplatInnards(context, splat, canTypeCheck: false);
                 break;
-            case FormNameIntermediateNode formName:
-                WriteFormNameInnards(context, formName);
-                break;
             case ComponentChildContentIntermediateNode childNode:
                 WriteComponentChildContentInnards(context, childNode);
                 break;
@@ -1156,18 +1153,10 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
 
     public sealed override void WriteFormName(CodeRenderingContext context, FormNameIntermediateNode node)
     {
-        if (WriteFormNameInnards(context, node))
-        {
-            context.CodeWriter.Write(";");
-        }
-    }
-
-    private bool WriteFormNameInnards(CodeRenderingContext context, FormNameIntermediateNode node)
-    {
         var tokens = node.FindDescendantNodes<IntermediateToken>();
         if (tokens.Count == 0)
         {
-            return false;
+            return;
         }
 
         // Either all tokens should be C# or none of them.
@@ -1180,12 +1169,12 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
                 Debug.Assert(token.IsCSharp);
                 WriteCSharpToken(context, token);
             }
-            context.CodeWriter.Write(")");
-            return true;
+            context.CodeWriter.Write(");");
         }
-
-        Debug.Assert(!tokens.Any(t => t.IsCSharp));
-        return false;
+        else
+        {
+            Debug.Assert(!tokens.Any(t => t.IsCSharp));
+        }
     }
 
     public override void WriteReferenceCapture(CodeRenderingContext context, ReferenceCaptureIntermediateNode node)
