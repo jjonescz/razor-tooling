@@ -21,7 +21,7 @@
                     ComponentAttribute -  - @onsubmit -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (40:0,40 [9] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (40:0,40 [9] x:\dir\subdir\Test\TestComponent.cshtml) - Html - () => { }
-                    FormName - (62:0,62 [18] x:\dir\subdir\Test\TestComponent.cshtml)
+                    TagHelperDirectiveAttribute - (62:0,62 [18] x:\dir\subdir\Test\TestComponent.cshtml) - formname - string Microsoft.AspNetCore.Components.FormName.FormName - HtmlAttributeValueStyle.DoubleQuotes
                         HtmlContent - (62:0,62 [18] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (62:0,62 [18] x:\dir\subdir\Test\TestComponent.cshtml) - Html - named-form-handler
                 HtmlContent - (84:0,84 [2] x:\dir\subdir\Test\TestComponent.cshtml)
@@ -33,6 +33,6 @@
                     ComponentAttribute -  - @onsubmit -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (126:1,40 [9] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (126:1,40 [9] x:\dir\subdir\Test\TestComponent.cshtml) - Html - () => { }
-                    FormName - (148:1,62 [23] x:\dir\subdir\Test\TestComponent.cshtml)
+                    TagHelperDirectiveAttribute - (148:1,62 [23] x:\dir\subdir\Test\TestComponent.cshtml) - formname - string Microsoft.AspNetCore.Components.FormName.FormName - HtmlAttributeValueStyle.DoubleQuotes
                         CSharpExpression - (150:1,64 [20] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (150:1,64 [20] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - "named-form-handler"

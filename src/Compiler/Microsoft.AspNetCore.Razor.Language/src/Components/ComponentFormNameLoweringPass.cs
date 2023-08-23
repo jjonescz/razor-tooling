@@ -24,6 +24,20 @@ internal sealed class ComponentFormNameLoweringPass : ComponentIntermediateNodeP
             var node = (TagHelperDirectiveAttributeIntermediateNode)reference.Node;
             if (node.TagHelper.IsFormNameTagHelper())
             {
+                var parent = reference.Parent;
+
+                if (parent is not MarkupElementIntermediateNode { TagName: "form" })
+                {
+                    node.Diagnostics.Add(ComponentDiagnosticFactory.CreateFormName_NotAForm(node.Source));
+                    continue;
+                }
+
+                if (!parent.Children.Any(c => c is HtmlAttributeIntermediateNode { AttributeName: "@onsubmit" }))
+                {
+                    node.Diagnostics.Add(ComponentDiagnosticFactory.CreateFormName_MissingOnSubmit(node.Source));
+                    continue;
+                }
+
                 var replacement = new FormNameIntermediateNode
                 {
                     Source = node.Source
@@ -31,18 +45,6 @@ internal sealed class ComponentFormNameLoweringPass : ComponentIntermediateNodeP
 
                 replacement.Children.AddRange(node.Children);
                 replacement.Diagnostics.AddRange(node.Diagnostics);
-
-                var parent = reference.Parent;
-
-                if (!parent.Children.Any(c => c is HtmlAttributeIntermediateNode { AttributeName: "@onsubmit" }))
-                {
-                    replacement.Diagnostics.Add(ComponentDiagnosticFactory.CreateFormName_MissingOnSubmit(node.Source));
-                }
-
-                if (parent is not MarkupElementIntermediateNode { TagName: "form" })
-                {
-                    replacement.Diagnostics.Add(ComponentDiagnosticFactory.CreateFormName_NotAForm(node.Source));
-                }
 
                 reference.Replace(replacement);
             }
