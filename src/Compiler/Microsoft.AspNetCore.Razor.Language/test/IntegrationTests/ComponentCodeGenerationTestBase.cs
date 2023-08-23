@@ -10136,7 +10136,6 @@ Time: @DateTime.Now
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
-        CompileToAssembly(generated);
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
@@ -10151,7 +10150,6 @@ Time: @DateTime.Now
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
-        CompileToAssembly(generated);
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
