@@ -554,7 +554,7 @@ internal static class ComponentDiagnosticFactory
         new RazorDiagnosticDescriptor(
         $"{DiagnosticPrefix}10021",
         () => "Attribute '@formname' can only be used when '@onsubmit' event handler is also present.",
-        RazorDiagnosticSeverity.Error);
+        RazorDiagnosticSeverity.Warning);
 
     public static RazorDiagnostic CreateFormName_MissingOnSubmit(SourceSpan? source)
     {
@@ -565,7 +565,7 @@ internal static class ComponentDiagnosticFactory
         new RazorDiagnosticDescriptor(
         $"{DiagnosticPrefix}10022",
         () => "Attribute '@formname' can only be applied to 'form' elements.",
-        RazorDiagnosticSeverity.Error);
+        RazorDiagnosticSeverity.Warning);
 
     public static RazorDiagnostic CreateFormName_NotAForm(SourceSpan? source)
     {
