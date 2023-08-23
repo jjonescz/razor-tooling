@@ -58,13 +58,30 @@ internal sealed class ComponentFormNameLoweringPass : ComponentIntermediateNodeP
             {
                 return RewriteCore(node, new ComponentAttributeIntermediateNode
                 {
-                    AttributeName = "@formname",
                     Source = node.Source,
+                    AttributeName = node.OriginalAttributeName,
                 });
             }
 
-            // If not a component, we can emit FormName node normally, codegen will handle it.
-            return Rewrite(node);
+            var replacement = new HtmlAttributeIntermediateNode
+            {
+                Source = node.Source,
+                AttributeName = node.OriginalAttributeName,
+                Prefix = node.OriginalAttributeName + "=\"",
+                Suffix = "\"",
+            };
+            replacement.Children.AddRange(node.Children.Select(static child =>
+            {
+                IntermediateNode result = child is CSharpExpressionIntermediateNode
+                    ? new CSharpExpressionAttributeValueIntermediateNode()
+                    : new HtmlAttributeValueIntermediateNode();
+                result.Source = child.Source;
+                result.Children.AddRange(child.Children);
+                result.Diagnostics.AddRange(child.Diagnostics);
+                return result;
+            }));
+            replacement.Diagnostics.AddRange(node.Diagnostics);
+            return replacement;
         }
 
         static IntermediateNode RewriteCore(TagHelperDirectiveAttributeIntermediateNode node, IntermediateNode replacement)
