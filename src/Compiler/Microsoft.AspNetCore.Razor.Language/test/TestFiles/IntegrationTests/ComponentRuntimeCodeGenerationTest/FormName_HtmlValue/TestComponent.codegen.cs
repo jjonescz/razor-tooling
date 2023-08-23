@@ -17,6 +17,7 @@ namespace Test
             __builder.AddAttribute(1, "method", "post");
             __builder.AddAttribute(2, "@onsubmit", "() => { }");
             string __formName = global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>("named-form-handler");
+            __builder.AddNamedEvent("onsubmit", __formName);
             __builder.CloseElement();
         }
         #pragma warning restore 1998

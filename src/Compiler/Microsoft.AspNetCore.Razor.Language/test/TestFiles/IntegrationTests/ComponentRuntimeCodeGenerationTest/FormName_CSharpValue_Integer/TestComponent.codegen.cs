@@ -25,6 +25,7 @@ namespace Test
 #line hidden
 #nullable disable
             );
+            __builder.AddNamedEvent("onsubmit", __formName);
             __builder.CloseElement();
         }
         #pragma warning restore 1998

@@ -198,6 +198,8 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             .WriteStringLiteral(node.TagName)
             .WriteEndMethodInvocation();
 
+        bool hasFormName = false;
+
         // Render attributes and splats (in order) before creating the scope.
         foreach (var child in node.Children)
         {
@@ -212,6 +214,11 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             else if (child is SplatIntermediateNode splat)
             {
                 context.RenderNode(splat);
+            }
+            else if (child is FormNameIntermediateNode formName)
+            {
+                Debug.Assert(!hasFormName);
+                hasFormName = true;
             }
         }
 
@@ -229,6 +236,20 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         foreach (var child in node.Body)
         {
             context.RenderNode(child);
+        }
+
+        // AddNamedEvent must be called last.
+        if (hasFormName)
+        {
+            // _builder.AddNamedEvent("onsubmit", __formName);
+            context.CodeWriter.Write(_scopeStack.BuilderVarName);
+            context.CodeWriter.Write(".");
+            context.CodeWriter.Write(ComponentsApi.RenderTreeBuilder.AddNamedEvent);
+            context.CodeWriter.Write("(\"onsubmit\", ");
+            context.CodeWriter.Write(_scopeStack.FormNameVarName);
+            context.CodeWriter.Write(");");
+            context.CodeWriter.WriteLine();
+            _scopeStack.IncrementFormName();
         }
 
         context.CodeWriter
@@ -380,8 +401,6 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             // We can skip type arguments during runtime codegen, they are handled in the
             // type/parameter declarations.
 
-            bool hasFormName = false;
-
             // Preserve order of attributes and splats
             foreach (var child in node.Children)
             {
@@ -392,12 +411,6 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
                 else if (child is SplatIntermediateNode splat)
                 {
                     context.RenderNode(splat);
-                }
-                else if (child is FormNameIntermediateNode formName)
-                {
-                    Debug.Assert(!hasFormName);
-                    context.RenderNode(formName);
-                    hasFormName = true;
                 }
             }
 
@@ -414,19 +427,6 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             foreach (var capture in node.Captures)
             {
                 context.RenderNode(capture);
-            }
-
-            if (hasFormName)
-            {
-                // _builder.AddNamedEvent("onsubmit", __formName);
-                context.CodeWriter.Write(_scopeStack.BuilderVarName);
-                context.CodeWriter.Write(".");
-                context.CodeWriter.Write(ComponentsApi.RenderTreeBuilder.AddNamedEvent);
-                context.CodeWriter.Write("(\"onsubmit\", ");
-                context.CodeWriter.Write(_scopeStack.FormNameVarName);
-                context.CodeWriter.Write(");");
-                context.CodeWriter.WriteLine();
-                _scopeStack.IncrementFormName();
             }
 
             // _builder.CloseComponent();
