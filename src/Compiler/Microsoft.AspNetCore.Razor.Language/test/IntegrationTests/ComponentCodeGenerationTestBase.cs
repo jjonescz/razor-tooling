@@ -10110,6 +10110,70 @@ Time: @DateTime.Now
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_NotAForm()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <div method="post" @onsubmit="() => { }" @formname="named-form-handler"></div>
+            <div method="post" @onsubmit="() => { }" @formname="@("named-form-handler")"></div>
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_MissingSubmit()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @formname="named-form-handler"></form>
+            <form method="post" @formname="@("named-form-handler")"></form>
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_Component()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <TestComponent method="post" @onsubmit="() => { }" @formname="named-form-handler" />
+            <TestComponent method="post" @onsubmit="() => { }" @formname="@("named-form-handler")" />
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_Component_Generic()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            @typeparam T
+            <TestComponent method="post" @onsubmit="() => { }" @formname="named-form-handler" Parameter="1" />
+            <TestComponent method="post" @onsubmit="() => { }" @formname="@("named-form-handler")" Parameter="2" />
+            @code {
+                [Parameter] public T Parameter { get; set; }
+            }
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_Duplicate_HtmlValue()
     {
         // Act
