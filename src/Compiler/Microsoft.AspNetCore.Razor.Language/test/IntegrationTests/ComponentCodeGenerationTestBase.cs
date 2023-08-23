@@ -10093,6 +10093,64 @@ Time: @DateTime.Now
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_MoreElements_HtmlValue()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="x"></form>
+            <form method="post" @onsubmit="() => { }" @formname="y"></form>
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_MoreElements_CSharpValue()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="@x"></form>
+            <form method="post" @onsubmit="() => { }" @formname="@y"></form>
+            @code {
+                string x = "a";
+                string y = "b";
+            }
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_Nested()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="1"></form>
+            <TestComponent>
+                <form method="post" @onsubmit="() => { }" @formname="2"></form>
+                <TestComponent>
+                    <form method="post" @onsubmit="() => { }" @formname="3"></form>
+                </TestComponent>
+                <form method="post" @onsubmit="() => { }" @formname="4"></form>
+            </TestComponent>
+            @code {
+                [Parameter] public RenderFragment ChildContent { get; set; }
+            }
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_NoAddNamedEventMethod()
     {
         // Arrange
