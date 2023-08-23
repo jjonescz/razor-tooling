@@ -10140,6 +10140,21 @@ Time: @DateTime.Now
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_FakeSubmit()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" onsubmit="" @formname="named-form-handler"></form>
+            <form method="post" onsubmit="" @formname="@("named-form-handler")"></form>
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_Component()
     {
         // Act
