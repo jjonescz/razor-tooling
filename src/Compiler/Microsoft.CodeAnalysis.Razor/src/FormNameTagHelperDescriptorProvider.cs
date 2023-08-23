@@ -68,7 +68,7 @@ internal sealed class FormNameTagHelperDescriptorProvider : ITagHelperDescriptor
 
         builder.TagMatchingRule(rule =>
         {
-            rule.TagName = "form";
+            rule.TagName = "*";
             rule.Attribute(attribute =>
             {
                 attribute.Name = "@formname";

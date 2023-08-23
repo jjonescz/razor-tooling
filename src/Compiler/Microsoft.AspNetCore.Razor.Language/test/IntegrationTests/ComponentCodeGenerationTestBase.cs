@@ -10121,6 +10121,21 @@ Time: @DateTime.Now
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_NotAForm_RazorLangVersion7()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <div method="post" @onsubmit="() => { }" @formname="named-form-handler"></div>
+            <div method="post" @onsubmit="() => { }" @formname="@("named-form-handler")"></div>
+            """,
+            configuration: Configuration.WithVersion(RazorLanguageVersion.Version_7_0));
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
         CompileToAssembly(generated);
     }
 
@@ -10164,6 +10179,21 @@ Time: @DateTime.Now
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_Component_RazorLangVersion7()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <TestComponent method="post" @onsubmit="() => { }" @formname="named-form-handler" />
+            <TestComponent method="post" @onsubmit="() => { }" @formname="@("named-form-handler")" />
+            """,
+            configuration: Configuration.WithVersion(RazorLanguageVersion.Version_7_0));
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
         CompileToAssembly(generated);
     }
 
@@ -10179,6 +10209,25 @@ Time: @DateTime.Now
                 [Parameter] public T Parameter { get; set; }
             }
             """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_Component_Generic_RazorLangVersion7()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            @typeparam T
+            <TestComponent method="post" @onsubmit="() => { }" @formname="named-form-handler" Parameter="1" />
+            <TestComponent method="post" @onsubmit="() => { }" @formname="@("named-form-handler")" Parameter="2" />
+            @code {
+                [Parameter] public T Parameter { get; set; }
+            }
+            """,
+            configuration: Configuration.WithVersion(RazorLanguageVersion.Version_7_0));
 
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);

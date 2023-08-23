@@ -1,11 +1,18 @@
 ﻿Document - 
     NamespaceDeclaration -  - Test
-        UsingDirective - (3:1,1 [22] ) - global::System
-        UsingDirective - (26:2,1 [42] ) - global::System.Collections.Generic
-        UsingDirective - (69:3,1 [27] ) - global::System.Linq
-        UsingDirective - (97:4,1 [38] ) - global::System.Threading.Tasks
-        UsingDirective - (136:5,1 [47] ) - global::Microsoft.AspNetCore.Components
+        UsingDirective - (3:1,1 [20] ) - global::System
+        UsingDirective - (26:2,1 [40] ) - global::System.Collections.Generic
+        UsingDirective - (69:3,1 [25] ) - global::System.Linq
+        UsingDirective - (97:4,1 [36] ) - global::System.Threading.Tasks
+        UsingDirective - (136:5,1 [45] ) - global::Microsoft.AspNetCore.Components
         ClassDeclaration -  - public partial - TestComponent - global::Microsoft.AspNetCore.Components.ComponentBase - 
+            DesignTimeDirective - 
+            CSharpCode - 
+                IntermediateToken -  - CSharp - #pragma warning disable 0414
+            CSharpCode - 
+                IntermediateToken -  - CSharp - private static object __o = null;
+            CSharpCode - 
+                IntermediateToken -  - CSharp - #pragma warning restore 0414
             MethodDeclaration -  - protected override - void - BuildRenderTree
                 Component - (0:0,0 [84] x:\dir\subdir\Test\TestComponent.cshtml) - TestComponent
                     ComponentAttribute -  - method -  - AttributeStructure.DoubleQuotes
@@ -14,7 +21,7 @@
                     ComponentAttribute -  - @onsubmit -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (40:0,40 [9] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (40:0,40 [9] x:\dir\subdir\Test\TestComponent.cshtml) - Html - () => { }
-                    FormName - (62:0,62 [18] x:\dir\subdir\Test\TestComponent.cshtml)
+                    ComponentAttribute -  - @formname -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (62:0,62 [18] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (62:0,62 [18] x:\dir\subdir\Test\TestComponent.cshtml) - Html - named-form-handler
                 HtmlContent - (84:0,84 [2] x:\dir\subdir\Test\TestComponent.cshtml)
@@ -26,6 +33,6 @@
                     ComponentAttribute -  - @onsubmit -  - AttributeStructure.DoubleQuotes
                         HtmlContent - (126:1,40 [9] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (126:1,40 [9] x:\dir\subdir\Test\TestComponent.cshtml) - Html - () => { }
-                    FormName - (148:1,62 [23] x:\dir\subdir\Test\TestComponent.cshtml)
-                        CSharpExpression - (150:1,64 [20] x:\dir\subdir\Test\TestComponent.cshtml)
+                    ComponentAttribute -  - @formname -  - AttributeStructure.DoubleQuotes
+                        CSharpExpression - (148:1,62 [23] x:\dir\subdir\Test\TestComponent.cshtml)
                             LazyIntermediateToken - (150:1,64 [20] x:\dir\subdir\Test\TestComponent.cshtml) - CSharp - "named-form-handler"

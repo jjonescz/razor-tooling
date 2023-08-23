@@ -10,17 +10,14 @@ namespace Test
     using global::Microsoft.AspNetCore.Components;
     public partial class TestComponent : global::Microsoft.AspNetCore.Components.ComponentBase
     {
-        #pragma warning disable 219
-        private void __RazorDirectiveTokenHelpers__() {
-        }
-        #pragma warning restore 219
-        #pragma warning disable 0414
-        private static object __o = null;
-        #pragma warning restore 0414
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
-            global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+            __builder.AddMarkupContent(0, "<div method=\"post\" @onsubmit=\"() => { }\" @formname=\"named-form-handler\"></div>\r\n");
+            __builder.OpenElement(1, "div");
+            __builder.AddAttribute(2, "method", "post");
+            __builder.AddAttribute(3, "@onsubmit", "() => { }");
+            __builder.AddAttribute(4, "@formname", 
 #nullable restore
 #line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
                                                       "named-form-handler"
@@ -29,6 +26,7 @@ namespace Test
 #line hidden
 #nullable disable
             );
+            __builder.CloseElement();
         }
         #pragma warning restore 1998
     }

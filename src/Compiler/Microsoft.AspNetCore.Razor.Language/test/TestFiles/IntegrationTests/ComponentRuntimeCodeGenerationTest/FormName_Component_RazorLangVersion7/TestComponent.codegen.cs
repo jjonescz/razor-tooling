@@ -14,13 +14,23 @@ namespace Test
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
             __builder.OpenComponent<global::Test.TestComponent>(0);
-            __builder.AddComponentParameter(1, "method", "post");
-            __builder.AddComponentParameter(2, "@onsubmit", "() => { }");
+            __builder.AddAttribute(1, "method", (object)("post"));
+            __builder.AddAttribute(2, "@onsubmit", (object)("() => { }"));
+            __builder.AddAttribute(3, "@formname", (object)("named-form-handler"));
             __builder.CloseComponent();
-            __builder.AddMarkupContent(3, "\r\n");
-            __builder.OpenComponent<global::Test.TestComponent>(4);
-            __builder.AddComponentParameter(5, "method", "post");
-            __builder.AddComponentParameter(6, "@onsubmit", "() => { }");
+            __builder.AddMarkupContent(4, "\r\n");
+            __builder.OpenComponent<global::Test.TestComponent>(5);
+            __builder.AddAttribute(6, "method", (object)("post"));
+            __builder.AddAttribute(7, "@onsubmit", (object)("() => { }"));
+            __builder.AddAttribute(8, "@formname", (object)(
+#nullable restore
+#line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
+                                                                "named-form-handler"
+
+#line default
+#line hidden
+#nullable disable
+            ));
             __builder.CloseComponent();
         }
         #pragma warning restore 1998

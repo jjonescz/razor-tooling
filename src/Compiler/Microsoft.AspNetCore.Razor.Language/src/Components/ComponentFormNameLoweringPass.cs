@@ -32,9 +32,16 @@ internal sealed class ComponentFormNameLoweringPass : ComponentIntermediateNodeP
                 replacement.Children.AddRange(node.Children);
                 replacement.Diagnostics.AddRange(node.Diagnostics);
 
-                if (!reference.Parent.Children.Any(c => c is HtmlAttributeIntermediateNode { AttributeName: "@onsubmit" }))
+                var parent = reference.Parent;
+
+                if (!parent.Children.Any(c => c is HtmlAttributeIntermediateNode { AttributeName: "@onsubmit" }))
                 {
                     replacement.Diagnostics.Add(ComponentDiagnosticFactory.CreateFormName_MissingOnSubmit(node.Source));
+                }
+
+                if (parent is not MarkupElementIntermediateNode { TagName: "form" })
+                {
+                    replacement.Diagnostics.Add(ComponentDiagnosticFactory.CreateFormName_NotAForm(node.Source));
                 }
 
                 reference.Replace(replacement);

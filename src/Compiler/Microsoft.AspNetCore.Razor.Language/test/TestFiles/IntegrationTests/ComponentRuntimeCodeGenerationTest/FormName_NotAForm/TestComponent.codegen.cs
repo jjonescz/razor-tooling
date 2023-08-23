@@ -13,11 +13,17 @@ namespace Test
         #pragma warning disable 1998
         protected override void BuildRenderTree(global::Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
-            __builder.AddMarkupContent(0, "<div method=\"post\" @onsubmit=\"() => { }\" @formname=\"named-form-handler\"></div>\r\n");
-            __builder.OpenElement(1, "div");
-            __builder.AddAttribute(2, "method", "post");
-            __builder.AddAttribute(3, "@onsubmit", "() => { }");
-            __builder.AddAttribute(4, "@formname", 
+            __builder.OpenElement(0, "div");
+            __builder.AddAttribute(1, "method", "post");
+            __builder.AddAttribute(2, "@onsubmit", "() => { }");
+            string __formName = global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>("named-form-handler");
+            __builder.AddNamedEvent("onsubmit", __formName);
+            __builder.CloseElement();
+            __builder.AddMarkupContent(3, "\r\n");
+            __builder.OpenElement(4, "div");
+            __builder.AddAttribute(5, "method", "post");
+            __builder.AddAttribute(6, "@onsubmit", "() => { }");
+            string __formName1_1 = global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
 #nullable restore
 #line 2 "x:\dir\subdir\Test\TestComponent.cshtml"
                                                       "named-form-handler"
@@ -26,6 +32,7 @@ namespace Test
 #line hidden
 #nullable disable
             );
+            __builder.AddNamedEvent("onsubmit", __formName1_1);
             __builder.CloseElement();
         }
         #pragma warning restore 1998

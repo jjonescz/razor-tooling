@@ -560,4 +560,15 @@ internal static class ComponentDiagnosticFactory
     {
         return RazorDiagnostic.Create(FormName_MissingOnSubmit, source ?? SourceSpan.Undefined);
     }
+
+    public static readonly RazorDiagnosticDescriptor FormName_NotAForm =
+        new RazorDiagnosticDescriptor(
+        $"{DiagnosticPrefix}10022",
+        () => "Attribute '@formname' can only be applied to 'form' elements.",
+        RazorDiagnosticSeverity.Error);
+
+    public static RazorDiagnostic CreateFormName_NotAForm(SourceSpan? source)
+    {
+        return RazorDiagnostic.Create(FormName_NotAForm, source ?? SourceSpan.Undefined);
+    }
 }
