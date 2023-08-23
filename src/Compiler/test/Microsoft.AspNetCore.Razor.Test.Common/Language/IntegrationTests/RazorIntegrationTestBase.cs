@@ -182,6 +182,7 @@ public class RazorIntegrationTestBase
         string cssScope = null,
         bool supportLocalizedComponentNames = false,
         bool nullableEnable = false,
+        RazorConfiguration configuration = null,
         CSharpCompilation baseCompilation = null)
     {
         return CompileToCSharp(
@@ -191,6 +192,7 @@ public class RazorIntegrationTestBase
             cssScope: cssScope,
             supportLocalizedComponentNames: supportLocalizedComponentNames,
             nullableEnable: nullableEnable,
+            configuration: configuration,
             baseCompilation: baseCompilation);
     }
 
@@ -202,6 +204,7 @@ public class RazorIntegrationTestBase
         string cssScope = null,
         bool supportLocalizedComponentNames = false,
         bool nullableEnable = false,
+        RazorConfiguration configuration = null,
         CSharpCompilation baseCompilation = null)
     {
         if (DeclarationOnly && DesignTime)
@@ -215,6 +218,7 @@ public class RazorIntegrationTestBase
         }
 
         baseCompilation ??= BaseCompilation;
+        configuration ??= Configuration;
 
         if (nullableEnable)
         {
@@ -225,7 +229,7 @@ public class RazorIntegrationTestBase
         {
             // The first phase won't include any metadata references for component discovery. This mirrors
             // what the build does.
-            var projectEngine = CreateProjectEngine(Configuration, Array.Empty<MetadataReference>(), supportLocalizedComponentNames);
+            var projectEngine = CreateProjectEngine(configuration, Array.Empty<MetadataReference>(), supportLocalizedComponentNames);
 
             RazorCodeDocument codeDocument;
             foreach (var item in AdditionalRazorItems)
@@ -254,7 +258,7 @@ public class RazorIntegrationTestBase
 
             // Add the 'temp' compilation as a metadata reference
             var references = baseCompilation.References.Concat(new[] { tempAssembly.Compilation.ToMetadataReference() }).ToArray();
-            projectEngine = CreateProjectEngine(Configuration, references, supportLocalizedComponentNames);
+            projectEngine = CreateProjectEngine(configuration, references, supportLocalizedComponentNames);
 
             // Now update the any additional files
             foreach (var item in AdditionalRazorItems)
@@ -283,7 +287,7 @@ public class RazorIntegrationTestBase
         {
             // For single phase compilation tests just use the base compilation's references.
             // This will include the built-in components.
-            var projectEngine = CreateProjectEngine(Configuration, baseCompilation.References.ToArray(), supportLocalizedComponentNames);
+            var projectEngine = CreateProjectEngine(configuration, baseCompilation.References.ToArray(), supportLocalizedComponentNames);
 
             var projectItem = CreateProjectItem(cshtmlRelativePath, cshtmlContent, fileKind, cssScope);
 

@@ -10111,5 +10111,20 @@ Time: @DateTime.Now
         CompileToAssembly(generated);
     }
 
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_RazorLangVersion7()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="named-form-handler"></form>
+            """,
+            configuration: Configuration.WithVersion(RazorLanguageVersion.Version_7_0));
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
     #endregion
 }
