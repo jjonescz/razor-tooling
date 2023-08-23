@@ -10079,6 +10079,37 @@ Time: @DateTime.Now
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_CSharpError()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="@x"></form>
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        var result = CompileToAssembly(generated, throwOnFailure: false);
+        result.Diagnostics.Verify(
+            // x:\dir\subdir\Test\TestComponent.cshtml(1,55): error CS0103: The name 'x' does not exist in the current context
+            //                                                       x
+            Diagnostic(ErrorCode.ERR_NameNotInContext, "x").WithArguments("x").WithLocation(1, 55));
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_RazorError()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="@{ }"></form>
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_Duplicate_HtmlValue()
     {
         // Act

@@ -8,6 +8,7 @@ namespace Microsoft.CodeAnalysis;
 /// </summary>
 public enum ErrorCode
 {
+    ERR_NameNotInContext = 103,
     ERR_SingleTypeNameNotFound = 246,
     ERR_BadArgType = 1503,
     WRN_AsyncLacksAwaits = 1998,
