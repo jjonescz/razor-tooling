@@ -8,6 +8,8 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Razor.Language.Components;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Test.Utilities;
 using Roslyn.Test.Utilities;
 using Xunit;
 
@@ -10042,7 +10044,7 @@ Time: @DateTime.Now
             Diagnostic(ErrorCode.ERR_BadArgType, "x").WithArguments("1", "int", "string").WithLocation(1, 55));
     }
 
-    [Fact]
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_MixedValue()
     {
         // Act
@@ -10056,6 +10058,57 @@ Time: @DateTime.Now
         // Assert
         AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
         AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_NoAddNamedEventMethod()
+    {
+        // Arrange
+        var componentShim = BaseCompilation.References.Single(r => r.Display.EndsWith("Microsoft.AspNetCore.Razor.Test.ComponentShim.Compiler.dll", StringComparison.Ordinal));
+        var minimalShim = """
+            namespace Microsoft.AspNetCore.Components
+            {
+                public abstract class ComponentBase
+                {
+                    protected abstract void BuildRenderTree(Rendering.RenderTreeBuilder __builder);
+                }
+                namespace Rendering
+                {
+                    public sealed class RenderTreeBuilder
+                    {
+                        public void AddMarkupContent(int sequence, string markupContent) { }
+                        public void OpenElement(int sequence, string elementName) { }
+                        public void AddAttribute(int sequence, string name, string value) { }
+                        public void CloseElement() { }
+                    }
+                }
+                namespace CompilerServices
+                {
+                    public static class RuntimeHelpers
+                    {
+                        public static T TypeCheck<T>(T value) => throw null;
+                    }
+                }
+            }
+            """;
+        var minimalShimRef = CSharpCompilation.Create(
+                assemblyName: "Microsoft.AspNetCore.Components",
+                options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+            .AddSyntaxTrees(Parse(minimalShim))
+            .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location))
+            .EmitToImageReference();
+        var baseCompilation = BaseCompilation.ReplaceReference(componentShim, minimalShimRef);
+
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="named-form-handler"></form>
+            """,
+            baseCompilation: baseCompilation);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
     }
 
     #endregion

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.Language.Components;
 using static Microsoft.AspNetCore.Razor.Language.CommonMetadata;
@@ -30,11 +31,12 @@ internal sealed class FormNameTagHelperDescriptorProvider : ITagHelperDescriptor
             return;
         }
 
-        var renderTreeBuilder = compilation.GetTypeByMetadataName(ComponentsApi.RenderTreeBuilder.FullTypeName);
-        if (renderTreeBuilder == null)
+        var renderTreeBuilders = compilation.GetTypesByMetadataName(ComponentsApi.RenderTreeBuilder.FullTypeName)
+            .Where(static t => t.DeclaredAccessibility == Accessibility.Public &&
+                t.GetMembers(ComponentsApi.RenderTreeBuilder.AddNamedEvent).Any(static m => m.DeclaredAccessibility == Accessibility.Public))
+            .Take(2).ToArray();
+        if (renderTreeBuilders is not [var renderTreeBuilder])
         {
-            // If we can't find RenderTreeBuilder, then just bail. We won't be able to compile the
-            // generated code anyway.
             return;
         }
 
