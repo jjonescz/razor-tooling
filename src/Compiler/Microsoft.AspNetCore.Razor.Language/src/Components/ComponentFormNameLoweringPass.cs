@@ -33,7 +33,6 @@ internal sealed class ComponentFormNameLoweringPass : ComponentIntermediateNodeP
                 replacement.Diagnostics.AddRange(node.Diagnostics);
 
                 reference.Replace(replacement);
-                break;
             }
         }
     }

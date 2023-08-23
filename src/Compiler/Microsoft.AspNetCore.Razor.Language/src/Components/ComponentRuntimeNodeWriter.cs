@@ -218,6 +218,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
             else if (child is FormNameIntermediateNode formName)
             {
                 Debug.Assert(!hasFormName);
+                context.RenderNode(formName);
                 hasFormName = true;
             }
         }

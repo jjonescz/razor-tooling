@@ -397,10 +397,6 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
                 {
                     context.RenderNode(splat);
                 }
-                else if (child is FormNameIntermediateNode formName)
-                {
-                    context.RenderNode(formName);
-                }
             }
 
             if (node.ChildContents.Any())

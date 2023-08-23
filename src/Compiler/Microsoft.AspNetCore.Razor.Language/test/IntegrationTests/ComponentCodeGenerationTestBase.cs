@@ -10061,6 +10061,38 @@ Time: @DateTime.Now
     }
 
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_Duplicate_HtmlValue()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="x" @formname="y"></form>
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
+    public void FormName_Duplicate_CSharpValue()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <form method="post" @onsubmit="() => { }" @formname="@x" @formname="@y"></form>
+            @code {
+                string x = "a";
+                string y = "b";
+            }
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_NoAddNamedEventMethod()
     {
         // Arrange
