@@ -10063,6 +10063,9 @@ Time: @DateTime.Now
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_Nullability()
     {
+        // This could report a nullability warning, but that's not currently supported in other places, either.
+        // Tracked by https://github.com/dotnet/razor/issues/7398.
+
         // Act
         var generated = CompileToCSharp("""
             <form method="post" @onsubmit="() => { }" @formname="@null"></form>
@@ -10092,6 +10095,14 @@ Time: @DateTime.Now
     [Fact, WorkItem("https://github.com/dotnet/razor/issues/9077")]
     public void FormName_Duplicate_CSharpValue()
     {
+        // This emits invalid code and no warnings, but that's a pre-existing bug,
+        // happens with the following Razor code, too.
+        // <input @ref="@a" @ref="@b" />
+        // @code {
+        //     ElementReference a;
+        //     ElementReference b;
+        // }
+
         // Act
         var generated = CompileToCSharp("""
             <form method="post" @onsubmit="() => { }" @formname="@x" @formname="@y"></form>
