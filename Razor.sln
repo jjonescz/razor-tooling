@@ -177,6 +177,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Razor.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Razor.ProjectEngineHost.Test", "src\Razor\test\Microsoft.AspNetCore.Razor.ProjectEngineHost.Test\Microsoft.AspNetCore.Razor.ProjectEngineHost.Test.csproj", "{4126E0A6-1CA9-44B1-AD22-66EDB9FEE7AD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Razor.Language", "src\Compiler\Microsoft.AspNetCore.Razor.Language\legacy\Microsoft.AspNetCore.Razor.Language.csproj", "{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -737,6 +739,14 @@ Global
 		{4126E0A6-1CA9-44B1-AD22-66EDB9FEE7AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4126E0A6-1CA9-44B1-AD22-66EDB9FEE7AD}.ReleaseNoVSIX|Any CPU.ActiveCfg = Release|Any CPU
 		{4126E0A6-1CA9-44B1-AD22-66EDB9FEE7AD}.ReleaseNoVSIX|Any CPU.Build.0 = Release|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.DebugNoVSIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.DebugNoVSIX|Any CPU.Build.0 = Debug|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.ReleaseNoVSIX|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22}.ReleaseNoVSIX|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -818,6 +828,7 @@ Global
 		{53977089-1A87-4521-8368-0D50DFDA1279} = {3C0D6505-79B3-49D0-B4C3-176F0F1836ED}
 		{C0C2AD17-5F5B-4B11-956D-203D91C377FB} = {92463391-81BE-462B-AC3C-78C6C760741F}
 		{4126E0A6-1CA9-44B1-AD22-66EDB9FEE7AD} = {92463391-81BE-462B-AC3C-78C6C760741F}
+		{9AA4C25E-C0B6-4CEF-AB3F-2FE0C833FC22} = {D9BDF88A-8F0B-4FAF-B77B-206042C1D402}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0035341D-175A-4D05-95E6-F1C2785A1E26}

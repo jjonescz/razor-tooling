@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Types used by extensions to preserve their identity.</Description>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ExcludeFromSourceBuild>false</ExcludeFromSourceBuild>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Microsoft.CodeAnalysis.Razor.Compiler.CSharp.csproj" />
+  </ItemGroup>
+
+</Project>
