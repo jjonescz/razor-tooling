@@ -713,4 +713,34 @@ public sealed class RazorSourceGeneratorComponentTests : RazorSourceGeneratorTes
             // Assert.Equal(new TextSpan(originalIndex, snippet.Length), mappedSpan);
         }
     }
+
+    [Fact]
+    public async Task BindValue()
+    {
+        // Arrange
+        var project = CreateTestProject(new()
+        {
+            ["Views/Home/Index.cshtml"] = """
+                @(await Html.RenderComponentAsync<MyApp.Shared.Component1>(RenderMode.Static))
+                """,
+            ["Shared/Component1.razor"] = """
+                <input @bind-value="value" />
+                <span>@value</span>
+
+                @code {
+                    string value = "Hello";
+                }
+                """,
+        });
+        var compilation = await project.GetCompilationAsync();
+        var driver = await GetDriverAsync(project);
+
+        // Act
+        var result = RunGenerator(compilation!, ref driver, out compilation);
+
+        // Assert
+        Assert.Empty(result.Diagnostics);
+        Assert.Equal(2, result.GeneratedSources.Length);
+        await VerifyRazorPageMatchesBaselineAsync(compilation, "Views_Home_Index");
+    }
 }
