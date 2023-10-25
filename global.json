@@ -9,11 +9,12 @@
       ]
     },
     "vs": {
-      "version": "17.2",
+      "version": "17.8",
       "components": [
         "Microsoft.VisualStudio.Component.VSSDK"
       ]
-    }
+    },
+    "xcopy-msbuild": "17.8.1-2"
   },
   "sdk": {
     "version": "8.0.100-rtm.23506.1",
