@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -39,6 +40,107 @@ public class GoToDefinitionTests(ITestOutputHelper testOutputHelper) : AbstractR
 
         // Assert
         await TestServices.Editor.WaitForActiveWindowAsync("Program.cs", ControlledHangMitigatingCancellationToken);
+    }
+
+    [IdeFact]
+    public async Task GoToDefinition_CSharpClass_DefinedInRazor_SameFile()
+    {
+        // Open the file
+        await TestServices.SolutionExplorer.OpenFileAsync(RazorProjectConstants.BlazorProjectName, RazorProjectConstants.IndexRazorFile, ControlledHangMitigatingCancellationToken);
+
+        // Change text
+        await TestServices.Editor.SetTextAsync("""
+            <SurveyPrompt Title="@nameof(NestedClass)" />
+
+            @code {
+                public class NestedClass { }
+            }
+            """, ControlledHangMitigatingCancellationToken);
+
+        await TestServices.Editor.PlaceCaretAsync("nameof", charsOffset: "nameof(".Length, ControlledHangMitigatingCancellationToken);
+
+        // Act
+        await TestServices.Editor.InvokeGoToDefinitionAsync(ControlledHangMitigatingCancellationToken);
+
+        // Assert
+        await TestServices.Editor.WaitForCurrentLineTextAsync("public class NestedClass { }", ControlledHangMitigatingCancellationToken);
+    }
+
+    [IdeFact]
+    public async Task GoToDefinition_CSharpClass_DefinedInRazor_OtherFile()
+    {
+        // Create the file with the definition
+        await TestServices.SolutionExplorer.AddFileAsync(RazorProjectConstants.BlazorProjectName,
+            "MyComponent.razor",
+            """
+            <SurveyPrompt Title="text" />
+
+            @code {
+                public class NestedClass { }
+            }
+            """,
+            open: true,
+            cancellationToken: ControlledHangMitigatingCancellationToken);
+
+        await TestServices.Editor.WaitForComponentClassificationAsync(ControlledHangMitigatingCancellationToken);
+
+        // Create the file with the reference
+        await TestServices.SolutionExplorer.OpenFileAsync(RazorProjectConstants.BlazorProjectName, RazorProjectConstants.IndexRazorFile, ControlledHangMitigatingCancellationToken);
+        await TestServices.Editor.SetTextAsync("""
+            <SurveyPrompt Title="@nameof(MyComponent.NestedClass)" />
+            """, ControlledHangMitigatingCancellationToken);
+
+        await TestServices.Editor.PlaceCaretAsync("NestedClass", charsOffset: -1, ControlledHangMitigatingCancellationToken);
+
+        // Act
+        await TestServices.Editor.InvokeGoToDefinitionAsync(ControlledHangMitigatingCancellationToken);
+
+        // Assert
+        await TestServices.Editor.WaitForActiveWindowAsync("MyComponent.razor", ControlledHangMitigatingCancellationToken);
+        await TestServices.Editor.WaitForCurrentLineTextAsync("public class NestedClass { }", ControlledHangMitigatingCancellationToken);
+    }
+
+    [IdeFact, WorkItem("https://github.com/dotnet/razor/issues/7213")]
+    public async Task GoToDefinition_ComponentClass_FromCSharpInRazor()
+    {
+        // Open the file
+        await TestServices.SolutionExplorer.OpenFileAsync(RazorProjectConstants.BlazorProjectName, RazorProjectConstants.IndexRazorFile, ControlledHangMitigatingCancellationToken);
+
+        // Change text to refer to MainLayout component
+        await TestServices.Editor.SetTextAsync(@"<SurveyPrompt Title=""@nameof(MainLayout)", ControlledHangMitigatingCancellationToken);
+        await TestServices.Editor.PlaceCaretAsync("MainLayout", charsOffset: -1, ControlledHangMitigatingCancellationToken);
+
+        // Act
+        await TestServices.Editor.InvokeGoToDefinitionAsync(ControlledHangMitigatingCancellationToken);
+
+        // Assert
+        await TestServices.Editor.WaitForActiveWindowAsync("MainLayout.razor", ControlledHangMitigatingCancellationToken);
+    }
+
+    [IdeFact, WorkItem("https://github.com/dotnet/razor/issues/7213")]
+    public async Task GoToDefinition_ComponentClass_FromCSharp()
+    {
+        // Create the file with the definition
+        await TestServices.SolutionExplorer.AddFileAsync(RazorProjectConstants.BlazorProjectName,
+            "C.cs",
+            """
+            namespace BlazorProject
+            {
+                class C : MainLayout
+                {
+                }
+            }
+            """,
+            open: true,
+            cancellationToken: ControlledHangMitigatingCancellationToken);
+
+        await TestServices.Editor.PlaceCaretAsync("MainLayout", charsOffset: -1, ControlledHangMitigatingCancellationToken);
+
+        // Act
+        await TestServices.Editor.InvokeGoToDefinitionAsync(ControlledHangMitigatingCancellationToken);
+
+        // Assert
+        await TestServices.Editor.WaitForActiveWindowAsync("MainLayout.razor", ControlledHangMitigatingCancellationToken);
     }
 
     [IdeFact]
