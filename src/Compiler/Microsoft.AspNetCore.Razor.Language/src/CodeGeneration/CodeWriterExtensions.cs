@@ -422,7 +422,7 @@ internal static class CodeWriterExtensions
         }
 
         writer.Write("class ");
-        context.AddComponentMapping(name.Length);
+        context.AddSourceMappingFor(new SourceSpan(context.SourceDocument.FilePath, 0, 0, 0, 0), name.Length);
         writer.Write(name);
 
         if (typeParameters != null && typeParameters.Count > 0)

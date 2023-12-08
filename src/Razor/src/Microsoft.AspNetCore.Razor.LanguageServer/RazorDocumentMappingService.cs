@@ -326,23 +326,11 @@ internal sealed class RazorDocumentMappingService : IRazorDocumentMappingService
             var generatedAbsoluteIndex = mapping.GeneratedSpan.AbsoluteIndex;
             var distanceIntoGeneratedSpan = generatedDocumentIndex - generatedAbsoluteIndex;
 
-            hostDocumentIndex = mapping.OriginalSpan.AbsoluteIndex + distanceIntoGeneratedSpan;
+            hostDocumentIndex = mapping.OriginalSpan.AbsoluteIndex +
+                (mapping.OriginalSpan.Length == mapping.GeneratedSpan.Length ? distanceIntoGeneratedSpan : 0);
             var originalLocation = codeDocument.Source.Text.Lines.GetLinePosition(hostDocumentIndex);
             hostDocumentPosition = new LinePosition(originalLocation.Line, originalLocation.Character);
             return true;
-        }
-
-        foreach (var mapping in generatedDocument.ComponentMappings)
-        {
-            var generatedAbsoluteIndex = mapping.AbsoluteIndex;
-            var distanceIntoGeneratedSpan = generatedDocumentIndex - generatedAbsoluteIndex;
-            if (generatedAbsoluteIndex <= generatedDocumentIndex &&
-                distanceIntoGeneratedSpan <= mapping.Length)
-            {
-                hostDocumentIndex = 0;
-                hostDocumentPosition = new LinePosition(0, 0);
-                return true;
-            }
         }
 
         hostDocumentPosition = default;

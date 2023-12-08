@@ -89,20 +89,10 @@ internal class RazorSpanMappingService : IRazorSpanMappingService
             if (leftOffset >= 0 && rightOffset <= 0)
             {
                 // This span mapping contains the span.
-                mappedSpan = new TextSpan(original.Start + leftOffset, (original.End + rightOffset) - (original.Start + leftOffset));
+                mappedSpan = original.Length == generated.Length
+                    ? new TextSpan(original.Start + leftOffset, (original.End + rightOffset) - (original.Start + leftOffset))
+                    : new TextSpan(original.Start, original.Length);
                 linePositionSpan = source.Lines.GetLinePositionSpan(mappedSpan);
-                return true;
-            }
-        }
-
-        foreach (var mapping in output.ComponentMappings)
-        {
-            var generated = mapping.AsTextSpan();
-
-            if (generated.Contains(span))
-            {
-                mappedSpan = new TextSpan(0, 0);
-                linePositionSpan = new LinePositionSpan(new LinePosition(0, 0), new LinePosition(0, 0));
                 return true;
             }
         }
