@@ -302,6 +302,11 @@ internal class CSharpOnTypeFormattingPass : CSharpFormattingPassBase
         foreach (var mapping in csharpDocument.SourceMappings)
         {
             var mappingSpan = new TextSpan(mapping.OriginalSpan.AbsoluteIndex, mapping.OriginalSpan.Length);
+            if (mappingSpan.Length == 0)
+            {
+                continue;
+            }
+
             var mappingRange = mappingSpan.ToRange(text);
             if (!range.LineOverlapsWith(mappingRange))
             {

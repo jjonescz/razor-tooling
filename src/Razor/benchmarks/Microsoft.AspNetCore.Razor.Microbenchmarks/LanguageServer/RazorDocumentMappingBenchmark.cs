@@ -146,7 +146,8 @@ public class RazorDocumentMappingBenchmark : RazorLanguageServerBenchmarkBase
                 {
                     // Found the generated span that contains the generated absolute index
 
-                    hostDocumentIndex = mapping.OriginalSpan.AbsoluteIndex + distanceIntoGeneratedSpan;
+                    hostDocumentIndex = mapping.OriginalSpan.AbsoluteIndex +
+                        (mapping.OriginalSpan.Length == mapping.GeneratedSpan.Length ? distanceIntoGeneratedSpan : 0);
                     hostDocumentPosition = codeDocument.Source.Text.Lines.GetLinePosition(hostDocumentIndex);
                     return true;
                 }

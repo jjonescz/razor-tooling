@@ -94,7 +94,7 @@ internal class CSharpFormattingPass : CSharpFormattingPassBase
         foreach (var mapping in context.CodeDocument.GetCSharpDocument().SourceMappings)
         {
             var span = new TextSpan(mapping.OriginalSpan.AbsoluteIndex, mapping.OriginalSpan.Length);
-            if (!ShouldFormat(context, span, allowImplicitStatements: true))
+            if (span.Length == 0 || !ShouldFormat(context, span, allowImplicitStatements: true))
             {
                 // We don't want to format this range.
                 continue;

@@ -70,7 +70,7 @@ internal abstract class CSharpFormattingPassBase : FormattingPassBase
 
                 IsLineRequest: false);
 
-            if (!ShouldFormat(context, mappingSpan, options, out var owner))
+            if (mappingSpan.Length == 0 || !ShouldFormat(context, mappingSpan, options, out var owner))
             {
                 // We don't care about this range as this can potentially lead to incorrect scopes.
                 continue;

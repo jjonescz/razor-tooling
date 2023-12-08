@@ -367,7 +367,8 @@ internal sealed class RazorDocumentMappingService : IRazorDocumentMappingService
                 var distanceIntoOriginalSpan = hostDocumentIndex - originalAbsoluteIndex;
                 if (distanceIntoOriginalSpan <= originalSpan.Length)
                 {
-                    generatedIndex = mapping.GeneratedSpan.AbsoluteIndex + distanceIntoOriginalSpan;
+                    generatedIndex = mapping.GeneratedSpan.AbsoluteIndex +
+                        (mapping.OriginalSpan.Length == mapping.GeneratedSpan.Length ? distanceIntoOriginalSpan : 0);
                     generatedPosition = GetGeneratedPosition(generatedDocument, generatedIndex);
                     return true;
                 }

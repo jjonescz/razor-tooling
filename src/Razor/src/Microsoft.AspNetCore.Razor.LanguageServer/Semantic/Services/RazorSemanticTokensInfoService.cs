@@ -271,6 +271,11 @@ internal class RazorSemanticTokensInfoService : IRazorSemanticTokensInfoService
         // We want to find the min and max C# source mapping that corresponds with our Razor range.
         foreach (var mapping in csharpDoc.SourceMappings)
         {
+            if (mapping.OriginalSpan.Length == 0)
+            {
+                continue;
+            }
+
             var mappedTextSpan = mapping.OriginalSpan.AsTextSpan();
 
             if (textSpan.OverlapsWith(mappedTextSpan))
@@ -383,6 +388,11 @@ internal class RazorSemanticTokensInfoService : IRazorSemanticTokensInfoService
         // We want to find the min and max C# source mapping that corresponds with our Razor range.
         foreach (var mapping in csharpDoc.SourceMappings)
         {
+            if (mapping.OriginalSpan.Length == 0)
+            {
+                continue;
+            }
+
             var mappedTextSpan = mapping.OriginalSpan.AsTextSpan();
 
             if (textSpan.OverlapsWith(mappedTextSpan))
