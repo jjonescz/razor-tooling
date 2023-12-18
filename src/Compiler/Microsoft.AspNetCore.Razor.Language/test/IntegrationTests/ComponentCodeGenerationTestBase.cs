@@ -1676,6 +1676,27 @@ namespace Test
         }
     }
 
+    [IntegrationTestFact, WorkItem("https://github.com/dotnet/razor/issues/7658")]
+    public void NonExistentComponent()
+    {
+        // Act
+        var generated = CompileToCSharp("""
+            <Component1 />
+            <Component2 @bind-Value="ParentValue" />
+            <Component3 Parameter="ParentValue" />
+            <Component4 @ref="_component" />
+            @code {
+                private object _component;
+                public int ParentValue { get; set; } = 42;
+            }
+            """);
+
+        // Assert
+        AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+        AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+        CompileToAssembly(generated);
+    }
+
     #endregion
 
     #region Bind
