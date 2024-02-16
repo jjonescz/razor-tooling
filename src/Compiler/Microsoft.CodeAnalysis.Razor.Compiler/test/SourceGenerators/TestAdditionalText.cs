@@ -18,7 +18,7 @@ namespace Microsoft.NET.Sdk.Razor.SourceGenerators
             _text = text;
         }
  
-        public TestAdditionalText(string text = "", Encoding encoding = null, string path = "dummy")
+        public TestAdditionalText(string text = "", Encoding? encoding = null, string path = "dummy")
             : this(path, SourceText.From(text, encoding))
         {
         }

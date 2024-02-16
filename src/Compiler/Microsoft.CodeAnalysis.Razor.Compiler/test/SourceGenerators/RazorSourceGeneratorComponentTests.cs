@@ -233,7 +233,7 @@ public sealed class RazorSourceGeneratorComponentTests : RazorSourceGeneratorTes
         var compilation = await project.GetCompilationAsync();
 
         // Remove the AspNetCore DLL v7 to avoid clashes.
-        var aspnetDll = compilation.References.Single(r => r.Display.EndsWith("Microsoft.AspNetCore.Components.dll", StringComparison.Ordinal));
+        var aspnetDll = compilation!.References.Single(r => r.Display!.EndsWith("Microsoft.AspNetCore.Components.dll", StringComparison.Ordinal));
         compilation = compilation.RemoveReferences(aspnetDll);
 
         var driver = await GetDriverAsync(project, options =>

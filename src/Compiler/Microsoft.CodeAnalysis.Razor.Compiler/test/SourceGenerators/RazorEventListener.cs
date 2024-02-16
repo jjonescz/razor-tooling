@@ -25,7 +25,7 @@ namespace Microsoft.NET.Sdk.Razor.SourceGenerators
             {
                 EventId = eventData.EventId,
                 EventName = eventData.EventName,
-                Payload = eventData.Payload.ToArray(),
+                Payload = eventData.Payload?.ToArray(),
             };
 
             Events.Enqueue(@event);
@@ -35,9 +35,9 @@ namespace Microsoft.NET.Sdk.Razor.SourceGenerators
         {
             public int EventId { get; init; }
 
-            public string EventName { get; init; }
+            public string? EventName { get; init; }
 
-            public object[] Payload { get; init; }
+            public object?[]? Payload { get; init; }
         }
     }
 }

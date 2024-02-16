@@ -534,14 +534,14 @@ internal static class Extensions
     public static void AssertSingleItem(this RazorEventListener.RazorEvent e, string expectedEventName, string expectedFileName)
     {
         Assert.Equal(expectedEventName, e.EventName);
-        var file = Assert.Single(e.Payload);
+        var file = Assert.Single(e.Payload!);
         Assert.Equal(expectedFileName, file);
     }
 
     public static void AssertPair(this RazorEventListener.RazorEvent e, string expectedEventName, string payload1, string payload2)
     {
         Assert.Equal(expectedEventName, e.EventName);
-        Assert.Equal(2, e.Payload.Length);
+        Assert.Equal(2, e.Payload!.Length);
         Assert.Equal(payload1, e.Payload[0]);
         Assert.Equal(payload2, e.Payload[1]);
     }
