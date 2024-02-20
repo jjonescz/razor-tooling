@@ -49,9 +49,15 @@ public abstract class IntegrationTestBase
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
     }
 
-    protected IntegrationTestBase(TestProject.Layer layer, bool? generateBaselines = null, string? projectDirectoryHint = null)
+    protected IntegrationTestBase(TestProject.Layer layer, bool? generateBaselines = null, string? projectDirectoryHint = null, string? subdir = null)
     {
         TestProjectRoot = projectDirectoryHint == null ? TestProject.GetProjectDirectory(GetType(), layer) : TestProject.GetProjectDirectory(projectDirectoryHint, layer);
+        TestFilesDirectoryBase = subdir is null ? string.Empty : $"{subdir}/";
+
+        if (subdir is not null)
+        {
+            TestProjectRoot = Path.Combine(TestProjectRoot, subdir);
+        }
 
         if (generateBaselines.HasValue)
         {
@@ -106,9 +112,11 @@ public abstract class IntegrationTestBase
 
     protected string TestProjectRoot { get; }
 
+    protected string TestFilesDirectoryBase { get; }
+
     public virtual string GetTestFileName(string? testName)
     {
-        return $"TestFiles/IntegrationTests/{this.GetType().Name}/{testName}";
+        return $"{TestFilesDirectoryBase}TestFiles/IntegrationTests/{this.GetType().Name}/{testName}";
     }
 
     public string FileExtension { get; set; } = ".cshtml";
@@ -131,6 +139,21 @@ public abstract class IntegrationTestBase
         return projectItem;
     }
 
+    private string StripTestFilesDirectoryBase(string filePath)
+    {
+        if (TestFilesDirectoryBase.Length != 0)
+        {
+            if (!filePath.StartsWith(TestFilesDirectoryBase, StringComparison.Ordinal))
+            {
+                Assert.StartsWith(TestFilesDirectoryBase.Replace('/', '\\'), filePath);
+            }
+
+            filePath = filePath[TestFilesDirectoryBase.Length..];
+        }
+
+        return filePath;
+    }
+
     private RazorProjectItem CreateProjectItemFromText(string text, string filePath, string testFileName, string? cssScope = null)
     {
         // Consider the file path to be relative to the 'FileName' of the test.
@@ -142,6 +165,7 @@ public abstract class IntegrationTestBase
         // path.
         var basePath = "";
         var physicalPath = Path.Combine(workingDirectory, filePath).Replace('/', '\\');
+        physicalPath = StripTestFilesDirectoryBase(physicalPath);
         var relativePhysicalPath = physicalPath;
 
         // FilePaths in Razor are **always** are of the form '/a/b/c.cshtml'
@@ -180,6 +204,8 @@ public abstract class IntegrationTestBase
         }
         var fileContent = testFile.ReadAllText();
         var normalizedContent = NormalizeNewLines(fileContent);
+
+        sourceFileName = StripTestFilesDirectoryBase(sourceFileName);
 
         var workingDirectory = Path.GetDirectoryName(fileName);
         var fullPath = sourceFileName;
