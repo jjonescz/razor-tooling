@@ -210,13 +210,6 @@ extends:
                 displayName: Publish Test Artifacts
                 condition: in(variables['Build.Reason'], 'PullRequest')
 
-              # Publish an artifact that the RoslynInsertionTool is able to find by its name.
-              - output: buildArtifacts
-                path: artifacts\VSSetup\$(_BuildConfig)
-                artifact: VSSetup
-                displayName: Publish VSSetup
-                condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false), eq(variables['_BuildConfig'], 'Release'))
-
               - output: pipelineArtifact
                 path: artifacts\packages\$(_BuildConfig)
                 artifact: Packages_$(Agent.Os)_$(_BuildConfig)
@@ -313,6 +306,14 @@ extends:
               displayName: Finish background dump collection
               continueOnError: true
               condition: always()
+
+            # Publish an artifact that the RoslynInsertionTool is able to find by its name.
+            - task: 1ES.PublishPipelineArtifact@1
+              inputs:
+                targetPath: artifacts\VSSetup\$(_BuildConfig)
+                artifact: VSSetup
+              displayName: Publish VSSetup
+              condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false), eq(variables['_BuildConfig'], 'Release'))
 
             - powershell: Write-Host "##vso[task.setvariable variable=VisualStudio.DropName]Products/$(System.TeamProject)/$(Build.Repository.Name)/$(Build.SourceBranchName)/$(Build.BuildNumber)"
               displayName: Setting VisualStudio.DropName variable
@@ -472,12 +473,8 @@ extends:
             name: NetCore1ESPool-Svc-Internal
             demands: ImageOverride -equals windows.vs2022.amd64
           steps:
-          - task: DownloadBuildArtifacts@1
-            inputs:
-              buildType: current
-              artifact: VSSetup
-              downloadType: single
-              downloadPath: '$(Pipeline.Workspace)'
+          - download: current
+            artifact: VSSetup
           - powershell: |
               $branchName = "$(Build.SourceBranch)".Substring("refs/heads/".Length)
               Write-Host "##vso[task.setvariable variable=ComponentBranchName]$branchName"
