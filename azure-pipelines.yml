@@ -211,7 +211,7 @@ extends:
                 condition: in(variables['Build.Reason'], 'PullRequest')
 
               # Publish an artifact that the RoslynInsertionTool is able to find by its name.
-              - output: pipelineArtifact
+              - output: buildArtifacts
                 path: artifacts\VSSetup\$(_BuildConfig)
                 artifact: VSSetup
                 displayName: Publish VSSetup
@@ -472,10 +472,12 @@ extends:
             name: NetCore1ESPool-Svc-Internal
             demands: ImageOverride -equals windows.vs2022.amd64
           steps:
-          - task: DownloadPipelineArtifact@2
+          - task: DownloadBuildArtifacts@1
             inputs:
               buildType: current
               artifact: VSSetup
+              downloadType: single
+              downloadPath: '$(Pipeline.Workspace)'
           - powershell: |
               $branchName = "$(Build.SourceBranch)".Substring("refs/heads/".Length)
               Write-Host "##vso[task.setvariable variable=ComponentBranchName]$branchName"
