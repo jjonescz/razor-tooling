@@ -297,6 +297,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
         AssertSourceMappingsMatchBaseline(codeDocument, testName);
         AssertHtmlSourceMappingsMatchBaseline(codeDocument, testName);
         AssertLinePragmas(codeDocument, designTime: true);
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument, testName);
     }
 
     private void RunTimeTest(string testName)
@@ -321,6 +322,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode(), testName);
         AssertCSharpDocumentMatchesBaseline(codeDocument.GetCSharpDocument(), testName);
         AssertLinePragmas(codeDocument, designTime: false);
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument, testName);
     }
 
     private void RunTagHelpersTest(IEnumerable<TagHelperDescriptor> descriptors, [CallerMemberName] string testName = "")
@@ -357,6 +359,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
         // Assert
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode(), testName);
         AssertCSharpDocumentMatchesBaseline(codeDocument.GetCSharpDocument(), testName);
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument, testName);
     }
 
     private void RunDesignTimeTagHelpersTest(IEnumerable<TagHelperDescriptor> descriptors, string testName)
@@ -384,6 +387,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
         AssertHtmlDocumentMatchesBaseline(codeDocument.GetHtmlDocument(), testName);
         AssertHtmlSourceMappingsMatchBaseline(codeDocument, testName);
         AssertSourceMappingsMatchBaseline(codeDocument, testName);
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument, testName);
     }
 
     private static ImmutableArray<RazorSourceDocument> GetImports(RazorProjectEngine projectEngine, RazorProjectItem projectItem)

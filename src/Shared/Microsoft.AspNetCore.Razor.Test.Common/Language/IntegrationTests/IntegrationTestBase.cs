@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Razor.Language.Syntax;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Razor;
+using Microsoft.CodeAnalysis.Test.Utilities;
 using Roslyn.Test.Utilities;
 using Xunit;
 using Xunit.Sdk;
@@ -226,10 +227,10 @@ public abstract class IntegrationTestBase
         return CompileToAssembly(compiled, throwOnFailure: throwOnFailure);
     }
 
-    protected CompiledAssembly CompileToAssembly(CompiledCSharpCode code, bool throwOnFailure = true)
+    protected CompiledAssembly CompileToAssembly(CompiledCSharpCode code, bool throwOnFailure = true, bool ignoreRazorDiagnostics = false)
     {
         var cSharpDocument = code.CodeDocument.GetCSharpDocument();
-        if (cSharpDocument.Diagnostics.Any())
+        if (!ignoreRazorDiagnostics && cSharpDocument.Diagnostics.Any())
         {
             var diagnosticsLog = string.Join(Environment.NewLine, cSharpDocument.Diagnostics.Select(d => d.ToString()).ToArray());
             throw new InvalidOperationException($"Aborting compilation to assembly because RazorCompiler returned nonempty diagnostics: {diagnosticsLog}");
@@ -616,6 +617,61 @@ public abstract class IntegrationTestBase
                     Assert.True(foundMatchingPragma, $"No line pragma found for code '{content}' at line {classifiedSpan.Span.LineIndex + 1}.");
                 }
             }
+        }
+    }
+
+    protected void AssertCSharpDiagnosticsMatchBaseline(RazorCodeDocument codeDocument, [CallerMemberName] string testName = "")
+    {
+        var fileName = GetTestFileName(testName);
+        var baselineFileName = Path.ChangeExtension(fileName, ".cs-diagnostics.txt");
+
+        var compiled = CompileToAssembly(new CompiledCSharpCode(BaseCompilation, codeDocument), ignoreRazorDiagnostics: true, throwOnFailure: false);
+        var cSharpDiagnostics = compiled.Compilation.GetDiagnostics().Where(d => d.Severity != DiagnosticSeverity.Hidden);
+        var actualDiagnosticsText = getActualDiagnosticsText(cSharpDiagnostics);
+
+        if (GenerateBaselines.ShouldGenerate)
+        {
+            var baselineFullPath = Path.Combine(TestProjectRoot, baselineFileName);
+            if (!string.IsNullOrWhiteSpace(actualDiagnosticsText))
+            {
+                File.WriteAllText(baselineFullPath, actualDiagnosticsText, _baselineEncoding);
+            }
+            else if (File.Exists(baselineFullPath))
+            {
+                File.Delete(baselineFullPath);
+            }
+
+            return;
+        }
+
+        var baselineDiagnostics = string.Empty;
+        var diagnosticsFile = TestFile.Create(baselineFileName, GetType().GetTypeInfo().Assembly);
+        if (diagnosticsFile.Exists())
+        {
+            baselineDiagnostics = diagnosticsFile.ReadAllText();
+        }
+        
+        AssertEx.Equal(baselineDiagnostics, actualDiagnosticsText);
+
+        static string getActualDiagnosticsText(IEnumerable<Diagnostic> diagnostics)
+        {
+            var assertText = DiagnosticDescription.GetAssertText(
+            expected: [],
+            actual: diagnostics,
+            unmatchedExpected: [],
+            unmatchedActual: diagnostics);
+            var startAnchor = "Actual:" + Environment.NewLine;
+            var endAnchor = "Diff:" + Environment.NewLine;
+            var start = assertText.IndexOf(startAnchor, StringComparison.Ordinal) + startAnchor.Length;
+            var end = assertText.IndexOf(endAnchor, start, StringComparison.Ordinal);
+            var result = assertText[start..end];
+            return removeIndentation(result);
+        }
+
+        static string removeIndentation(string text)
+        {
+            var spaces = new string(' ', 16);
+            return text.Trim().Replace(Environment.NewLine + spaces, Environment.NewLine);
         }
     }
 
