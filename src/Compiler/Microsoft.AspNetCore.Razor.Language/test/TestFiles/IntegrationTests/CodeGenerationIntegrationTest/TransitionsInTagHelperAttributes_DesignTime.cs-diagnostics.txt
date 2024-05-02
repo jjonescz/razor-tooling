@@ -12,25 +12,4 @@ Diagnostic(ErrorCode.ERR_SemicolonExpected, "@").WithLocation(12, 38),
 Diagnostic(ErrorCode.ERR_ExpectedVerbatimLiteral, "").WithLocation(12, 38),
 // TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(12,39): error CS0201: Only assignment, call, increment, decrement, await, and new object expressions can be used as a statement
 // __TestNamespace_PTagHelper.Age = 4 * @(@int + 2);
-Diagnostic(ErrorCode.ERR_IllegalStatement, "(@int + 2)").WithLocation(12, 39),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(27,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
-//         private global::TestNamespace.PTagHelper __TestNamespace_PTagHelper;
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(27, 25),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(57,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
-//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(57, 66),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(66,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
-//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(66, 66),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(82,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
-//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(82, 66),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(91,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
-//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(91, 66),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(100,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
-//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(100, 66),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TransitionsInTagHelperAttributes.cshtml(109,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
-//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(109, 66)
+Diagnostic(ErrorCode.ERR_IllegalStatement, "(@int + 2)").WithLocation(12, 39)

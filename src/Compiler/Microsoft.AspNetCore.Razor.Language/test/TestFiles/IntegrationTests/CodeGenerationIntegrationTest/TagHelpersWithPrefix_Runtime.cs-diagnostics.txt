@@ -1,9 +1,3 @@
 ﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithPrefix.cshtml(4,24): error CS0103: The name 'Hello' does not exist in the current context
 // Hello
-Diagnostic(ErrorCode.ERR_NameNotInContext, "Hello").WithArguments("Hello").WithLocation(4, 24),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithPrefix.cshtml(45,25): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
-//         private global::InputTagHelper __InputTagHelper;
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(45, 25),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithPrefix.cshtml(53,56): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
-//             __InputTagHelper = CreateTagHelper<global::InputTagHelper>();
-Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(53, 56)
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Hello").WithArguments("Hello").WithLocation(4, 24)
