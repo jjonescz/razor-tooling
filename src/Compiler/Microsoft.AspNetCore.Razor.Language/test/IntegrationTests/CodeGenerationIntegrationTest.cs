@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc.Razor.Extensions;
 using Microsoft.AspNetCore.Razor.Test.Common;
+using Roslyn.Test.Utilities;
 
 namespace Microsoft.AspNetCore.Razor.Language.IntegrationTests;
 
@@ -19,7 +20,14 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     public void SingleLineControlFlowStatements() => RunTest();
 
     [IntegrationTestFact]
-    public void CSharp8() => RunTest();
+    public void CSharp8()
+    {
+        // C# 8 features are not available in .NET Framework without polyfills
+        // so the C# diagnostics would be different between .NET Framework and .NET Core.
+        SkipVerifyingCSharpDiagnostics = ExecutionConditionUtil.IsDesktop;
+
+        RunTest();
+    }
 
     [IntegrationTestFact]
     public void IncompleteDirectives() => RunTest();
@@ -68,6 +76,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     {
         // Trying to load the DLL results in "System.BadImageFormatException: Bad IL format."
         SkipLoadingDll = true;
+
         RunTest();
     }
 
@@ -249,7 +258,14 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     public void AttributeDirective() => RunTest();
 
     [IntegrationTestFact]
-    public void SwitchExpression_RecursivePattern() => RunTest();
+    public void SwitchExpression_RecursivePattern()
+    {
+        // System.Index is not available in .NET Framework without polyfills
+        // so the C# diagnostics would be different between .NET Framework and .NET Core.
+        SkipVerifyingCSharpDiagnostics = ExecutionConditionUtil.IsDesktop;
+
+        RunTest();
+    }
 
     [IntegrationTestFact]
     public new void DesignTime() => RunTest();

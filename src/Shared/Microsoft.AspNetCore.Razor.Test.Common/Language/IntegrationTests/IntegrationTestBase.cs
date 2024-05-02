@@ -83,6 +83,8 @@ public abstract class IntegrationTestBase
 
     protected virtual bool DesignTime { get; } = false;
 
+    protected bool SkipVerifyingCSharpDiagnostics { get; set; }
+
     protected bool SkipLoadingDll { get; set; }
 
     /// <summary>
@@ -625,6 +627,11 @@ public abstract class IntegrationTestBase
 
     protected void AssertCSharpDiagnosticsMatchBaseline(RazorCodeDocument codeDocument, [CallerMemberName] string testName = "")
     {
+        if (SkipVerifyingCSharpDiagnostics)
+        {
+            return;
+        }
+
         var fileName = GetTestFileName(testName);
         var baselineFileName = Path.ChangeExtension(fileName, ".cs-diagnostics.txt");
 
