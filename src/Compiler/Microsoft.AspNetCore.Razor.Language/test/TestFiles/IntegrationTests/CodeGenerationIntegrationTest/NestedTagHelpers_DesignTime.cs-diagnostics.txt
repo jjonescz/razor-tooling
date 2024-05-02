@@ -1,0 +1,18 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedTagHelpers.cshtml(27,25): error CS0400: The type or namespace name 'SpanTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::SpanTagHelper __SpanTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "SpanTagHelper").WithArguments("SpanTagHelper").WithLocation(27, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedTagHelpers.cshtml(28,25): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::DivTagHelper __DivTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(28, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedTagHelpers.cshtml(29,25): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::InputTagHelper __InputTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(29, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedTagHelpers.cshtml(50,55): error CS0400: The type or namespace name 'SpanTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __SpanTagHelper = CreateTagHelper<global::SpanTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "SpanTagHelper").WithArguments("SpanTagHelper").WithLocation(50, 55),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedTagHelpers.cshtml(52,56): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __InputTagHelper = CreateTagHelper<global::InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(52, 56),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedTagHelpers.cshtml(55,54): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(55, 54)

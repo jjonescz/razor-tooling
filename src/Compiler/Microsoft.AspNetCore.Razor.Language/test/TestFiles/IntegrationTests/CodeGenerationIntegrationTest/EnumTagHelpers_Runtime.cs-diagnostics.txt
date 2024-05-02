@@ -1,0 +1,54 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(4,21): error CS0103: The name 'MyEnum' does not exist in the current context
+//     var enumValue = MyEnum.MyValue;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "MyEnum").WithArguments("MyEnum").WithLocation(4, 21),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(7,16): error CS0103: The name 'MyEnum' does not exist in the current context
+// MyEnum.MyValue
+Diagnostic(ErrorCode.ERR_NameNotInContext, "MyEnum").WithArguments("MyEnum").WithLocation(7, 16),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(8,16): error CS0103: The name 'MyEnum' does not exist in the current context
+// MyEnum.MySecondValue
+Diagnostic(ErrorCode.ERR_NameNotInContext, "MyEnum").WithArguments("MyEnum").WithLocation(8, 16),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(44,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper __TestNamespace_InputTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(44, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(45,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.CatchAllTagHelper __TestNamespace_CatchAllTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(45, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(63,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(63, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(65,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(65, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(88,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(88, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(90,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(90, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(114,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(114, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(116,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(116, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(118,52): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper.Value = global::Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum.
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(118, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(139,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(139, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(141,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(141, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(143,52): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper.Value = global::Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum.
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(143, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(153,58): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper.CatchAll = global::Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum.
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(153, 58),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(174,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(174, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(176,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(176, 73)

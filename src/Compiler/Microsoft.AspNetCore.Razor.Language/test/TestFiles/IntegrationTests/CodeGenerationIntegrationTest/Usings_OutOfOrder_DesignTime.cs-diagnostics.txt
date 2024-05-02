@@ -1,0 +1,6 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(15,14): error CS7007: A 'using static' directive can only be applied to types; 'System' is a namespace not a type. Consider a 'using namespace' directive instead
+// using static System;
+Diagnostic(ErrorCode.ERR_BadUsingType, "System").WithArguments("System").WithLocation(15, 14),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(16,21): error CS0234: The type or namespace name 'Console' does not exist in the namespace 'System' (are you missing an assembly reference?)
+// using static System.Console;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Console").WithArguments("Console", "System").WithLocation(16, 21)
