@@ -352,6 +352,8 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
         var projectItem = CreateProjectItemFromFile(testName: testName);
         var imports = GetImports(projectEngine, projectItem);
 
+        AddTagHelperStubs(descriptors);
+
         // Act
         var codeDocument = projectEngine.Process(RazorSourceDocument.ReadFrom(projectItem), FileKinds.Legacy, imports, descriptors.ToList());
 
@@ -368,6 +370,8 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
 
         var projectItem = CreateProjectItemFromFile(testName: testName);
         var imports = GetImports(projectEngine, projectItem);
+
+        AddTagHelperStubs(descriptors);
 
         // Act
         var codeDocument = projectEngine.ProcessDesignTime(RazorSourceDocument.ReadFrom(projectItem), FileKinds.Legacy, imports, descriptors.ToList());
@@ -391,5 +395,50 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
             .ToImmutableArray();
 
         return importSourceDocuments;
+    }
+
+    private void AddTagHelperStubs(IEnumerable<TagHelperDescriptor> descriptors)
+    {
+        var tagHelperClasses = descriptors.Select(descriptor =>
+        {
+            var typeName = descriptor.GetTypeName();
+            var namespaceSeparatorIndex = typeName.LastIndexOf('.');
+            if (namespaceSeparatorIndex >= 0)
+            {
+                var ns = typeName[..namespaceSeparatorIndex];
+                var c = typeName[(namespaceSeparatorIndex + 1)..];
+
+                return $$"""
+                    namespace {{ns}}
+                    {
+                        class {{c}} {{getTagHelperBody(descriptor)}}
+                    }
+                    """;
+            }
+
+            return $$"""
+                class {{typeName}} {{getTagHelperBody(descriptor)}}
+                """;
+
+            static string getTagHelperBody(TagHelperDescriptor descriptor)
+            {
+                var attributes = descriptor.BoundAttributes.Select(attribute => $$"""
+                    public {{attribute.TypeName}} {{attribute.GetPropertyName()}}
+                    {
+                        get => throw new System.NotImplementedException();
+                        set { }
+                    }
+                    """);
+
+                return $$"""
+                    : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
+                    {
+                        {{string.Join("\n", attributes)}}
+                    }
+                    """;
+            }
+        });
+
+        AddCSharpSyntaxTree(string.Join("\n", tagHelperClasses));
     }
 }
