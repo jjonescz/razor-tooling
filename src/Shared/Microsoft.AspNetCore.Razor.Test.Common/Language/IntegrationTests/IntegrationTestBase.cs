@@ -35,6 +35,7 @@ public abstract class IntegrationTestBase
         var referenceAssemblyRoots = new[]
         {
             typeof(System.Runtime.AssemblyTargetedPatchBandAttribute).Assembly, // System.Runtime
+            typeof(System.Console).Assembly,
             typeof(Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemMetadataAttribute).Assembly, // Microsoft.AspnetCore.Razor shims
         };
 
