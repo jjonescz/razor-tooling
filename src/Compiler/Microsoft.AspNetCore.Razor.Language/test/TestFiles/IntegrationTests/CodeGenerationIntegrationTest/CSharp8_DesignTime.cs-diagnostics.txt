@@ -1,15 +1,3 @@
-﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(57,18): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
-//     private Human? Person { get; set; }
-Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(57, 18),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(59,18): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
-//     private Human?[]? People { get; set; }
-Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(59, 18),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(59,21): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
-//     private Human?[]? People { get; set; }
-Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(59, 21),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(61,32): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
-//     private Func<Human, string>? DoSomething { get; set; }
-Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(61, 32),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(65,22): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
-//         public string? Name { get; set; }
-Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(65, 22)
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(6,16): warning CS8603: Possible null reference return.
+//         return null;
+Diagnostic(ErrorCode.WRN_NullReferenceReturn, "null").WithLocation(6, 16)
