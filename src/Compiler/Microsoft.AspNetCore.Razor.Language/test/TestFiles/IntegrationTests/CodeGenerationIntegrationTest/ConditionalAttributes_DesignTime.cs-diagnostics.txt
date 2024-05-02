@@ -1,6 +1,0 @@
-﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ConditionalAttributes.cshtml(12,23): error CS1061: 'IUrlHelper' does not contain a definition for 'Content' and no accessible extension method 'Content' accepting a first argument of type 'IUrlHelper' could be found (are you missing a using directive or an assembly reference?)
-//             __o = Url.Content("~/Scripts/jquery-1.6.2.min.js");
-Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Content").WithArguments("Microsoft.AspNetCore.Mvc.IUrlHelper", "Content").WithLocation(12, 23),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ConditionalAttributes.cshtml(13,23): error CS1061: 'IUrlHelper' does not contain a definition for 'Content' and no accessible extension method 'Content' accepting a first argument of type 'IUrlHelper' could be found (are you missing a using directive or an assembly reference?)
-//             __o = Url.Content("~/Scripts/modernizr-2.0.6-development-only.js");
-Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Content").WithArguments("Microsoft.AspNetCore.Mvc.IUrlHelper", "Content").WithLocation(13, 23)
