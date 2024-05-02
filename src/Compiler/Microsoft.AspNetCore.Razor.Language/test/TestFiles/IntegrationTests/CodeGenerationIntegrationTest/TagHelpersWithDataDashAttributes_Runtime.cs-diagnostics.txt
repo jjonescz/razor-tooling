@@ -1,0 +1,27 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(4,16): error CS0103: The name 'foo' does not exist in the current context
+// foo
+Diagnostic(ErrorCode.ERR_NameNotInContext, "foo").WithArguments("foo").WithLocation(4, 16),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(4,31): error CS0103: The name 'bar' does not exist in the current context
+// bar
+Diagnostic(ErrorCode.ERR_NameNotInContext, "bar").WithArguments("bar").WithLocation(4, 31),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(5,62): error CS0103: The name 'foo' does not exist in the current context
+// foo
+Diagnostic(ErrorCode.ERR_NameNotInContext, "foo").WithArguments("foo").WithLocation(5, 62),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(49,25): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::InputTagHelper __InputTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(49, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(50,25): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::DivTagHelper __DivTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(50, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(58,56): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __InputTagHelper = CreateTagHelper<global::InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(58, 56),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(76,54): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(76, 54),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(89,75): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("data-one", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(89, 75),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(101,75): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("data-two", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(101, 75)

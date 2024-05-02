@@ -1,0 +1,69 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(53,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.ATagHelper __TestNamespace_ATagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(53, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(54,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.CatchAllTagHelper __TestNamespace_CatchAllTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(54, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(55,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.ATagHelperMultipleSelectors __TestNamespace_ATagHelperMultipleSelectors;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(55, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(56,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper __TestNamespace_InputTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(56, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(57,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper2 __TestNamespace_InputTagHelper2;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(57, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(58,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.CatchAllTagHelper2 __TestNamespace_CatchAllTagHelper2;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(58, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(67,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_ATagHelper = CreateTagHelper<global::TestNamespace.ATagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(67, 66),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(69,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(69, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(84,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(84, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(99,83): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_ATagHelperMultipleSelectors = CreateTagHelper<global::TestNamespace.ATagHelperMultipleSelectors>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(99, 83),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(101,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(101, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(116,83): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_ATagHelperMultipleSelectors = CreateTagHelper<global::TestNamespace.ATagHelperMultipleSelectors>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(116, 83),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(118,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(118, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(145,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(145, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(171,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(171, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(186,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(186, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(211,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(211, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(213,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(213, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(215,74): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper2 = CreateTagHelper<global::TestNamespace.CatchAllTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(215, 74),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(233,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(233, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(235,74): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper2 = CreateTagHelper<global::TestNamespace.CatchAllTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(235, 74),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(251,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(251, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CssSelectorTagHelperAttributes.cshtml(253,74): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper2 = CreateTagHelper<global::TestNamespace.CatchAllTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(253, 74)

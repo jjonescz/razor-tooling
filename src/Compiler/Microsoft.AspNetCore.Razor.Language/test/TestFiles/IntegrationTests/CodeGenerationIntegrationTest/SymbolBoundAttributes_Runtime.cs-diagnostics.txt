@@ -1,0 +1,60 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(12,19): error CS0103: The name 'items' does not exist in the current context
+// items
+Diagnostic(ErrorCode.ERR_NameNotInContext, "items").WithArguments("items").WithLocation(12, 19),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(13,21): error CS0103: The name 'items' does not exist in the current context
+// items
+Diagnostic(ErrorCode.ERR_NameNotInContext, "items").WithArguments("items").WithLocation(13, 21),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(14,24): error CS0103: The name 'doSomething' does not exist in the current context
+// doSomething()
+Diagnostic(ErrorCode.ERR_NameNotInContext, "doSomething").WithArguments("doSomething").WithLocation(14, 24),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(15,25): error CS0103: The name 'doSomething' does not exist in the current context
+// doSomething()
+Diagnostic(ErrorCode.ERR_NameNotInContext, "doSomething").WithArguments("doSomething").WithLocation(15, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(52,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.CatchAllTagHelper __TestNamespace_CatchAllTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(52, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(60,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(60, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(64,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("bound", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(64, 72),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(87,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(87, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(91,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("bound", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(91, 72),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(115,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(115, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(119,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("bound", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(119, 72),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(143,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(143, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(147,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("bound", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(147, 72),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(171,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(171, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(175,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("bound", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(175, 72),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(190,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(190, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(194,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("bound", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(194, 72),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(197,82): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("#localminimized", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(197, 82),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(209,73): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_CatchAllTagHelper = CreateTagHelper<global::TestNamespace.CatchAllTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(209, 73),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SymbolBoundAttributes.cshtml(213,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("bound", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.Minimized);
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(213, 72)

@@ -1,0 +1,66 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(51,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper1 __TestNamespace_InputTagHelper1;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(51, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(52,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper2 __TestNamespace_InputTagHelper2;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(52, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(78,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(78, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(80,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(80, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(116,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(116, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(118,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(118, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(134,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("int-prefix-garlic", "TestNamespace.InputTagHelper1", "IntDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(134, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(148,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("int-prefix-garlic", "TestNamespace.InputTagHelper2", "IntDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(148, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(173,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(173, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(175,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(175, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(190,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("int-prefix-grabber", "TestNamespace.InputTagHelper2", "IntDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(190, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(195,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("int-prefix-salt", "TestNamespace.InputTagHelper1", "IntDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(195, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(224,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("string-prefix-grabber", "TestNamespace.InputTagHelper2", "StringDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(224, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(230,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("string-prefix-paprika", "TestNamespace.InputTagHelper1", "StringDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(230, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(238,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("string-prefix-cumin", "TestNamespace.InputTagHelper1", "StringDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(238, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(257,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("string-prefix-cumin", "TestNamespace.InputTagHelper2", "StringDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(257, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(271,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(271, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(273,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(273, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(277,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("int-prefix-value", "TestNamespace.InputTagHelper1", "IntDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(277, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(291,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("int-prefix-value", "TestNamespace.InputTagHelper2", "IntDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(291, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(296,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("string-prefix-thyme", "TestNamespace.InputTagHelper1", "StringDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(296, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(302,53): error CS0103: The name 'InvalidTagHelperIndexerAssignment' does not exist in the current context
+//                 throw new InvalidOperationException(InvalidTagHelperIndexerAssignment("string-prefix-thyme", "TestNamespace.InputTagHelper2", "StringDictionaryProperty"));
+Diagnostic(ErrorCode.ERR_NameNotInContext, "InvalidTagHelperIndexerAssignment").WithArguments("InvalidTagHelperIndexerAssignment").WithLocation(302, 53)
