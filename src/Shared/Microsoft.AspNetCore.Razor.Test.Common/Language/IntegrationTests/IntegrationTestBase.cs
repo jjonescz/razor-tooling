@@ -83,6 +83,8 @@ public abstract class IntegrationTestBase
 
     protected virtual bool DesignTime { get; } = false;
 
+    protected bool SkipLoadingDll { get; set; }
+
     /// <summary>
     /// Gets the
     /// </summary>
@@ -253,7 +255,7 @@ public abstract class IntegrationTestBase
         {
             throw new CompilationFailedException(compilation, diagnostics);
         }
-        else if (diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error))
+        else if (SkipLoadingDll || diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error))
         {
             return new CompiledAssembly(compilation, code.CodeDocument, assembly: null);
         }
@@ -626,7 +628,10 @@ public abstract class IntegrationTestBase
         var fileName = GetTestFileName(testName);
         var baselineFileName = Path.ChangeExtension(fileName, ".cs-diagnostics.txt");
 
-        var compiled = CompileToAssembly(new CompiledCSharpCode(BaseCompilation, codeDocument), ignoreRazorDiagnostics: true, throwOnFailure: false);
+        var compiled = CompileToAssembly(
+            new CompiledCSharpCode(BaseCompilation, codeDocument),
+            ignoreRazorDiagnostics: true,
+            throwOnFailure: false);
         var cSharpDiagnostics = compiled.Compilation.GetDiagnostics().Where(d => d.Severity != DiagnosticSeverity.Hidden);
         var actualDiagnosticsText = getActualDiagnosticsText(cSharpDiagnostics);
 
