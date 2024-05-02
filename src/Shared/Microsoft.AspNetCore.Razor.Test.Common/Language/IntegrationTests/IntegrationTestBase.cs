@@ -88,6 +88,8 @@ public abstract class IntegrationTestBase
 
     protected bool SkipLoadingDll { get; set; }
 
+    protected bool NullableEnable { get; set; }
+
     /// <summary>
     /// Gets the
     /// </summary>
@@ -636,8 +638,16 @@ public abstract class IntegrationTestBase
         var fileName = GetTestFileName(testName);
         var baselineFileName = Path.ChangeExtension(fileName, ".cs-diagnostics.txt");
 
+        var baseCompilation = BaseCompilation;
+
+        if (NullableEnable)
+        {
+            baseCompilation = baseCompilation.WithOptions(BaseCompilation.Options
+                .WithNullableContextOptions(NullableContextOptions.Enable));
+        }
+
         var compiled = CompileToAssembly(
-            new CompiledCSharpCode(BaseCompilation, codeDocument),
+            new CompiledCSharpCode(baseCompilation, codeDocument),
             ignoreRazorDiagnostics: true,
             throwOnFailure: false);
         var cSharpDiagnostics = compiled.Compilation.GetDiagnostics().Where(d => d.Severity != DiagnosticSeverity.Hidden);

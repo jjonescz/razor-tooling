@@ -26,6 +26,8 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
         // so the C# diagnostics would be different between .NET Framework and .NET Core.
         SkipVerifyingCSharpDiagnostics = ExecutionConditionUtil.IsDesktop;
 
+        NullableEnable = true;
+
         RunTest();
     }
 
