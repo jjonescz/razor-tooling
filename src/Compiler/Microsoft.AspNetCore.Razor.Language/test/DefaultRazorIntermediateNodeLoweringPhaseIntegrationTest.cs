@@ -9,7 +9,6 @@ using System.Collections.Immutable;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.AspNetCore.Razor.Language.Legacy;
-using Microsoft.AspNetCore.Razor.Language.Test;
 using Moq;
 using Xunit;
 using static Microsoft.AspNetCore.Razor.Language.CommonMetadata;
@@ -17,7 +16,7 @@ using static Microsoft.AspNetCore.Razor.Language.Intermediate.IntermediateNodeAs
 
 namespace Microsoft.AspNetCore.Razor.Language;
 
-public class DefaultRazorIntermediateNodeLoweringPhaseIntegrationTest : IntermediateNodeTestBase
+public class DefaultRazorIntermediateNodeLoweringPhaseIntegrationTest
 {
     [Fact]
     public void Lower_SetsOptions_Defaults()

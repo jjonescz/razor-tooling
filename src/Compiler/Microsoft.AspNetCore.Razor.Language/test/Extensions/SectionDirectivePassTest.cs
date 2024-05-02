@@ -4,13 +4,12 @@
 #nullable disable
 
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
-using Microsoft.AspNetCore.Razor.Language.Test;
 using Xunit;
 using static Microsoft.AspNetCore.Razor.Language.Intermediate.IntermediateNodeAssert;
 
 namespace Microsoft.AspNetCore.Razor.Language.Extensions;
 
-public class SectionDirectivePassTest : IntermediateNodeTestBase
+public class SectionDirectivePassTest
 {
     [Fact]
     public void Execute_SkipsDocumentWithNoClassNode()
