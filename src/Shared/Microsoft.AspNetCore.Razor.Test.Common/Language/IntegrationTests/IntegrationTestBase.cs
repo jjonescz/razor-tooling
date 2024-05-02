@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -627,7 +626,7 @@ public abstract class IntegrationTestBase
         var baselineFileName = Path.ChangeExtension(fileName, ".cs-diagnostics.txt");
 
         var compiled = CompileToAssembly(new CompiledCSharpCode(BaseCompilation, codeDocument), ignoreRazorDiagnostics: true, throwOnFailure: false);
-        var cSharpDiagnostics = compiled.Compilation.GetDiagnostics();
+        var cSharpDiagnostics = compiled.Compilation.GetDiagnostics().Where(d => d.Severity != DiagnosticSeverity.Hidden);
         var actualDiagnosticsText = getActualDiagnosticsText(cSharpDiagnostics);
 
         if (GenerateBaselines.ShouldGenerate)
@@ -654,7 +653,7 @@ public abstract class IntegrationTestBase
         
         AssertEx.Equal(baselineDiagnostics, actualDiagnosticsText);
 
-        static string getActualDiagnosticsText(ImmutableArray<Diagnostic> diagnostics)
+        static string getActualDiagnosticsText(IEnumerable<Diagnostic> diagnostics)
         {
             var assertText = DiagnosticDescription.GetAssertText(
             expected: [],
