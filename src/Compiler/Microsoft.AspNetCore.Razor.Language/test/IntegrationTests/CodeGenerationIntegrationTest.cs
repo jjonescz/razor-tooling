@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Razor.Language.Extensions;
+using Microsoft.AspNetCore.Mvc.Razor.Extensions;
 using Microsoft.AspNetCore.Razor.Test.Common;
 
 namespace Microsoft.AspNetCore.Razor.Language.IntegrationTests;
@@ -275,15 +275,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     private void DesignTimeTest(string testName)
     {
         // Arrange
-        var projectEngine = CreateProjectEngine(builder =>
-        {
-            builder.ConfigureDocumentClassifier(GetTestFileName(testName));
-
-            // Some of these tests use templates
-            builder.AddTargetExtension(new TemplateTargetExtension());
-
-            SectionDirective.Register(builder);
-        });
+        var projectEngine = CreateProjectEngine(RazorExtensions.Register);
 
         var projectItem = CreateProjectItemFromFile(testName: testName);
 
@@ -303,15 +295,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     private void RunTimeTest(string testName)
     {
         // Arrange
-        var projectEngine = CreateProjectEngine(builder =>
-        {
-            builder.ConfigureDocumentClassifier(GetTestFileName(testName));
-
-            // Some of these tests use templates
-            builder.AddTargetExtension(new TemplateTargetExtension());
-
-            SectionDirective.Register(builder);
-        });
+        var projectEngine = CreateProjectEngine(RazorExtensions.Register);
 
         var projectItem = CreateProjectItemFromFile(testName: testName);
 
@@ -340,15 +324,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     private void RunRuntimeTagHelpersTest(IEnumerable<TagHelperDescriptor> descriptors, string testName)
     {
         // Arrange
-        var projectEngine = CreateProjectEngine(builder =>
-        {
-            builder.ConfigureDocumentClassifier(GetTestFileName(testName));
-
-            // Some of these tests use templates
-            builder.AddTargetExtension(new TemplateTargetExtension());
-
-            SectionDirective.Register(builder);
-        });
+        var projectEngine = CreateProjectEngine(RazorExtensions.Register);
 
         var projectItem = CreateProjectItemFromFile(testName: testName);
         var imports = GetImports(projectEngine, projectItem);
@@ -365,15 +341,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     private void RunDesignTimeTagHelpersTest(IEnumerable<TagHelperDescriptor> descriptors, string testName)
     {
         // Arrange
-        var projectEngine = CreateProjectEngine(builder =>
-        {
-            builder.ConfigureDocumentClassifier(GetTestFileName(testName));
-
-            // Some of these tests use templates
-            builder.AddTargetExtension(new TemplateTargetExtension());
-
-            SectionDirective.Register(builder);
-        });
+        var projectEngine = CreateProjectEngine(RazorExtensions.Register);
 
         var projectItem = CreateProjectItemFromFile(testName: testName);
         var imports = GetImports(projectEngine, projectItem);
