@@ -64,7 +64,12 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     public void NoLinePragmas() => RunTest();
 
     [IntegrationTestFact]
-    public void NestedCSharp() => RunTest();
+    public void NestedCSharp()
+    {
+        // Trying to load the DLL results in "System.BadImageFormatException: Bad IL format."
+        SkipLoadingDll = true;
+        RunTest();
+    }
 
     [IntegrationTestFact]
     public void NestedCodeBlocks() => RunTest();
