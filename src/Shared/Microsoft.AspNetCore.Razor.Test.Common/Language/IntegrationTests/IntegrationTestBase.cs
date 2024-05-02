@@ -638,16 +638,16 @@ public abstract class IntegrationTestBase
         var fileName = GetTestFileName(testName);
         var baselineFileName = Path.ChangeExtension(fileName, ".cs-diagnostics.txt");
 
-        var baseCompilation = BaseCompilation;
+        var compilation = BaseCompilation.AddSyntaxTrees(CSharpSyntaxTrees);
 
         if (NullableEnable)
         {
-            baseCompilation = baseCompilation.WithOptions(BaseCompilation.Options
+            compilation = compilation.WithOptions(compilation.Options
                 .WithNullableContextOptions(NullableContextOptions.Enable));
         }
 
         var compiled = CompileToAssembly(
-            new CompiledCSharpCode(baseCompilation, codeDocument),
+            new CompiledCSharpCode(compilation, codeDocument),
             ignoreRazorDiagnostics: true,
             throwOnFailure: false);
         var cSharpDiagnostics = compiled.Compilation.GetDiagnostics().Where(d => d.Severity != DiagnosticSeverity.Hidden);
