@@ -1,24 +1,9 @@
 ﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(4,21): error CS0103: The name 'MyEnum' does not exist in the current context
 //     var enumValue = MyEnum.MyValue;
 Diagnostic(ErrorCode.ERR_NameNotInContext, "MyEnum").WithArguments("MyEnum").WithLocation(4, 21),
-// (5,39): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
-//     public Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum CatchAll
-Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(5, 39),
 // TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(7,16): error CS0103: The name 'MyEnum' does not exist in the current context
 // MyEnum.MyValue
 Diagnostic(ErrorCode.ERR_NameNotInContext, "MyEnum").WithArguments("MyEnum").WithLocation(7, 16),
 // TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(8,16): error CS0103: The name 'MyEnum' does not exist in the current context
 // MyEnum.MySecondValue
-Diagnostic(ErrorCode.ERR_NameNotInContext, "MyEnum").WithArguments("MyEnum").WithLocation(8, 16),
-// (16,39): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
-//     public Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum Value
-Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(16, 39),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(118,52): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
-//             __TestNamespace_InputTagHelper.Value = global::Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum.
-Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(118, 52),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(143,52): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
-//             __TestNamespace_InputTagHelper.Value = global::Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum.
-Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(143, 52),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EnumTagHelpers.cshtml(153,58): error CS0234: The type or namespace name 'Language' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
-//             __TestNamespace_CatchAllTagHelper.CatchAll = global::Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestTagHelperDescriptors.MyEnum.
-Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.Language").WithArguments("Language", "Microsoft.AspNetCore.Razor").WithLocation(153, 58)
+Diagnostic(ErrorCode.ERR_NameNotInContext, "MyEnum").WithArguments("MyEnum").WithLocation(8, 16)
