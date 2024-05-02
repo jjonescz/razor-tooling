@@ -194,7 +194,13 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     public void IncompleteTagHelper() => RunTagHelpersTest(TestTagHelperDescriptors.DefaultPAndInputTagHelperDescriptors);
 
     [IntegrationTestFact]
-    public void BasicTagHelpers() => RunTagHelpersTest(TestTagHelperDescriptors.DefaultPAndInputTagHelperDescriptors);
+    public void BasicTagHelpers()
+    {
+        // Trying to load the DLL results in "System.BadImageFormatException: Bad IL format."
+        SkipLoadingDll = designTime;
+
+        RunTagHelpersTest(TestTagHelperDescriptors.DefaultPAndInputTagHelperDescriptors);
+    }
 
     [IntegrationTestFact]
     public void BasicTagHelpers_Prefixed() => RunTagHelpersTest(TestTagHelperDescriptors.DefaultPAndInputTagHelperDescriptors);
@@ -236,7 +242,13 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     public void MinimizedTagHelpers() => RunTagHelpersTest(TestTagHelperDescriptors.MinimizedTagHelpers_Descriptors);
 
     [IntegrationTestFact]
-    public void NestedScriptTagTagHelpers() => RunTagHelpersTest(TestTagHelperDescriptors.DefaultPAndInputTagHelperDescriptors);
+    public void NestedScriptTagTagHelpers()
+    {
+        // Trying to load the DLL results in "System.BadImageFormatException: Bad IL format."
+        SkipLoadingDll = true;
+
+        RunTagHelpersTest(TestTagHelperDescriptors.DefaultPAndInputTagHelperDescriptors);
+    }
 
     [IntegrationTestFact]
     public void SymbolBoundAttributes() => RunTagHelpersTest(TestTagHelperDescriptors.SymbolBoundTagHelperDescriptors);
