@@ -1,0 +1,36 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(4,16): error CS0103: The name 'foo' does not exist in the current context
+//          __o = foo;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "foo").WithArguments("foo").WithLocation(4, 16),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(4,31): error CS0103: The name 'bar' does not exist in the current context
+//                         __o = bar;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "bar").WithArguments("bar").WithLocation(4, 31),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(5,62): error CS0103: The name 'foo' does not exist in the current context
+//                                                        __o = foo;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "foo").WithArguments("foo").WithLocation(5, 62),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(10,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(10, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(12,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(12, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(12,146): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(12, 146),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(13,25): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::InputTagHelper __InputTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(13, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(14,25): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::DivTagHelper __DivTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(14, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(35,32): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __InputTagHelper = CreateTagHelper<global::InputTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::InputTagHelper>").WithArguments("CreateTagHelper").WithLocation(35, 32),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(35,56): error CS0400: The type or namespace name 'InputTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __InputTagHelper = CreateTagHelper<global::InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "InputTagHelper").WithArguments("InputTagHelper").WithLocation(35, 56),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(38,30): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::DivTagHelper>").WithArguments("CreateTagHelper").WithLocation(38, 30),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithDataDashAttributes.cshtml(38,54): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(38, 54)

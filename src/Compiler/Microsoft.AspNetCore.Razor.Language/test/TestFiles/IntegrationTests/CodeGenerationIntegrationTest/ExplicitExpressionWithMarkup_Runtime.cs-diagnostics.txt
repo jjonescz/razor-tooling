@@ -1,0 +1,12 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_ExplicitExpressionWithMarkup_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"d6b6b46422180a2d5485fc829481edf617295af5ea333631211aa0c2c472d178", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("<div>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml(15,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(15, 13)

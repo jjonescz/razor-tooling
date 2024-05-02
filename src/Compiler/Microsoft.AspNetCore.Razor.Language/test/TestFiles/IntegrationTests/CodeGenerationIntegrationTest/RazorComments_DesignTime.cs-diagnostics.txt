@@ -1,0 +1,6 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(6,5): error CS0246: The type or namespace name 'Exception' could not be found (are you missing a using directive or an assembly reference?)
+//     Exception foo = 
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Exception").WithArguments("Exception").WithLocation(6, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(15,7): error CS0103: The name 'ab' does not exist in the current context
+// __o = ab;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ab").WithArguments("ab").WithLocation(15, 7)

@@ -1,0 +1,83 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Usings_OutOfOrder_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(15,2): hidden CS8019: Unnecessary using directive.
+// using static System
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, @"using static System
+
+#nullable disable
+    ;").WithLocation(15, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(15,15): error CS7007: A 'using static' directive can only be applied to types; 'System' is a namespace not a type. Consider a 'using namespace' directive instead
+// using static System
+Diagnostic(ErrorCode.ERR_BadUsingType, "System").WithArguments("System").WithLocation(15, 15),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(16,2): hidden CS8019: Unnecessary using directive.
+// using static System.Console
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, @"using static System.Console
+
+#nullable disable
+    ;").WithLocation(16, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(16,22): error CS0234: The type or namespace name 'Console' does not exist in the namespace 'System' (are you missing an assembly reference?)
+// using static System.Console
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Console").WithArguments("Console", "System").WithLocation(16, 22),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(22,2): hidden CS8019: Unnecessary using directive.
+// using static global::System.Text.Encoding
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, @"using static global::System.Text.Encoding
+
+#nullable disable
+    ;").WithLocation(22, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(25,41): error CS0103: The name 'ViewData' does not exist in the current context
+//     using var disposable = (IDisposable)ViewData["disposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(25, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(26,61): error CS0103: The name 'ViewData' does not exist in the current context
+//     using System.IDisposable otherDisposable = (IDisposable)ViewData["otherdisposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(26, 61),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(32,2): hidden CS8019: Unnecessary using directive.
+// using System.Text
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, @"using System.Text
+
+#line default
+#line hidden
+#nullable disable
+    ;").WithLocation(32, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(52,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"a3144fef15024ccbbb19682bfb110b149c637f2ae64b4499962195e7612ba274", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(52, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(58,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(58, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(59,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(59, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(60,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(60, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(61,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(61, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(62,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(62, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(63,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(63, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(64,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(64, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(65,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(65, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(76,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n<p>Path\'s full type name is ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(76, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(77,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(77, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(86,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n<p>Foo\'s actual full type name is ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(86, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(87,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(87, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(96,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(96, 13)

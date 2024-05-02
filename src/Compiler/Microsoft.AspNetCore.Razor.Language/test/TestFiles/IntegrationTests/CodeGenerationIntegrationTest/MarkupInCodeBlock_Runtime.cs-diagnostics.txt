@@ -1,0 +1,15 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/MarkupInCodeBlock.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_MarkupInCodeBlock_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/MarkupInCodeBlock.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/MarkupInCodeBlock.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"8d4533fb0fc90f8228aa0b0c9ec2d1cb53d3ef9b2018884e3e906a63b2e7ec39", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/MarkupInCodeBlock.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/MarkupInCodeBlock.cshtml(23,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("        <p>Hello from C#, #");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(23, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/MarkupInCodeBlock.cshtml(24,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(24, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/MarkupInCodeBlock.cshtml(33,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(33, 13)

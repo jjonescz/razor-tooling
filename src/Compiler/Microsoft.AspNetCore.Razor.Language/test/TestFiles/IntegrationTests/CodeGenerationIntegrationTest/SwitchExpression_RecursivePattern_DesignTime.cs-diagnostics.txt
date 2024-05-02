@@ -1,0 +1,9 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SwitchExpression_RecursivePattern.cshtml(1,10): error CS0103: The name 'DateTimeOffset' does not exist in the current context
+//  switch (DateTimeOffset.UtcNow)
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DateTimeOffset").WithArguments("DateTimeOffset").WithLocation(1, 10),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SwitchExpression_RecursivePattern.cshtml(8,45): error CS0400: The type or namespace name 'Qualifier' could not be found in the global namespace (are you missing an assembly reference?)
+//     case ({ Test: { Nested.Pattern: global::Qualifier } }):
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "Qualifier").WithArguments("Qualifier").WithLocation(8, 45),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/SwitchExpression_RecursivePattern.cshtml(10,18): error CS0400: The type or namespace name 'Test' could not be found in the global namespace (are you missing an assembly reference?)
+//     case global::Test:
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "Test").WithArguments("Test").WithLocation(10, 18)

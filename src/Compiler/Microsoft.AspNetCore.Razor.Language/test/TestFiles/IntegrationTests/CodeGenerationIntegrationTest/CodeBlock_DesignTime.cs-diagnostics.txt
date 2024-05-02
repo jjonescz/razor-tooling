@@ -1,0 +1,3 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CodeBlock.cshtml(3,9): error CS0103: The name 'Output' does not exist in the current context
+//         Output.Write("<p>Hello from C#, #" + i.ToString() + "</p>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Output").WithArguments("Output").WithLocation(3, 9)

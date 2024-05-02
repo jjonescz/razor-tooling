@@ -1,0 +1,8 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Instrumented.cshtml(27,13): error CS8917: The delegate type could not be inferred.
+//             item => new Template(async(__razor_template_writer) => {
+Diagnostic(ErrorCode.ERR_CannotInferDelegateType, @"item => new Template(async(__razor_template_writer) => {
+            }
+            )").WithLocation(27, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Instrumented.cshtml(32,9): error CS0246: The type or namespace name 'Exception' could not be found (are you missing a using directive or an assembly reference?)
+// } catch(Exception ex) {
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Exception").WithArguments("Exception").WithLocation(32, 9)

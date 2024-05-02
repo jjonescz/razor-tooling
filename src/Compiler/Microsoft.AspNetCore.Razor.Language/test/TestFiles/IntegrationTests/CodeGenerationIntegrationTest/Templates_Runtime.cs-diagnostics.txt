@@ -1,0 +1,66 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(2,12): error CS0246: The type or namespace name 'HelperResult' could not be found (are you missing a using directive or an assembly reference?)
+//     public HelperResult Repeat(int times, Func<int, object> template) {
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "HelperResult").WithArguments("HelperResult").WithLocation(2, 12),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(2,43): error CS0246: The type or namespace name 'Func<,>' could not be found (are you missing a using directive or an assembly reference?)
+//     public HelperResult Repeat(int times, Func<int, object> template) {
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Func<int, object>").WithArguments("Func<,>").WithLocation(2, 43),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(3,20): error CS0246: The type or namespace name 'HelperResult' could not be found (are you missing a using directive or an assembly reference?)
+//         return new HelperResult((writer) => {
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "HelperResult").WithArguments("HelperResult").WithLocation(3, 20),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Templates_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"695d7f5579e84a072c03d019783c98e393c52ec6a24e022eb8ecb663955abd5c", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(12,5): error CS0246: The type or namespace name 'Func<,>' could not be found (are you missing a using directive or an assembly reference?)
+//     Func<dynamic, object> foo = 
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Func<dynamic, object>").WithArguments("Func<,>").WithLocation(12, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(17,5): error CS0246: The type or namespace name 'Func<,>' could not be found (are you missing a using directive or an assembly reference?)
+//     Func<dynamic, object> bar = 
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Func<dynamic, object>").WithArguments("Func<,>").WithLocation(17, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(49,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(49, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(58,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(58, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(95,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(95, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(104,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n<ul>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(104, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(105,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(105, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(137,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n</ul>\r\n\r\n<p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(137, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(138,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(138, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(171,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n</p>\r\n\r\n<p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(171, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(172,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(172, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(205,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n</p>\r\n\r\n<p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(205, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(206,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(206, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(239,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n</p>\r\n\r\n\r\n<ul>\r\n    ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(239, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(240,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(240, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Templates.cshtml(282,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n</ul> ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(282, 13)

@@ -1,0 +1,24 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(15,1): hidden CS8019: Unnecessary using directive.
+// using static System;
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, "using static System;").WithLocation(15, 1),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(15,14): error CS7007: A 'using static' directive can only be applied to types; 'System' is a namespace not a type. Consider a 'using namespace' directive instead
+// using static System;
+Diagnostic(ErrorCode.ERR_BadUsingType, "System").WithArguments("System").WithLocation(15, 14),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(16,1): hidden CS8019: Unnecessary using directive.
+// using static System.Console;
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, "using static System.Console;").WithLocation(16, 1),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(16,21): error CS0234: The type or namespace name 'Console' does not exist in the namespace 'System' (are you missing an assembly reference?)
+// using static System.Console;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Console").WithArguments("Console", "System").WithLocation(16, 21),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(22,1): hidden CS8019: Unnecessary using directive.
+// using static global::System.Text.Encoding;
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, "using static global::System.Text.Encoding;").WithLocation(22, 1),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(25,41): error CS0103: The name 'ViewData' does not exist in the current context
+//     using var disposable = (IDisposable)ViewData["disposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(25, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(26,61): error CS0103: The name 'ViewData' does not exist in the current context
+//     using System.IDisposable otherDisposable = (IDisposable)ViewData["otherdisposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(26, 61),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings_OutOfOrder.cshtml(32,1): hidden CS8019: Unnecessary using directive.
+// using System.Text;
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, "using System.Text;").WithLocation(32, 1)

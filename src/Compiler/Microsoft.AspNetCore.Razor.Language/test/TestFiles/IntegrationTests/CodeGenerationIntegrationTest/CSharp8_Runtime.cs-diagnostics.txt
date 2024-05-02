@@ -1,0 +1,90 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_CSharp8_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(14,5): error CS0246: The type or namespace name 'Range' could not be found (are you missing a using directive or an assembly reference?)
+//     Range range = 1..5;
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Range").WithArguments("Range").WithLocation(14, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(16,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"4c55c366b179d82f3d2800004985646e9bf0edbf993e2f4a94cbb70079823905", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(16, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(17,17): error CS0103: The name 'Array' does not exist in the current context
+//     var words = Array.Empty<string>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Array").WithArguments("Array").WithLocation(17, 17),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(22,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(22, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(42,2): error CS0149: Method name expected
+// DoSomething!(Person!)
+Diagnostic(ErrorCode.ERR_MethodNameExpected, "DoSomething!").WithLocation(42, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(50,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(50, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(51,5): error CS0246: The type or namespace name 'IDisposable' could not be found (are you missing a using directive or an assembly reference?)
+//     IDisposable GetLastDisposableInRange(Range range)
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "IDisposable").WithArguments("IDisposable").WithLocation(51, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(51,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(51, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(51,42): error CS0246: The type or namespace name 'Range' could not be found (are you missing a using directive or an assembly reference?)
+//     IDisposable GetLastDisposableInRange(Range range)
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Range").WithArguments("Range").WithLocation(51, 42),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(53,28): error CS0246: The type or namespace name 'IDisposable' could not be found (are you missing a using directive or an assembly reference?)
+//         var disposables = (IDisposable[])ViewData["disposables"];
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "IDisposable").WithArguments("IDisposable").WithLocation(53, 28),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(53,42): error CS0103: The name 'ViewData' does not exist in the current context
+//         var disposables = (IDisposable[])ViewData["disposables"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(53, 42),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(57,18): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
+//     private Human? Person { get; set; }
+Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(57, 18),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(59,18): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
+//     private Human?[]? People { get; set; }
+Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(59, 18),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(59,21): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
+//     private Human?[]? People { get; set; }
+Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(59, 21),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(60,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(60, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(61,13): error CS0246: The type or namespace name 'Func<,>' could not be found (are you missing a using directive or an assembly reference?)
+//     private Func<Human, string>? DoSomething { get; set; }
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Func<Human, string>").WithArguments("Func<,>").WithLocation(61, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(61,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(61, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(65,22): warning CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.
+//         public string? Name { get; set; }
+Diagnostic(ErrorCode.WRN_MissingNonNullTypesContextForAnnotationInGeneratedCode, "?").WithLocation(65, 22),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(70,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(70, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(71,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(71, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(85,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(85, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(96,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(96, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(114,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(114, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(115,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(115, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(124,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(124, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(125,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(125, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(134,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(134, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(135,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(135, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp8.cshtml(144,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(144, 13)

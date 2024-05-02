@@ -1,0 +1,6 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/StringLiterals.cshtml(38,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("WriteLiteralsToInHere", async(__razor_section_writer) => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(38, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/StringLiterals.cshtml(41,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("WriteLiteralsToInHereAlso", async(__razor_section_writer) => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(41, 13)

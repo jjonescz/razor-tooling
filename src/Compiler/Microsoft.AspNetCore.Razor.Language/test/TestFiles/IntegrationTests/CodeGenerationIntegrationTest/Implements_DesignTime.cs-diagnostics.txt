@@ -1,0 +1,12 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Implements.cshtml(1,1): error CS0246: The type or namespace name 'IDisposable' could not be found (are you missing a using directive or an assembly reference?)
+// IDisposable __typeHelper = default!;
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "IDisposable").WithArguments("IDisposable").WithLocation(1, 1),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Implements.cshtml(4,10): error CS0246: The type or namespace name 'IDisposable' could not be found (are you missing a using directive or an assembly reference?)
+//     void IDisposable.Dispose() { }
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "IDisposable").WithArguments("IDisposable").WithLocation(4, 10),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Implements.cshtml(4,10): error CS0538: 'IDisposable' in explicit interface declaration is not an interface
+//     void IDisposable.Dispose() { }
+Diagnostic(ErrorCode.ERR_ExplicitInterfaceImplementationNotInterface, "IDisposable").WithArguments("IDisposable").WithLocation(4, 10),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Implements.cshtml(6,99): error CS0246: The type or namespace name 'IDisposable' could not be found (are you missing a using directive or an assembly reference?)
+//     public class TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Implements_DesignTime : IDisposable
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "IDisposable").WithArguments("IDisposable").WithLocation(6, 99)

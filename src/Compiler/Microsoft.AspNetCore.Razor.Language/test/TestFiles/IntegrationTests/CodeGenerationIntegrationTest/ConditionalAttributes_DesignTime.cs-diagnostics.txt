@@ -1,0 +1,6 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ConditionalAttributes.cshtml(12,19): error CS0103: The name 'Url' does not exist in the current context
+//             __o = Url.Content("~/Scripts/jquery-1.6.2.min.js");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Url").WithArguments("Url").WithLocation(12, 19),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ConditionalAttributes.cshtml(13,19): error CS0103: The name 'Url' does not exist in the current context
+//             __o = Url.Content("~/Scripts/modernizr-2.0.6-development-only.js");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Url").WithArguments("Url").WithLocation(13, 19)

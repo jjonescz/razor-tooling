@@ -1,0 +1,59 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Usings_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(5,2): hidden CS8019: Unnecessary using directive.
+// using static System
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, @"using static System
+
+#nullable disable
+    ;").WithLocation(5, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(5,15): error CS7007: A 'using static' directive can only be applied to types; 'System' is a namespace not a type. Consider a 'using namespace' directive instead
+// using static System
+Diagnostic(ErrorCode.ERR_BadUsingType, "System").WithArguments("System").WithLocation(5, 15),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(6,2): hidden CS8019: Unnecessary using directive.
+// using static System.Console
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, @"using static System.Console
+
+#nullable disable
+    ;").WithLocation(6, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(6,22): error CS0234: The type or namespace name 'Console' does not exist in the namespace 'System' (are you missing an assembly reference?)
+// using static System.Console
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Console").WithArguments("Console", "System").WithLocation(6, 22),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(7,2): hidden CS8019: Unnecessary using directive.
+// using static global::System.Text.Encoding
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, @"using static global::System.Text.Encoding
+
+#line default
+#line hidden
+#nullable disable
+    ;").WithLocation(7, 2),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(10,41): error CS0103: The name 'ViewData' does not exist in the current context
+//     using var disposable = (IDisposable)ViewData["disposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(10, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(11,61): error CS0103: The name 'ViewData' does not exist in the current context
+//     using System.IDisposable otherDisposable = (IDisposable)ViewData["otherdisposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(11, 61),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(46,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"f52e72ba69034334ab681d1f5e91cd50788cbfc0d1390104ee1e60d95d4ca443", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(46, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(52,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(52, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(53,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(53, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(64,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n<p>Path\'s full type name is ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(64, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(65,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(65, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(74,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n<p>Foo\'s actual full type name is ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(74, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(75,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(75, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(84,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(84, 13)

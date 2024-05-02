@@ -1,0 +1,198 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_TagHelpersWithWeirdlySpacedAttributes_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"d9b84e2f98477223e105fd1bb35f0717dea379bb406844d36d35a9220d093ff3", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(11,68): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("Hello World"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(11, 68),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(11,162): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("Hello World"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(11, 162),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(11,234): error CS0234: The type or namespace name 'Html' does not exist in the namespace 'Microsoft.AspNetCore' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("Hello World"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Html").WithArguments("Html", "Microsoft.AspNetCore").WithLocation(11, 234),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(11,266): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("Hello World"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(11, 266),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(12,68): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("type", "text", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.SingleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(12, 68),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(12,162): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("type", "text", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.SingleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(12, 162),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(12,208): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("type", "text", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.SingleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(12, 208),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(13,68): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_2 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(13, 68),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(13,162): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_2 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(13, 162),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(13,241): error CS0234: The type or namespace name 'Html' does not exist in the namespace 'Microsoft.AspNetCore' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_2 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Html").WithArguments("Html", "Microsoft.AspNetCore").WithLocation(13, 241),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(13,267): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_2 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(13, 267),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(14,68): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_3 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello2"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.SingleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(14, 68),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(14,162): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_3 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello2"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.SingleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(14, 162),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(14,241): error CS0234: The type or namespace name 'Html' does not exist in the namespace 'Microsoft.AspNetCore' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_3 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello2"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.SingleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Html").WithArguments("Html", "Microsoft.AspNetCore").WithLocation(14, 241),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(14,268): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_3 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("hello2"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.SingleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(14, 268),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(15,68): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_4 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("type", "password", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(15, 68),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(15,162): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_4 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("type", "password", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(15, 162),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(15,212): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_4 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("type", "password", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(15, 212),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(16,68): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_5 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("blah"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(16, 68),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(16,162): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_5 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("blah"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(16, 162),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(16,241): error CS0234: The type or namespace name 'Html' does not exist in the namespace 'Microsoft.AspNetCore' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_5 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("blah"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Html").WithArguments("Html", "Microsoft.AspNetCore").WithLocation(16, 241),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(16,266): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_5 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("data-content", new global::Microsoft.AspNetCore.Html.HtmlString("blah"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(16, 266),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(19,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(19, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(21,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(21, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(21,146): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(21, 146),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(25,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __backed__tagHelperScopeManager = null;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(25, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(26,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __tagHelperScopeManager
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(26, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(32,94): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//                     __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(32, 94),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(32,135): error CS0103: The name 'StartTagHelperWritingScope' does not exist in the current context
+//                     __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "StartTagHelperWritingScope").WithArguments("StartTagHelperWritingScope").WithLocation(32, 135),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(32,163): error CS0103: The name 'EndTagHelperWritingScope' does not exist in the current context
+//                     __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "EndTagHelperWritingScope").WithArguments("EndTagHelperWritingScope").WithLocation(32, 163),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(37,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.PTagHelper __TestNamespace_PTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(37, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(38,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper __TestNamespace_InputTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(38, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(39,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper2 __TestNamespace_InputTagHelper2;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(39, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(43,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(43, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(44,78): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("p", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "test", async() => {
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(44, 78),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(48,42): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.PTagHelper>").WithArguments("CreateTagHelper").WithLocation(48, 42),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(48,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(48, 66),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(60,102): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext.AddTagHelperAttribute("age", __TestNamespace_PTagHelper.Age, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(60, 102),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(61,13): error CS0103: The name 'BeginWriteTagHelperAttribute' does not exist in the current context
+//             BeginWriteTagHelperAttribute();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "BeginWriteTagHelperAttribute").WithArguments("BeginWriteTagHelperAttribute").WithLocation(61, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(62,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(62, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(71,44): error CS0103: The name 'EndWriteTagHelperAttribute' does not exist in the current context
+//             __tagHelperStringValueBuffer = EndWriteTagHelperAttribute();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "EndWriteTagHelperAttribute").WithArguments("EndWriteTagHelperAttribute").WithLocation(71, 44),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(72,74): error CS0103: The name 'Html' does not exist in the current context
+//             __tagHelperExecutionContext.AddHtmlAttribute("data-content", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Html").WithArguments("Html").WithLocation(72, 74),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(72,114): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext.AddHtmlAttribute("data-content", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(72, 114),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(78,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(__tagHelperExecutionContext.Output);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(78, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(80,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(80, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(81,82): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "test", async() => {
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(81, 82),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(84,46): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper>").WithArguments("CreateTagHelper").WithLocation(84, 46),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(84,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(84, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(86,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper2>").WithArguments("CreateTagHelper").WithLocation(86, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(86,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(86, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(98,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(__tagHelperExecutionContext.Output);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(98, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(100,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(100, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(101,78): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("p", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "test", async() => {
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(101, 78),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(104,42): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.PTagHelper>").WithArguments("CreateTagHelper").WithLocation(104, 42),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(104,66): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_PTagHelper = CreateTagHelper<global::TestNamespace.PTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(104, 66),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(115,102): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext.AddTagHelperAttribute("age", __TestNamespace_PTagHelper.Age, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(115, 102),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(122,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(__tagHelperExecutionContext.Output);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(122, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(124,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(124, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(125,82): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "test", async() => {
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(125, 82),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(128,46): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper>").WithArguments("CreateTagHelper").WithLocation(128, 46),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(128,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(128, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(130,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper2>").WithArguments("CreateTagHelper").WithLocation(130, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(130,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(130, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(142,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(__tagHelperExecutionContext.Output);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(142, 13)

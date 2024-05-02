@@ -1,0 +1,9 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/HtmlCommentWithQuote_Double.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_HtmlCommentWithQuote_Double_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/HtmlCommentWithQuote_Double.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/HtmlCommentWithQuote_Double.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"27a85171d5a386c4f1b5ff7df75346b702207bfa961bbf3b5418584132a09c45", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/HtmlCommentWithQuote_Double.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/HtmlCommentWithQuote_Double.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("<!-- \" -->\r\n<img src=\"~/images/submit.png\" />");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13)

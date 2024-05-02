@@ -1,0 +1,75 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_NoLinePragmas_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"5d359099ffaf3096190a7267378a546e5814b6a10f2691fdce13ec7577332aec", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(23,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(23, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(29,9): error CS0246: The type or namespace name 'Exception' could not be found (are you missing a using directive or an assembly reference?)
+// } catch(Exception ex) {
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Exception").WithArguments("Exception").WithLocation(29, 9),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(32,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("    <p>Hello from C#, #");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(32, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(33,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(33, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(42,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(42, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(52,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(52, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(61,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("    <p>We wrote 10 lines!</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(61, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(70,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(70, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(80,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("        <p>No really, we wrote 10 lines!</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(80, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(90,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("        <p>Actually, we didn\'t...</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(90, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(100,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(100, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(109,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("    <p>Hello again from C#, #");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(109, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(110,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(110, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(119,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(119, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(128,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(128, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(137,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("    <p>That time, we wrote 5 lines!</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(137, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(146,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("    <p>Oh no! An error occurred: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(146, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(147,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(147, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(156,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(156, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(166,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("<p>i is now ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(166, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(167,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(167, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(176,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(176, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NoLinePragmas.cshtml(185,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("    <p>This block is locked, for your security!</p>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(185, 13)

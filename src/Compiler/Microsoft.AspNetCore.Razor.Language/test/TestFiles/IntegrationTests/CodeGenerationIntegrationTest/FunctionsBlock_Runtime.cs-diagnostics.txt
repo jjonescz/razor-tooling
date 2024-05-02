@@ -1,0 +1,21 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_FunctionsBlock_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(6,5): error CS0246: The type or namespace name 'Random' could not be found (are you missing a using directive or an assembly reference?)
+//     Random _rand = new Random();
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Random").WithArguments("Random").WithLocation(6, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(6,24): error CS0246: The type or namespace name 'Random' could not be found (are you missing a using directive or an assembly reference?)
+//     Random _rand = new Random();
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Random").WithArguments("Random").WithLocation(6, 24),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"87718d380117c487f66665bd4c191fcab3bbf6821e64caa809bf2fd1ad6af664", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(15,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\nHere\'s a random number: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(15, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(16,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(16, 13)

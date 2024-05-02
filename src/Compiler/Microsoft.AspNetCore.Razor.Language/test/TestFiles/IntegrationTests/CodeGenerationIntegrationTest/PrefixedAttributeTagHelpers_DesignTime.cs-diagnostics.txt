@@ -1,0 +1,69 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(5,29): error CS0246: The type or namespace name 'Dictionary<,>' could not be found (are you missing a using directive or an assembly reference?)
+//     var intDictionary = new Dictionary<string, int>
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Dictionary<string, int>").WithArguments("Dictionary<,>").WithLocation(5, 29),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(9,32): error CS0246: The type or namespace name 'SortedDictionary<,>' could not be found (are you missing a using directive or an assembly reference?)
+//     var stringDictionary = new SortedDictionary<string, string>
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "SortedDictionary<string, string>").WithArguments("SortedDictionary<,>").WithLocation(9, 32),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(10,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(10, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(12,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(12, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(12,146): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(12, 146),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(13,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper1 __TestNamespace_InputTagHelper1;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(13, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(14,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper2 __TestNamespace_InputTagHelper2;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(14, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(51,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper1>").WithArguments("CreateTagHelper").WithLocation(51, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(51,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(51, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(52,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper2>").WithArguments("CreateTagHelper").WithLocation(52, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(52,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(52, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(70,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper1>").WithArguments("CreateTagHelper").WithLocation(70, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(70,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(70, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(71,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper2>").WithArguments("CreateTagHelper").WithLocation(71, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(71,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(71, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(97,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper1>").WithArguments("CreateTagHelper").WithLocation(97, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(97,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(97, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(98,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper2>").WithArguments("CreateTagHelper").WithLocation(98, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(98,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(98, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(137,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper1>").WithArguments("CreateTagHelper").WithLocation(137, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(137,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper1 = CreateTagHelper<global::TestNamespace.InputTagHelper1>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(137, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(138,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper2>").WithArguments("CreateTagHelper").WithLocation(138, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/PrefixedAttributeTagHelpers.cshtml(138,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(138, 71)

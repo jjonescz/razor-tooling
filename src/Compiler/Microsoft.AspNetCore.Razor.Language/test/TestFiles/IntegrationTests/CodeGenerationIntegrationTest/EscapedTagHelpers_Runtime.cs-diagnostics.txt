@@ -1,0 +1,108 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(4,30): error CS0103: The name 'DateTime' does not exist in the current context
+// DateTime.Now
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DateTime").WithArguments("DateTime").WithLocation(4, 30),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_EscapedTagHelpers_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(6,52): error CS0103: The name 'DateTime' does not exist in the current context
+// DateTime.Now
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DateTime").WithArguments("DateTime").WithLocation(6, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"602b63a03b7490d9350a834c628e36b03134479ea417de4aca379f59b8089f35", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(13,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(13, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(15,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(15, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(15,146): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(15, 146),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(19,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __backed__tagHelperScopeManager = null;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(19, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(20,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager __tagHelperScopeManager
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(20, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(26,94): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//                     __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(26, 94),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(26,135): error CS0103: The name 'StartTagHelperWritingScope' does not exist in the current context
+//                     __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "StartTagHelperWritingScope").WithArguments("StartTagHelperWritingScope").WithLocation(26, 135),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(26,163): error CS0103: The name 'EndTagHelperWritingScope' does not exist in the current context
+//                     __backed__tagHelperScopeManager = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperScopeManager(StartTagHelperWritingScope, EndTagHelperWritingScope);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "EndTagHelperWritingScope").WithArguments("EndTagHelperWritingScope").WithLocation(26, 163),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(31,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper __TestNamespace_InputTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(31, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(32,25): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::TestNamespace.InputTagHelper2 __TestNamespace_InputTagHelper2;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(32, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(36,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n<");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(36, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(37,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("div class=\"randomNonTagHelperAttribute\">\r\n    <");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(37, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(38,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("p class=\"Hello World\" ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(38, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(39,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(39, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(48,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(">\r\n        <");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(48, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(49,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("input type=\"text\" />\r\n        <");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(49, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(50,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("em>Not a TagHelper: </");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(50, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(51,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("em> ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(51, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(52,82): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("input", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "test", async() => {
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(52, 82),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(55,46): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper>").WithArguments("CreateTagHelper").WithLocation(55, 46),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(55,70): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper = CreateTagHelper<global::TestNamespace.InputTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(55, 70),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(57,47): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::TestNamespace.InputTagHelper2>").WithArguments("CreateTagHelper").WithLocation(57, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(57,71): error CS0400: The type or namespace name 'TestNamespace' could not be found in the global namespace (are you missing an assembly reference?)
+//             __TestNamespace_InputTagHelper2 = CreateTagHelper<global::TestNamespace.InputTagHelper2>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "TestNamespace").WithArguments("TestNamespace").WithLocation(57, 71),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(59,13): error CS0103: The name 'BeginWriteTagHelperAttribute' does not exist in the current context
+//             BeginWriteTagHelperAttribute();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "BeginWriteTagHelperAttribute").WithArguments("BeginWriteTagHelperAttribute").WithLocation(59, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(60,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(60, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(69,44): error CS0103: The name 'EndWriteTagHelperAttribute' does not exist in the current context
+//             __tagHelperStringValueBuffer = EndWriteTagHelperAttribute();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "EndWriteTagHelperAttribute").WithArguments("EndWriteTagHelperAttribute").WithLocation(69, 44),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(71,108): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext.AddTagHelperAttribute("type", __TestNamespace_InputTagHelper.Type, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(71, 108),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(82,115): error CS0234: The type or namespace name 'TagHelpers' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//             __tagHelperExecutionContext.AddTagHelperAttribute("checked", __TestNamespace_InputTagHelper2.Checked, global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "global::Microsoft.AspNetCore.Razor.TagHelpers").WithArguments("TagHelpers", "Microsoft.AspNetCore.Razor").WithLocation(82, 115),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(88,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(__tagHelperExecutionContext.Output);
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(88, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(90,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n    </");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(90, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(91,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("p>\r\n</");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(91, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/EscapedTagHelpers.cshtml(92,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("div>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(92, 13)

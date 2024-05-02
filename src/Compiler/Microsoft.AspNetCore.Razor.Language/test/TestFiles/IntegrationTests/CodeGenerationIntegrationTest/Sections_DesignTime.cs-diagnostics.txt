@@ -1,0 +1,15 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(2,5): error CS0103: The name 'Layout' does not exist in the current context
+//     Layout = "_SectionTestLayout.cshtml"
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Layout").WithArguments("Layout").WithLocation(2, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(2,41): error CS1002: ; expected
+//     Layout = "_SectionTestLayout.cshtml"
+Diagnostic(ErrorCode.ERR_SemicolonExpected, "").WithLocation(2, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(56,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("Section2", async(__razor_section_writer) => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(56, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(66,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("Section1", async(__razor_section_writer) => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(66, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(69,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("NestedDelegates", async(__razor_section_writer) => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(69, 13)

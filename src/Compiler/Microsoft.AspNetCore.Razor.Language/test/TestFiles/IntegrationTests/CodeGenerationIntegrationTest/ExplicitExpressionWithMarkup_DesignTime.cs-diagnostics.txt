@@ -1,0 +1,6 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml(1,14): error CS8917: The delegate type could not be inferred.
+//   __o = item => new Template(async(__razor_template_writer) => {
+Diagnostic(ErrorCode.ERR_CannotInferDelegateType, "=>").WithLocation(1, 14),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ExplicitExpressionWithMarkup.cshtml(1,21): error CS0246: The type or namespace name 'Template' could not be found (are you missing a using directive or an assembly reference?)
+//   __o = item => new Template(async(__razor_template_writer) => {
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Template").WithArguments("Template").WithLocation(1, 21)

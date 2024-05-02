@@ -1,0 +1,51 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(3,30): error CS0246: The type or namespace name 'Dictionary<,>' could not be found (are you missing a using directive or an assembly reference?)
+//         var nameLookup = new Dictionary<string, (string FirstName, string LastName, object Extra)>()
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Dictionary<string, (string FirstName, string LastName, object Extra)>").WithArguments("Dictionary<,>").WithLocation(3, 30),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_CSharp7_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"a2b132455b8159d1094743b389f41b79cabc421ed6d5972456b799596f28f035", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(10,13): warning CS0219: The variable 'Sixteen' is assigned but its value is never used
+//         int Sixteen = 0b0001_0000;
+Diagnostic(ErrorCode.WRN_UnreferencedVarAssg, "Sixteen").WithArguments("Sixteen").WithLocation(10, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(11,14): warning CS0219: The variable 'BillionsAndBillions' is assigned but its value is never used
+//         long BillionsAndBillions = 100_000_000_000;
+Diagnostic(ErrorCode.WRN_UnreferencedVarAssg, "BillionsAndBillions").WithArguments("BillionsAndBillions").WithLocation(11, 14),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(12,16): warning CS0219: The variable 'AvogadroConstant' is assigned but its value is never used
+//         double AvogadroConstant = 6.022_140_857_747_474e23;
+Diagnostic(ErrorCode.WRN_UnreferencedVarAssg, "AvogadroConstant").WithArguments("AvogadroConstant").WithLocation(12, 16),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(13,17): warning CS0219: The variable 'GoldenRatio' is assigned but its value is never used
+//         decimal GoldenRatio = 1.618_033_988_749_894_848_204_586_834_365_638_117_720_309_179M;
+Diagnostic(ErrorCode.WRN_UnreferencedVarAssg, "GoldenRatio").WithArguments("GoldenRatio").WithLocation(13, 17),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("<body>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(36,14): error CS0246: The type or namespace name 'IEnumerable<>' could not be found (are you missing a using directive or an assembly reference?)
+//         case IEnumerable<string> childrenNames:
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "IEnumerable<string>").WithArguments("IEnumerable<>").WithLocation(36, 14),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(43,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(43, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(58,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("    <p>\r\n        Here\'s a very unique number: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(58, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(59,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(59, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(68,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n    </p>\r\n\r\n    <div>\r\n        ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(68, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(69,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(69, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(78,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(" ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(78, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(79,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n    </div>\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(79, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/CSharp7.cshtml(99,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</body>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(99, 13)

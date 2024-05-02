@@ -1,0 +1,30 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(2,5): error CS0103: The name 'Layout' does not exist in the current context
+//     Layout = "_SectionTestLayout.cshtml"
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Layout").WithArguments("Layout").WithLocation(2, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(2,41): error CS1002: ; expected
+//     Layout = "_SectionTestLayout.cshtml"
+Diagnostic(ErrorCode.ERR_SemicolonExpected, "").WithLocation(2, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Sections_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"0e3bbd637055ed3caa71a09baf3eb8ab5fc1f8057091dcd2c2adbfa3de691076", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(23,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n<div>This is in the Body>\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(23, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(24,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("Section2", async() => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(24, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(41,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(41, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(42,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("Section1", async() => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(42, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(46,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(46, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Sections.cshtml(47,13): error CS0103: The name 'DefineSection' does not exist in the current context
+//             DefineSection("NestedDelegates", async() => {
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DefineSection").WithArguments("DefineSection").WithLocation(47, 13)

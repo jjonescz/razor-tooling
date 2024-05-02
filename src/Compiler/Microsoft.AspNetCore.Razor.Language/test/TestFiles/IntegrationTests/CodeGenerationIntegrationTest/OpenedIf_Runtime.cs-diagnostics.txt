@@ -1,0 +1,15 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/OpenedIf.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_OpenedIf_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/OpenedIf.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/OpenedIf.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"88878cf1ea054aeb74300eb51cb951ede03552e4df20742a94bc2d437e248274", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/OpenedIf.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/OpenedIf.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("<html>\r\n<body>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/OpenedIf.cshtml(23,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</body>\r\n</html>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(23, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/OpenedIf.cshtml(27,2): error CS1513: } expected
+// }
+Diagnostic(ErrorCode.ERR_RbraceExpected, "").WithLocation(27, 2)

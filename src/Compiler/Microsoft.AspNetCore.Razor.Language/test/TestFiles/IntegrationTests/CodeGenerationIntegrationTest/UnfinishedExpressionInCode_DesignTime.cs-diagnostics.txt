@@ -1,0 +1,6 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/UnfinishedExpressionInCode.cshtml(2,7): error CS0103: The name 'DateTime' does not exist in the current context
+// __o = DateTime.;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "DateTime").WithArguments("DateTime").WithLocation(2, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/UnfinishedExpressionInCode.cshtml(2,16): error CS1001: Identifier expected
+// __o = DateTime.;
+Diagnostic(ErrorCode.ERR_IdentifierExpected, ";").WithLocation(2, 16)

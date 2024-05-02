@@ -1,0 +1,30 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(2,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag?.Data;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(2, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(3,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag.IntIndexer?[0];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(3, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(4,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag.StrIndexer?["key"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(4, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(5,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag?.Method(Value?[23]?.More)?["key"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(5, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(5,23): error CS0103: The name 'Value' does not exist in the current context
+// __o = ViewBag?.Method(Value?[23]?.More)?["key"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Value").WithArguments("Value").WithLocation(5, 23),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(8,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag?.Data;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(8, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(9,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag.IntIndexer?[0];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(9, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(10,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag.StrIndexer?["key"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(10, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(11,7): error CS0103: The name 'ViewBag' does not exist in the current context
+// __o = ViewBag?.Method(Value?[23]?.More)?["key"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewBag").WithArguments("ViewBag").WithLocation(11, 7),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NullConditionalExpressions.cshtml(11,23): error CS0103: The name 'Value' does not exist in the current context
+// __o = ViewBag?.Method(Value?[23]?.More)?["key"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Value").WithArguments("Value").WithLocation(11, 23)

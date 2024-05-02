@@ -1,0 +1,39 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(10,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext __tagHelperExecutionContext;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(10, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(12,52): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(12, 52),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(12,146): error CS0234: The type or namespace name 'Runtime' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//         private global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner __tagHelperRunner = new global::Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner();
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Runtime").WithArguments("Runtime", "Microsoft.AspNetCore.Razor").WithLocation(12, 146),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(13,25): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         private global::DivTagHelper __DivTagHelper;
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(13, 25),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(18,5): error CS0246: The type or namespace name 'Task' could not be found (are you missing a using directive or an assembly reference?)
+//     Task AnnounceBirthday(Person person)
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Task").WithArguments("Task").WithLocation(18, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(34,20): error CS0103: The name 'Task' does not exist in the current context
+//             return Task.CompletedTask;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Task").WithArguments("Task").WithLocation(34, 20),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(38,16): error CS0103: The name 'Task' does not exist in the current context
+//         return Task.CompletedTask;
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Task").WithArguments("Task").WithLocation(38, 16),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(56,30): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//             __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::DivTagHelper>").WithArguments("CreateTagHelper").WithLocation(56, 30),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(56,54): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//             __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(56, 54),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(57,13): error CS4033: The 'await' operator can only be used within an async method. Consider marking this method with the 'async' modifier and changing its return type to 'Task'.
+//             await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
+Diagnostic(ErrorCode.ERR_BadAwaitWithoutVoidAsyncMethod, "await __tagHelperRunner.RunAsync(__tagHelperExecutionContext)").WithLocation(57, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(100,26): error CS0103: The name 'CreateTagHelper' does not exist in the current context
+//         __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_NameNotInContext, "CreateTagHelper<global::DivTagHelper>").WithArguments("CreateTagHelper").WithLocation(100, 26),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(100,50): error CS0400: The type or namespace name 'DivTagHelper' could not be found in the global namespace (are you missing an assembly reference?)
+//         __DivTagHelper = CreateTagHelper<global::DivTagHelper>();
+Diagnostic(ErrorCode.ERR_GlobalSingleTypeNameNotFound, "DivTagHelper").WithArguments("DivTagHelper").WithLocation(100, 50),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Markup_InCodeBlocksWithTagHelper.cshtml(101,9): error CS4032: The 'await' operator can only be used within an async method. Consider marking this method with the 'async' modifier and changing its return type to 'Task<Task>'.
+//         await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
+Diagnostic(ErrorCode.ERR_BadAwaitWithoutAsyncMethod, "await __tagHelperRunner.RunAsync(__tagHelperExecutionContext)").WithArguments("Task").WithLocation(101, 9)

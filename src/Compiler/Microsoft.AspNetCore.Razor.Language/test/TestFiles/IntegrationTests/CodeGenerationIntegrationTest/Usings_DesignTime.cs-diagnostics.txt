@@ -1,0 +1,21 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(5,1): hidden CS8019: Unnecessary using directive.
+// using static System;
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, "using static System;").WithLocation(5, 1),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(5,14): error CS7007: A 'using static' directive can only be applied to types; 'System' is a namespace not a type. Consider a 'using namespace' directive instead
+// using static System;
+Diagnostic(ErrorCode.ERR_BadUsingType, "System").WithArguments("System").WithLocation(5, 14),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(6,1): hidden CS8019: Unnecessary using directive.
+// using static System.Console;
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, "using static System.Console;").WithLocation(6, 1),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(6,21): error CS0234: The type or namespace name 'Console' does not exist in the namespace 'System' (are you missing an assembly reference?)
+// using static System.Console;
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Console").WithArguments("Console", "System").WithLocation(6, 21),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(7,1): hidden CS8019: Unnecessary using directive.
+// using static global::System.Text.Encoding;
+Diagnostic(ErrorCode.HDN_UnusedUsingDirective, "using static global::System.Text.Encoding;").WithLocation(7, 1),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(10,41): error CS0103: The name 'ViewData' does not exist in the current context
+//     using var disposable = (IDisposable)ViewData["disposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(10, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Usings.cshtml(11,61): error CS0103: The name 'ViewData' does not exist in the current context
+//     using System.IDisposable otherDisposable = (IDisposable)ViewData["otherdisposable"];
+Diagnostic(ErrorCode.ERR_NameNotInContext, "ViewData").WithArguments("ViewData").WithLocation(11, 61)

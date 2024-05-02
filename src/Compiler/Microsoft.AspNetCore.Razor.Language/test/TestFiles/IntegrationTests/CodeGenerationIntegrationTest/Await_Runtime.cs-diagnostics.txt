@@ -1,0 +1,117 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(2,18): error CS0246: The type or namespace name 'Task<>' could not be found (are you missing a using directive or an assembly reference?)
+//     public async Task<string> Foo()
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Task<string>").WithArguments("Task<>").WithLocation(2, 18),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(2,31): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+//     public async Task<string> Foo()
+Diagnostic(ErrorCode.WRN_AsyncLacksAwaits, "Foo").WithLocation(2, 31),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Await_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"347cf5b257c3885845256697175dd94c0ef0bef29e4fca7e4ec1a009ff29d9a6", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n<section>\r\n    <h1>Basic Asynchronous Expression Test</h1>\r\n    <p>Basic Asynchronous Expression: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(14,55): error CS1525: Invalid expression term ')'
+// await
+Diagnostic(ErrorCode.ERR_InvalidExprTerm, "").WithArguments(")").WithLocation(14, 55),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(15,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(15, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(19,49): error CS1501: No overload for method 'Foo' takes 2 arguments
+// await Foo(1, 2)
+Diagnostic(ErrorCode.ERR_BadArgCount, "Foo").WithArguments("Foo", "2").WithLocation(19, 49),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(20,58): error CS0119: 'TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Await_Runtime.Foo()' is a method, which is not valid in the given context
+// await Foo.Bar(1, 2)
+Diagnostic(ErrorCode.ERR_BadSKunknown, "Foo").WithArguments("Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Await_Runtime.Foo()", "method").WithLocation(20, 58),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(21,48): error CS1501: No overload for method 'Foo' takes 2 arguments
+// await Foo("bob", true)
+Diagnostic(ErrorCode.ERR_BadArgCount, "Foo").WithArguments("Foo", "2").WithLocation(21, 48),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(22,54): error CS0103: The name 'something' does not exist in the current context
+//  await Foo(something, hello: "world"); 
+Diagnostic(ErrorCode.ERR_NameNotInContext, "something").WithArguments("something").WithLocation(22, 54),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(23,59): error CS0119: 'TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Await_Runtime.Foo()' is a method, which is not valid in the given context
+//  await Foo.Bar(1, 2) 
+Diagnostic(ErrorCode.ERR_BadSKunknown, "Foo").WithArguments("Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_Await_Runtime.Foo()", "method").WithLocation(23, 59),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(23,72): error CS1002: ; expected
+//  await Foo.Bar(1, 2) 
+Diagnostic(ErrorCode.ERR_SemicolonExpected, "").WithLocation(23, 72),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(24,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Basic Asynchronous Template: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(24, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(24,65): error CS1739: The best overload for 'Foo' does not have a parameter named 'boolValue'
+// await Foo(boolValue: false)
+Diagnostic(ErrorCode.ERR_BadNamedArgument, "boolValue").WithArguments("Foo", "boolValue").WithLocation(24, 65),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(25,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(25, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(25,53): error CS1061: 'string' does not contain a definition for 'GetAwaiter' and no accessible extension method 'GetAwaiter' accepting a first argument of type 'string' could be found (are you missing a using directive or an assembly reference?)
+// await ("wrrronggg")
+Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, @"await (""wrrronggg"")").WithArguments("string", "GetAwaiter").WithLocation(25, 53),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(34,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Basic Asynchronous Statement: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(34, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(43,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Basic Asynchronous Statement Nested: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(43, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(44,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(" <b>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(44, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(45,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(45, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(54,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</b> ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(54, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(55,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Basic Incomplete Asynchronous Statement: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(55, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(56,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(56, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(65,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n</section>\r\n\r\n<section>\r\n    <h1>Advanced Asynchronous Expression Test</h1>\r\n    <p>Advanced Asynchronous Expression: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(65, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(66,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(66, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(75,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Advanced Asynchronous Expression Extended: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(75, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(76,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(76, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(85,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Advanced Asynchronous Template: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(85, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(86,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(86, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(95,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Advanced Asynchronous Statement: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(95, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(104,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Advanced Asynchronous Statement Extended: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(104, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(113,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Advanced Asynchronous Statement Nested: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(113, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(114,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(" <b>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(114, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(115,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(115, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(124,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</b> ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(124, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(125,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n    <p>Advanced Incomplete Asynchronous Statement: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(125, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(126,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(126, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/Await.cshtml(135,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n</section>");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(135, 13)

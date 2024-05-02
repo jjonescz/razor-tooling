@@ -1,0 +1,6 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(6,5): error CS0246: The type or namespace name 'Random' could not be found (are you missing a using directive or an assembly reference?)
+//     Random _rand = new Random();
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Random").WithArguments("Random").WithLocation(6, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/FunctionsBlock.cshtml(6,24): error CS0246: The type or namespace name 'Random' could not be found (are you missing a using directive or an assembly reference?)
+//     Random _rand = new Random();
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Random").WithArguments("Random").WithLocation(6, 24)

@@ -1,0 +1,45 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_RazorComments_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(6,5): error CS0246: The type or namespace name 'Exception' could not be found (are you missing a using directive or an assembly reference?)
+//     Exception foo = 
+Diagnostic(ErrorCode.ERR_SingleTypeNameNotFound, "Exception").WithArguments("Exception").WithLocation(6, 5),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"a9d16af76d3b638c489fe4ce4511816619e1713e1515ec0ce13b898e140dde7d", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(14,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("<p>This should ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(14, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(15,3): error CS0103: The name 'a' does not exist in the current context
+// a
+Diagnostic(ErrorCode.ERR_NameNotInContext, "a").WithArguments("a").WithLocation(15, 3),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(15,4): error CS1003: Syntax error, ',' expected
+// a
+Diagnostic(ErrorCode.ERR_SyntaxError, "").WithArguments(",").WithLocation(15, 4),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(15,8): error CS0103: The name 'b' does not exist in the current context
+// b
+Diagnostic(ErrorCode.ERR_NameNotInContext, "b").WithArguments("b").WithLocation(15, 8),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(15,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(" be shown</p>\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(15, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(36,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(36, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(45,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("<p>But this should show the comment syntax: ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(45, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(46,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(46, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(55,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("</p>\r\n\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(55, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(56,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(56, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(72,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("\r\n\r\n<input value=\"@*this razor comment is the actual value*@\" type=\"text\" />\r\n<input ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(72, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RazorComments.cshtml(73,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(" type=\"text\" />\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(73, 13)

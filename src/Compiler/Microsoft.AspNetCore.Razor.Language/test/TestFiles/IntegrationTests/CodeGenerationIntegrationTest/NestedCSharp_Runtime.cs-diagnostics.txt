@@ -1,0 +1,18 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml(2,38): error CS0103: The name 'Url' does not exist in the current context
+// foreach (var result in (dynamic)Url)
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Url").WithArguments("Url").WithLocation(2, 38),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml(4,47): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+// [assembly: global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemAttribute(typeof(Microsoft.AspNetCore.Razor.Language.IntegrationTests.TestFiles.TestFiles_IntegrationTests_CodeGenerationIntegrationTest_NestedCSharp_Runtime), @"default", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(4, 47),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml(8,41): error CS0234: The type or namespace name 'Hosting' does not exist in the namespace 'Microsoft.AspNetCore.Razor' (are you missing an assembly reference?)
+//     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"c1273eb7fee44c32ab00da03db6ac9a1bf83c1c3b09f32fb242db42978fc4d17", @"/TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml")]
+Diagnostic(ErrorCode.ERR_DottedTypeNameNotFoundInNS, "Hosting").WithArguments("Hosting", "Microsoft.AspNetCore.Razor").WithLocation(8, 41),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml(23,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral("        <div>\r\n            ");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(23, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml(24,13): error CS0103: The name 'Write' does not exist in the current context
+//             Write(
+Diagnostic(ErrorCode.ERR_NameNotInContext, "Write").WithArguments("Write").WithLocation(24, 13),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/NestedCSharp.cshtml(33,13): error CS0103: The name 'WriteLiteral' does not exist in the current context
+//             WriteLiteral(".\r\n        </div>\r\n");
+Diagnostic(ErrorCode.ERR_NameNotInContext, "WriteLiteral").WithArguments("WriteLiteral").WithLocation(33, 13)
