@@ -85,9 +85,6 @@ Diagnostic(ErrorCode.ERR_InvalidExprTerm, "").WithArguments("").WithLocation(76,
 // TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ComplexTagHelpers.cshtml(76,45): error CS1002: ; expected
 //             __TestNamespace_PTagHelper.Age = 
 Diagnostic(ErrorCode.ERR_SemicolonExpected, "").WithLocation(76, 45),
-// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ComplexTagHelpers.cshtml(124,72): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
-//             __tagHelperExecutionContext.AddHtmlAttribute("class", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
-Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(124, 72),
 // TestFiles/IntegrationTests/CodeGenerationIntegrationTest/ComplexTagHelpers.cshtml(144,17): warning CS0162: Unreachable code detected
 //                 WriteLiteral("                ");
 Diagnostic(ErrorCode.WRN_UnreachableCode, "WriteLiteral").WithLocation(144, 17),

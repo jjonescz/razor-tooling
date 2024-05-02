@@ -1,3 +1,0 @@
-﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/TagHelpersWithWeirdlySpacedAttributes.cshtml(85,79): error CS1061: 'IHtmlHelper<dynamic>' does not contain a definition for 'Raw' and no accessible extension method 'Raw' accepting a first argument of type 'IHtmlHelper<dynamic>' could be found (are you missing a using directive or an assembly reference?)
-//             __tagHelperExecutionContext.AddHtmlAttribute("data-content", Html.Raw(__tagHelperStringValueBuffer), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
-Diagnostic(ErrorCode.ERR_NoSuchMemberOrExtension, "Raw").WithArguments("Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<dynamic>", "Raw").WithLocation(85, 79)
