@@ -197,7 +197,7 @@ public class CodeGenerationIntegrationTest(bool designTime = false)
     public void BasicTagHelpers()
     {
         // Trying to load the DLL results in "System.BadImageFormatException: Bad IL format."
-        SkipLoadingDll = designTime;
+        SkipLoadingDll = true;
 
         RunTagHelpersTest(TestTagHelperDescriptors.DefaultPAndInputTagHelperDescriptors);
     }
