@@ -652,7 +652,7 @@ public abstract class IntegrationTestBase
             baselineDiagnostics = diagnosticsFile.ReadAllText();
         }
         
-        Assert.Equal(baselineDiagnostics, actualDiagnosticsText);
+        AssertEx.Equal(baselineDiagnostics, actualDiagnosticsText);
 
         static string getActualDiagnosticsText(ImmutableArray<Diagnostic> diagnostics)
         {
