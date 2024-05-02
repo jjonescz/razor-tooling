@@ -9,13 +9,23 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc.Razor.Extensions;
 using Microsoft.AspNetCore.Razor.Test.Common;
+using Microsoft.CodeAnalysis;
 using Roslyn.Test.Utilities;
 
 namespace Microsoft.AspNetCore.Razor.Language.IntegrationTests;
 
-public class CodeGenerationIntegrationTest(bool designTime = false)
-    : IntegrationTestBase(layer: TestProject.Layer.Compiler)
+public class CodeGenerationIntegrationTest : IntegrationTestBase
 {
+    private readonly bool designTime;
+
+    public CodeGenerationIntegrationTest(bool designTime = false)
+        : base(layer: TestProject.Layer.Compiler)
+    {
+        this.designTime = designTime;
+        BaseCompilation = BaseCompilation.AddReferences(
+            MetadataReference.CreateFromFile(typeof(TestTagHelperDescriptors).Assembly.Location));
+    }
+
     [IntegrationTestFact]
     public void SingleLineControlFlowStatements() => RunTest();
 
