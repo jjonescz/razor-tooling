@@ -84,7 +84,7 @@ internal static class TagHelperBlockRewriter
                     bindingResult.Descriptors,
                     errorSink,
                     processedBoundAttributeNames,
-                    options.EnableSpanEditHandlers);
+                    options);
                 attributeBuilder.Add(result.RewrittenAttribute);
             }
             else if (child is MarkupMinimizedAttributeBlockSyntax minimizedAttributeBlock)
@@ -226,7 +226,7 @@ internal static class TagHelperBlockRewriter
         IEnumerable<TagHelperDescriptor> descriptors,
         ErrorSink errorSink,
         HashSet<string> processedBoundAttributeNames,
-        bool enableSpanEditHandlers)
+        RazorParserOptions options)
     {
         // Have a name now. Able to determine correct isBoundNonStringAttribute value.
         var result = CreateTryParseResult(attributeBlock.Name.GetContent(), descriptors, processedBoundAttributeNames);
@@ -269,7 +269,7 @@ internal static class TagHelperBlockRewriter
 
             attributeValue = SyntaxFactory.GenericBlock(builder.ToList());
         }
-        var rewrittenValue = RewriteAttributeValue(result, attributeValue, enableSpanEditHandlers);
+        var rewrittenValue = RewriteAttributeValue(result, attributeValue, options);
 
         if (result.IsDirectiveAttribute)
         {
@@ -417,9 +417,9 @@ internal static class TagHelperBlockRewriter
         return rewritten;
     }
 
-    private static MarkupTagHelperAttributeValueSyntax RewriteAttributeValue(TryParseResult result, RazorBlockSyntax attributeValue, bool enableSpanEditHandlers)
+    private static MarkupTagHelperAttributeValueSyntax RewriteAttributeValue(TryParseResult result, RazorBlockSyntax attributeValue, RazorParserOptions options)
     {
-        var rewriter = new AttributeValueRewriter(result, enableSpanEditHandlers);
+        var rewriter = new AttributeValueRewriter(result, options);
         var rewrittenValue = attributeValue;
         if (result.IsBoundAttribute)
         {
@@ -537,12 +537,12 @@ internal static class TagHelperBlockRewriter
     {
         private readonly TryParseResult _tryParseResult;
         private bool _rewriteAsMarkup;
-        private readonly bool _enableSpanEditHandlers;
+        private readonly RazorParserOptions _options;
 
-        public AttributeValueRewriter(TryParseResult result, bool enableSpanEditHandlers)
+        public AttributeValueRewriter(TryParseResult result, RazorParserOptions options)
         {
             _tryParseResult = result;
-            _enableSpanEditHandlers = enableSpanEditHandlers;
+            _options = options;
         }
 
         public override SyntaxNode VisitGenericBlock(GenericBlockSyntax node)
@@ -643,7 +643,7 @@ internal static class TagHelperBlockRewriter
                 // Convert transition.
                 // Change to a MarkupChunkGenerator so that the '@' \ parenthesis is generated as part of the output.
                 // This is bad code, since @( is never valid C#, so we don't worry about trying to stitch the @ and the ( together.
-                var editHandler = _enableSpanEditHandlers
+                var editHandler = _options.EnableSpanEditHandlers
                     ? node.GetEditHandler() ?? SpanEditHandler.CreateDefault((content) => Enumerable.Empty<Syntax.InternalSyntax.SyntaxToken>(), AcceptedCharactersInternal.Any)
                     : null;
 
@@ -834,7 +834,7 @@ internal static class TagHelperBlockRewriter
         //   -  =>
         //   -  SomeMethod()
         // There are 3 children because the Razor parser separates attribute values based on whitespace.
-        private static bool CanBeCollapsed(GenericBlockSyntax node)
+        private bool CanBeCollapsed(GenericBlockSyntax node)
         {
             if (node.Children.Count <= 1)
             {
@@ -844,7 +844,11 @@ internal static class TagHelperBlockRewriter
 
             for (var i = 0; i < node.Children.Count; i++)
             {
-                if (node.Children[i].Kind is not (SyntaxKind.MarkupLiteralAttributeValue or SyntaxKind.MarkupDynamicAttributeValue))
+                var kind = node.Children[i].Kind;
+                if (kind != SyntaxKind.MarkupLiteralAttributeValue &&
+                    // We only want to collapse dynamic values if we're in a legacy file.
+                    // Mixed C#/HTML content is not allowed in components.
+                    (kind != SyntaxKind.MarkupDynamicAttributeValue || !FileKinds.IsLegacy(_options.FileKind)))
                 {
                     return false;
                 }
@@ -856,7 +860,7 @@ internal static class TagHelperBlockRewriter
         private SyntaxNode ConfigureNonStringAttribute(SyntaxNode node)
         {
             var context = node.GetEditHandler();
-            var builder = _enableSpanEditHandlers
+            var builder = _options.EnableSpanEditHandlers
                 ? new SpanEditHandlerBuilder(defaultLanguageTokenizer: null)
                 {
                     Tokenizer = context?.Tokenizer,
