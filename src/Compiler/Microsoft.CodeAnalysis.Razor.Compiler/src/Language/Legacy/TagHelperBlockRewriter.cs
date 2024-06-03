@@ -550,15 +550,31 @@ internal static class TagHelperBlockRewriter
             if (_tryParseResult.IsBoundNonStringAttribute && CanBeCollapsed(node))
             {
                 var tokens = node.GetTokens();
-                var expression = SyntaxFactory.CSharpExpressionLiteral(tokens, chunkGenerator: null);
-                var rewrittenExpression = (CSharpExpressionLiteralSyntax)VisitCSharpExpressionLiteral(expression);
-                using var _ = SyntaxListBuilderPool.GetPooledBuilder<RazorSyntaxNode>(out var newChildren);
-                newChildren.Add(rewrittenExpression);
 
-                return node.Update(newChildren);
+                if (tokens is [{ Kind: SyntaxKind.Transition } transition, ..])
+                {
+                    // Lift the transition token so it is not part of the generated output.
+                    tokens = tokens.RemoveAt(0);
+                    var children = createExpressionLiteral(tokens);
+                    return SyntaxFactory.MarkupBlock(
+                        new SyntaxList<RazorSyntaxNode>(SyntaxFactory.CSharpCodeBlock(
+                            new SyntaxList<RazorSyntaxNode>(SyntaxFactory.CSharpImplicitExpression(
+                                SyntaxFactory.CSharpTransition(transition, chunkGenerator: null),
+                                SyntaxFactory.CSharpImplicitExpressionBody(
+                                    SyntaxFactory.CSharpCodeBlock(children)))))));
+                }
+
+                return node.Update(createExpressionLiteral(tokens));
             }
 
             return base.VisitGenericBlock(node);
+
+            SyntaxList<RazorSyntaxNode> createExpressionLiteral(SyntaxList<SyntaxToken> tokens)
+            {
+                var expression = SyntaxFactory.CSharpExpressionLiteral(tokens, chunkGenerator: null);
+                var rewrittenExpression = (CSharpExpressionLiteralSyntax)VisitCSharpExpressionLiteral(expression);
+                return new SyntaxList<RazorSyntaxNode>(rewrittenExpression);
+            }
         }
 
         public override SyntaxNode VisitCSharpTransition(CSharpTransitionSyntax node)
@@ -828,7 +844,7 @@ internal static class TagHelperBlockRewriter
 
             for (var i = 0; i < node.Children.Count; i++)
             {
-                if (node.Children[i].Kind != SyntaxKind.MarkupLiteralAttributeValue)
+                if (node.Children[i].Kind is not (SyntaxKind.MarkupLiteralAttributeValue or SyntaxKind.MarkupDynamicAttributeValue))
                 {
                     return false;
                 }
