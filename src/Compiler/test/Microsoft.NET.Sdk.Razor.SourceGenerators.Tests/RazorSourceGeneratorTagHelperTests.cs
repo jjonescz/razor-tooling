@@ -1598,7 +1598,7 @@ public sealed class RazorSourceGeneratorTagHelperTests : RazorSourceGeneratorTes
 
                         public override void Process(TagHelperContext context, TagHelperOutput output)
                         {
-                            output.Attributes.SetAttribute("out", MyAttr.ToString());
+                            output.Attributes.SetAttribute("out", MyAttr?.ToString());
                         }
                     }
                 }
