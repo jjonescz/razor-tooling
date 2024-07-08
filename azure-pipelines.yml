@@ -156,7 +156,7 @@ stages:
             -nobl
           name: Run_Unit_Tests
           displayName: Run Unit Tests
-          condition: and(succeeded(), in(variables['Build.Reason'], 'PullRequest'))
+          condition: succeeded()
 
         - script: eng\CIBuild.cmd
             -configuration $(_BuildConfig)
