@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.AspNetCore.Razor.Language;
@@ -171,6 +172,20 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
                 builder.SetDocumentation(xml);
             }
 
+            // Collect properties exist with different casing.
+            using var caseSensitiveProperties = StringHashSetPool.OrdinalIgnoreCase.GetPooledObject();
+            using (var caseInsensitivePropertyNameMap = StringDictionaryPool<string>.OrdinalIgnoreCase.GetPooledObject())
+            {
+                foreach (var (property, _) in properties)
+                {
+                    var existingPropertyName = caseInsensitivePropertyNameMap.Object.GetOrAdd(property.Name, property.Name);
+                    if (existingPropertyName != property.Name)
+                    {
+                        caseSensitiveProperties.Object.Add(property.Name);
+                    }
+                }
+            }
+
             foreach (var (property, kind) in properties)
             {
                 if (kind == PropertyKind.Ignored)
@@ -178,7 +193,7 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
                     continue;
                 }
 
-                CreateProperty(builder, type, property, kind);
+                CreateProperty(builder, type, property, kind, caseSensitiveProperties.Object);
             }
 
             if (builder.BoundAttributes.Any(static a => a.IsParameterizedChildContentProperty()) &&
@@ -195,7 +210,7 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
             return builder.Build();
         }
 
-        private static void CreateProperty(TagHelperDescriptorBuilder builder, INamedTypeSymbol containingSymbol, IPropertySymbol property, PropertyKind kind)
+        private static void CreateProperty(TagHelperDescriptorBuilder builder, INamedTypeSymbol containingSymbol, IPropertySymbol property, PropertyKind kind, ISet<string> caseSensitiveProperties)
         {
             builder.BindAttribute(pb =>
             {
@@ -206,6 +221,8 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
                 pb.TypeName = property.Type.ToDisplayString(SymbolExtensions.FullNameTypeDisplayFormat);
                 pb.IsEditorRequired = property.GetAttributes().Any(
                     static a => a.AttributeClass.HasFullName("Microsoft.AspNetCore.Components.EditorRequiredAttribute"));
+
+                pb.CaseSensitive = caseSensitiveProperties.Contains(property.Name);
 
                 metadata.Add(PropertyName(property.Name));
                 metadata.Add(GloballyQualifiedTypeName(property.Type.ToDisplayString(GloballyQualifiedFullNameTypeDisplayFormat)));
