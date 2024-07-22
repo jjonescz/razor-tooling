@@ -172,20 +172,6 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
                 builder.SetDocumentation(xml);
             }
 
-            // Collect properties exist with different casing.
-            using var caseSensitiveProperties = StringHashSetPool.OrdinalIgnoreCase.GetPooledObject();
-            using (var caseInsensitivePropertyNameMap = StringDictionaryPool<string>.OrdinalIgnoreCase.GetPooledObject())
-            {
-                foreach (var (property, _) in properties)
-                {
-                    var existingPropertyName = caseInsensitivePropertyNameMap.Object.GetOrAdd(property.Name, property.Name);
-                    if (existingPropertyName != property.Name)
-                    {
-                        caseSensitiveProperties.Object.Add(property.Name);
-                    }
-                }
-            }
-
             foreach (var (property, kind) in properties)
             {
                 if (kind == PropertyKind.Ignored)
@@ -193,7 +179,7 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
                     continue;
                 }
 
-                CreateProperty(builder, type, property, kind, caseSensitiveProperties.Object);
+                CreateProperty(builder, type, property, kind);
             }
 
             if (builder.BoundAttributes.Any(static a => a.IsParameterizedChildContentProperty()) &&
@@ -210,7 +196,7 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
             return builder.Build();
         }
 
-        private static void CreateProperty(TagHelperDescriptorBuilder builder, INamedTypeSymbol containingSymbol, IPropertySymbol property, PropertyKind kind, ISet<string> caseSensitiveProperties)
+        private static void CreateProperty(TagHelperDescriptorBuilder builder, INamedTypeSymbol containingSymbol, IPropertySymbol property, PropertyKind kind)
         {
             builder.BindAttribute(pb =>
             {
@@ -222,7 +208,7 @@ internal partial class ComponentTagHelperDescriptorProvider : RazorEngineFeature
                 pb.IsEditorRequired = property.GetAttributes().Any(
                     static a => a.AttributeClass.HasFullName("Microsoft.AspNetCore.Components.EditorRequiredAttribute"));
 
-                pb.CaseSensitive = caseSensitiveProperties.Contains(property.Name);
+                pb.CaseSensitive = false;
 
                 metadata.Add(PropertyName(property.Name));
                 metadata.Add(GloballyQualifiedTypeName(property.Type.ToDisplayString(GloballyQualifiedFullNameTypeDisplayFormat)));
