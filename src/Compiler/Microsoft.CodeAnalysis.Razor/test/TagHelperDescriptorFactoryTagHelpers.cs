@@ -3,11 +3,16 @@
 
 #nullable disable
 
+namespace Microsoft.CodeAnalysis.Razor.Workspaces.Test;
+
+internal static class TagHelperDescriptorFactoryTagHelpers
+{
+    public const string Code = """
 using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Microsoft.CodeAnalysis.Razor.Workspaces.Test;
+namespace TestNamespace;
 
 public enum CustomEnum
 {
@@ -461,4 +466,6 @@ public class MissingAccessorTagHelper : TagHelper
     public string ValidAttribute { get; set; }
     public string InvalidNoGetAttribute { set { } }
     public string InvalidNoSetAttribute { get { return string.Empty; } }
+}
+""";
 }

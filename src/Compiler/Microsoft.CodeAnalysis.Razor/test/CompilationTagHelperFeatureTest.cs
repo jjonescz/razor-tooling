@@ -5,7 +5,6 @@
 
 using System.Linq;
 using Microsoft.AspNetCore.Razor.Language;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.CodeAnalysis.CSharp;
 using Moq;
 using Xunit;
@@ -20,8 +19,8 @@ public class CompilationTagHelperFeatureTest
         // Arrange
         var references = new[]
         {
-                MetadataReference.CreateFromFile(typeof(string).Assembly.Location),
-            };
+            Basic.Reference.Assemblies.Net80.References.SystemRuntime,
+        };
         var compilation = CSharpCompilation.Create("Test", references: references);
 
         // Act
@@ -37,8 +36,8 @@ public class CompilationTagHelperFeatureTest
         // Arrange
         var references = new[]
         {
-                MetadataReference.CreateFromFile(typeof(ITagHelper).Assembly.Location),
-            };
+            Basic.Reference.Assemblies.AspNet80.References.MicrosoftAspNetCoreRazor,
+        };
         var compilation = CSharpCompilation.Create("Test", references: references);
 
         // Act
@@ -54,9 +53,9 @@ public class CompilationTagHelperFeatureTest
         // Arrange
         var references = new[]
         {
-                MetadataReference.CreateFromFile(typeof(string).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ITagHelper).Assembly.Location),
-            };
+            Basic.Reference.Assemblies.Net80.References.SystemRuntime,
+            Basic.Reference.Assemblies.AspNet80.References.MicrosoftAspNetCoreRazor,
+        };
         var compilation = CSharpCompilation.Create("Test", references: references);
 
         // Act
@@ -107,9 +106,9 @@ public class CompilationTagHelperFeatureTest
 
         var references = new[]
         {
-                MetadataReference.CreateFromFile(typeof(string).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ITagHelper).Assembly.Location),
-            };
+            Basic.Reference.Assemblies.Net80.References.SystemRuntime,
+            Basic.Reference.Assemblies.AspNet80.References.MicrosoftAspNetCoreRazor,
+        };
 
         var engine = RazorProjectEngine.Create(
             configure =>
