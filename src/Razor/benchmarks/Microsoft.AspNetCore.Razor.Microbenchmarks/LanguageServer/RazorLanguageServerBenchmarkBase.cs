@@ -28,14 +28,14 @@ public class RazorLanguageServerBenchmarkBase : ProjectSnapshotManagerBenchmarkB
     public RazorLanguageServerBenchmarkBase()
     {
         var (_, serverStream) = FullDuplexStream.CreatePair();
-        Logger = new NoopLogger();
-        var razorLoggerFactory = new NoopLoggerFactory();
-        RazorLanguageServer = RazorLanguageServerWrapper.Create(
+        var razorLoggerFactory = EmptyLoggerFactory.Instance;
+        Logger = razorLoggerFactory.GetOrCreateLogger(GetType());
+        RazorLanguageServerHost = RazorLanguageServerHost.Create(
             serverStream,
             serverStream,
             razorLoggerFactory,
             NoOpTelemetryReporter.Instance,
-            configure: (collection) =>
+            configureServices: (collection) =>
             {
                 collection.AddSingleton<IOnInitialized, NoopClientNotifierService>();
                 collection.AddSingleton<IClientConnection, NoopClientNotifierService>();
@@ -53,9 +53,9 @@ public class RazorLanguageServerBenchmarkBase : ProjectSnapshotManagerBenchmarkB
         return null;
     }
 
-    private protected RazorLanguageServerWrapper RazorLanguageServer { get; }
+    private protected RazorLanguageServerHost RazorLanguageServerHost { get; }
 
-    private protected NoopLogger Logger { get; }
+    private protected ILogger Logger { get; }
 
     internal async Task<IDocumentSnapshot> GetDocumentSnapshotAsync(string projectFilePath, string filePath, string targetPath)
     {
@@ -104,56 +104,6 @@ public class RazorLanguageServerBenchmarkBase : ProjectSnapshotManagerBenchmarkB
         public Task<TResponse> SendRequestAsync<TParams, TResponse>(string method, TParams @params, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
-        }
-    }
-
-    internal class NoopLoggerFactory() : AbstractLoggerFactory([new NoopLoggerProvider()]);
-
-    internal class NoopLoggerProvider : ILoggerProvider
-    {
-        public ILogger CreateLogger(string categoryName)
-        {
-            return new NoopLogger();
-        }
-
-        public void Dispose()
-        {
-        }
-    }
-
-    internal class NoopLogger : ILogger, ILspLogger
-    {
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
-
-        public void Log(LogLevel logLevel, string message, Exception exception)
-        {
-        }
-
-        public void LogEndContext(string message, params object[] @params)
-        {
-        }
-
-        public void LogError(string message, params object[] @params)
-        {
-        }
-
-        public void LogException(Exception exception, string message = null, params object[] @params)
-        {
-        }
-
-        public void LogInformation(string message, params object[] @params)
-        {
-        }
-
-        public void LogStartContext(string message, params object[] @params)
-        {
-        }
-
-        public void LogWarning(string message, params object[] @params)
-        {
         }
     }
 }

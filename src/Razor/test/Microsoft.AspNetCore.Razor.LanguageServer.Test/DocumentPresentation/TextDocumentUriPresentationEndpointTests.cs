@@ -6,9 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.LanguageServer.Hosting;
-using Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem;
 using Microsoft.AspNetCore.Razor.ProjectSystem;
-using Microsoft.AspNetCore.Razor.Test.Common;
 using Microsoft.AspNetCore.Razor.Test.Common.LanguageServer;
 using Microsoft.AspNetCore.Razor.Test.Common.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
@@ -16,8 +14,6 @@ using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol;
 using Microsoft.CodeAnalysis.Razor.Protocol.DocumentPresentation;
 using Microsoft.CodeAnalysis.Text;
-using Microsoft.CommonLanguageServerProtocol.Framework;
-using Microsoft.VisualStudio.Copilot;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 using Moq;
 using Xunit;
@@ -34,9 +30,6 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         // Arrange
         var projectManager = CreateProjectSnapshotManager();
 
-        var snapshotResolver = new SnapshotResolver(projectManager, LoggerFactory);
-        await snapshotResolver.OnInitializedAsync(StrictMock.Of<ILspServices>(), DisposalToken);
-
         var project = await projectManager.UpdateAsync(updater => updater.CreateAndAddProject("c:/path/project.csproj"));
         await projectManager.CreateAndAddDocumentAsync(project, "c:/path/index.razor");
         await projectManager.CreateAndAddDocumentAsync(project, "c:/path/MyTagHelper.razor");
@@ -58,7 +51,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
         documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, snapshotResolver, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
@@ -76,11 +69,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            },
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1),
             Uris = [droppedUri]
         };
         var requestContext = CreateRazorRequestContext(documentContext);
@@ -90,7 +79,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal("<MyTagHelper />", result!.DocumentChanges!.Value.First[0].Edits[0].NewText);
+        Assert.Equal("<MyTagHelper />", result.DocumentChanges!.Value.First[0].Edits[0].NewText);
     }
 
     [OSSkipConditionFact(["OSX", "Linux"])]
@@ -98,9 +87,6 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
     {
         // Arrange
         var projectManager = CreateProjectSnapshotManager();
-
-        var snapshotResolver = new SnapshotResolver(projectManager, LoggerFactory);
-        await snapshotResolver.OnInitializedAsync(StrictMock.Of<ILspServices>(), DisposalToken);
 
         var project = await projectManager.UpdateAsync(updater => updater.CreateAndAddProject("c:/path/project.csproj"));
         await projectManager.CreateAndAddDocumentAsync(project, "c:/path/index.razor");
@@ -123,7 +109,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
         documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, snapshotResolver, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
@@ -141,11 +127,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            },
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1),
             Uris =
             [
                 new Uri("file:///c:/path/MyTagHelper.razor.cs"),
@@ -168,9 +150,6 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
     {
         // Arrange
         var projectManager = CreateProjectSnapshotManager();
-
-        var snapshotResolver = new SnapshotResolver(projectManager, LoggerFactory);
-        await snapshotResolver.OnInitializedAsync(StrictMock.Of<ILspServices>(), DisposalToken);
 
         var project = await projectManager.UpdateAsync(updater => updater.CreateAndAddProject("c:/path/project.csproj"));
         await projectManager.CreateAndAddDocumentAsync(project, "c:/path/index.razor");
@@ -199,7 +178,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
         documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, snapshotResolver, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
@@ -217,11 +196,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            },
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1),
             Uris = [droppedUri]
         };
         var requestContext = CreateRazorRequestContext(documentContext);
@@ -231,7 +206,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal("<FetchData MyAttribute=\"\" />", result!.DocumentChanges!.Value.First[0].Edits[0].NewText);
+        Assert.Equal("<FetchData MyAttribute=\"\" />", result.DocumentChanges!.Value.First[0].Edits[0].NewText);
     }
 
     [Fact]
@@ -273,11 +248,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            },
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1),
             Uris = [droppedUri]
         };
         var requestContext = CreateRazorRequestContext(documentContext);
@@ -323,11 +294,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            },
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1),
             Uris =
             [
                 new Uri("file:///c:/path/SomeOtherFile.cs"),
@@ -379,11 +346,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            },
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1),
             Uris = [droppedUri]
         };
         var requestContext = CreateRazorRequestContext(documentContext);
@@ -400,9 +363,6 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
     {
         // Arrange
         var projectManager = CreateProjectSnapshotManager();
-
-        var snapshotResolver = new SnapshotResolver(projectManager, LoggerFactory);
-        await snapshotResolver.OnInitializedAsync(StrictMock.Of<ILspServices>(), DisposalToken);
 
         var project = await projectManager.UpdateAsync(updater => updater.CreateAndAddProject("c:/path/project.csproj"));
         await projectManager.CreateAndAddDocumentAsync(project, "c:/path/index.razor");
@@ -426,7 +386,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
         documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, snapshotResolver, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
@@ -444,11 +404,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            },
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1),
             Uris = [droppedUri1, droppedUri2]
         };
         var requestContext = CreateRazorRequestContext(documentContext);
@@ -497,11 +453,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            }
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1)
         };
         var requestContext = CreateRazorRequestContext(documentContext);
 
@@ -545,11 +497,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            }
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1)
         };
         var requestContext = CreateRazorRequestContext(documentContext);
 
@@ -594,11 +542,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            }
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1)
         };
         var requestContext = CreateRazorRequestContext(documentContext);
 
@@ -642,11 +586,7 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
             {
                 Uri = uri
             },
-            Range = new Range
-            {
-                Start = new Position(0, 1),
-                End = new Position(0, 2)
-            }
+            Range = VsLspFactory.CreateSingleLineRange(line: 0, character: 1, length: 1)
         };
         var requestContext = CreateRazorRequestContext(documentContext);
 

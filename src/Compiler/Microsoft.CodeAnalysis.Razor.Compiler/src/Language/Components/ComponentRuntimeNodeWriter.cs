@@ -331,7 +331,7 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
 
         if (node.Source is { FilePath: not null } sourceSpan)
         {
-            using (context.CodeWriter.BuildEnhancedLinePragma(node.Source.Value, context, suppressLineDefaultAndHidden: !node.AppendLineDefaultAndHidden))
+            using (context.CodeWriter.BuildEnhancedLinePragma(sourceSpan, context, suppressLineDefaultAndHidden: !node.AppendLineDefaultAndHidden))
             {
                 context.CodeWriter.WriteUsing(node.Content, endLine: node.HasExplicitSemicolon);
             }
@@ -530,6 +530,11 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
         }
     }
 
+    public override void WriteComponentTypeInferenceMethod(CodeRenderingContext context, ComponentTypeInferenceMethodIntermediateNode node)
+    {
+        WriteComponentTypeInferenceMethod(context, node, returnComponentType: false, allowNameof: true);
+    }
+
     private void WriteTypeInferenceMethodParameterInnards(CodeRenderingContext context, TypeInferenceMethodParameter parameter)
     {
         switch (parameter.Source)
@@ -593,14 +598,15 @@ internal class ComponentRuntimeNodeWriter : ComponentNodeWriter
 
         var addAttributeMethod = node.Annotations[ComponentMetadata.Common.AddAttributeMethodName] as string ?? GetAddComponentParameterMethodName(context);
 
-        // _builder.AddComponentParameter(1, "Foo", 42);
+        // _builder.AddComponentParameter(1, nameof(Component.Property), 42);
         context.CodeWriter.Write(_scopeStack.BuilderVarName);
         context.CodeWriter.Write(".");
         context.CodeWriter.Write(addAttributeMethod);
         context.CodeWriter.Write("(");
         context.CodeWriter.Write((_sourceSequence++).ToString(CultureInfo.InvariantCulture));
         context.CodeWriter.Write(", ");
-        context.CodeWriter.WriteStringLiteral(node.AttributeName);
+
+        WriteComponentAttributeName(context, node);
         context.CodeWriter.Write(", ");
 
         if (addAttributeMethod == ComponentsApi.RenderTreeBuilder.AddAttribute)

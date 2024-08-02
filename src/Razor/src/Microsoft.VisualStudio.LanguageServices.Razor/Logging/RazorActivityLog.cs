@@ -7,7 +7,7 @@ using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor;
-using Microsoft.CodeAnalysis.Razor.Utilities;
+using Microsoft.AspNetCore.Razor.Utilities;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
@@ -20,19 +20,15 @@ internal sealed class RazorActivityLog : IDisposable
     private enum EntryType { Error, Warning, Info }
 
     private readonly IAsyncServiceProvider _serviceProvider;
-    private readonly JoinableTaskFactory _jtf;
 
     private readonly CancellationTokenSource _disposeTokenSource;
     private readonly AsyncBatchingWorkQueue<(EntryType, string)> _loggingQueue;
     private IVsActivityLog? _vsActivityLog;
 
     [ImportingConstructor]
-    public RazorActivityLog(
-        [Import(typeof(SAsyncServiceProvider))] IAsyncServiceProvider serviceProvider,
-        JoinableTaskContext joinableTaskContext)
+    public RazorActivityLog([Import(typeof(SAsyncServiceProvider))] IAsyncServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        _jtf = joinableTaskContext.Factory;
 
         _disposeTokenSource = new();
         _loggingQueue = new AsyncBatchingWorkQueue<(EntryType, string)>(TimeSpan.Zero, ProcessBatchAsync, _disposeTokenSource.Token);
@@ -40,18 +36,31 @@ internal sealed class RazorActivityLog : IDisposable
 
     public void Dispose()
     {
+        if (_disposeTokenSource.IsCancellationRequested)
+        {
+            return;
+        }
+
         _disposeTokenSource.Cancel();
         _disposeTokenSource.Dispose();
     }
 
     private async ValueTask ProcessBatchAsync(ImmutableArray<(EntryType, string)> items, CancellationToken token)
     {
-        await _jtf.SwitchToMainThreadAsync(token);
+        if (token.IsCancellationRequested)
+        {
+            return;
+        }
 
-        _vsActivityLog ??= await _serviceProvider.GetServiceAsync<SVsActivityLog, IVsActivityLog>();
+        _vsActivityLog ??= await _serviceProvider.GetServiceAsync<SVsActivityLog, IVsActivityLog>(token).ConfigureAwait(false);
 
         foreach (var (entryType, message) in items)
         {
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
             var vsEntryType = entryType switch
             {
                 EntryType.Error => __ACTIVITYLOG_ENTRYTYPE.ALE_ERROR,

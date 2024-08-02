@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
 using System.Diagnostics;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
@@ -11,10 +12,9 @@ using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Razor.Workspaces.InlayHints;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer.InlayHints;
 
@@ -61,7 +61,7 @@ internal sealed class InlayHintService(IRazorDocumentMappingService documentMapp
         using var _1 = ArrayBuilderPool<InlayHint>.GetPooledObject(out var inlayHintsBuilder);
         foreach (var hint in inlayHints)
         {
-            if (hint.Position.TryGetAbsoluteIndex(csharpSourceText, null, out var absoluteIndex) &&
+            if (csharpSourceText.TryGetAbsoluteIndex(hint.Position, out var absoluteIndex) &&
                 _documentMappingService.TryMapToHostDocumentPosition(csharpDocument, absoluteIndex, out Position? hostDocumentPosition, out var hostDocumentIndex))
             {
                 // We know this C# maps to Razor, but does it map to Razor that we like?
@@ -93,10 +93,11 @@ internal sealed class InlayHintService(IRazorDocumentMappingService documentMapp
     public async Task<InlayHint?> ResolveInlayHintAsync(IClientConnection clientConnection, InlayHint inlayHint, CancellationToken cancellationToken)
     {
         var inlayHintWrapper = inlayHint.Data as RazorInlayHintWrapper;
+
         if (inlayHintWrapper is null &&
-            inlayHint.Data is JObject dataObj)
+            inlayHint.Data is JsonElement dataElement)
         {
-            inlayHintWrapper = dataObj.ToObject<RazorInlayHintWrapper>();
+            inlayHintWrapper = dataElement.Deserialize<RazorInlayHintWrapper>();
         }
 
         if (inlayHintWrapper is null)

@@ -2160,7 +2160,6 @@ public class DefaultTagHelperDescriptorFactoryTest
     public void CreateDescriptor_CapturesDocumentationOnTagHelperClass()
     {
         // Arrange
-        var errorSink = new ErrorSink();
         var syntaxTree = CSharpSyntaxTree.ParseText(@"
         using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -2198,7 +2197,6 @@ public class DefaultTagHelperDescriptorFactoryTest
     public void CreateDescriptor_CapturesDocumentationOnTagHelperProperties()
     {
         // Arrange
-        var errorSink = new ErrorSink();
         var syntaxTree = CSharpSyntaxTree.ParseText(@"
         using System.Collections.Generic;
 

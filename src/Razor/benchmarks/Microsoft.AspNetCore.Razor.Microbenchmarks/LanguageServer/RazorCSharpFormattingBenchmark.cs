@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Razor.LanguageServer.Formatting;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 
@@ -123,7 +122,7 @@ public class RazorCSharpFormattingBenchmark : RazorLanguageServerBenchmarkBase
 
 #if DEBUG
         // For debugging purposes only.
-        var changedText = DocumentText.WithChanges(edits.Select(e => e.ToTextChange(DocumentText)));
+        var changedText = DocumentText.WithChanges(edits.Select(DocumentText.GetTextChange));
         _ = changedText.ToString();
 #endif
     }
@@ -133,15 +132,14 @@ public class RazorCSharpFormattingBenchmark : RazorLanguageServerBenchmarkBase
     {
         File.Delete(_filePath);
 
-        var innerServer = RazorLanguageServer.GetInnerLanguageServerForTesting();
+        var server = RazorLanguageServerHost.GetTestAccessor().Server;
 
-        await innerServer.ShutdownAsync();
-        await innerServer.ExitAsync();
+        await server.ShutdownAsync();
+        await server.ExitAsync();
     }
 
     private void EnsureServicesInitialized()
     {
-        var languageServer = RazorLanguageServer.GetInnerLanguageServerForTesting();
-        RazorFormattingService = languageServer.GetRequiredService<IRazorFormattingService>();
+        RazorFormattingService = RazorLanguageServerHost.GetRequiredService<IRazorFormattingService>();
     }
 }

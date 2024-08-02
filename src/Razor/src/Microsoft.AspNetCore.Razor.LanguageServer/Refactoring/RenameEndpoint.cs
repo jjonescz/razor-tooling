@@ -130,7 +130,7 @@ internal sealed class RenameEndpoint(
             return null;
         }
 
-        var documentChanges = new List<SumType<TextDocumentEdit, CreateFile, RenameFile, DeleteFile>>();
+        using var _ = ListPool<SumType<TextDocumentEdit, CreateFile, RenameFile, DeleteFile>>.GetPooledObject(out var documentChanges);
         var fileRename = GetFileRenameForComponent(originComponentDocumentSnapshot, newPath);
         documentChanges.Add(fileRename);
         AddEditsForCodeDocument(documentChanges, originTagHelpers, request.NewName, request.TextDocument.Uri, codeDocument);
@@ -320,19 +320,11 @@ internal sealed class RenameEndpoint(
     {
         using var _ = ListPool<TextEdit>.GetPooledObject(out var edits);
 
-        edits.Add(new()
-        {
-            Range = element.StartTag.Name.GetRange(codeDocument.Source),
-            NewText = newName
-        });
+        edits.Add(VsLspFactory.CreateTextEdit(element.StartTag.Name.GetRange(codeDocument.Source), newName));
 
         if (element.EndTag is MarkupTagHelperEndTagSyntax endTag)
         {
-            edits.Add(new TextEdit()
-            {
-                Range = endTag.Name.GetRange(codeDocument.Source),
-                NewText = newName,
-            });
+            edits.Add(VsLspFactory.CreateTextEdit(endTag.Name.GetRange(codeDocument.Source), newName));
         }
 
         return [.. edits];

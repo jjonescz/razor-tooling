@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Razor.Language.Syntax;
 using Microsoft.AspNetCore.Razor.LanguageServer.Formatting;
 using Microsoft.AspNetCore.Razor.LanguageServer.Hosting;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 
@@ -42,7 +41,8 @@ internal static class CodeBlockService
     {
         var csharpCodeBlock = code.GetSyntaxTree().Root.DescendantNodes()
             .Select(RazorSyntaxFacts.TryGetCSharpCodeFromCodeBlock)
-            .FirstOrDefault(n => n is not null);
+            .FirstOrDefault(static n => n is not null);
+
         if (csharpCodeBlock is null
             || !csharpCodeBlock.Children.TryGetOpenBraceNode(out var openBrace)
             || !csharpCodeBlock.Children.TryGetCloseBraceNode(out var closeBrace))
@@ -60,27 +60,12 @@ internal static class CodeBlockService
                 codeBlockStartText = $"{Environment.NewLine}{codeBlockStartText}";
             }
 
-            var eofPosition = new Position(lastCharacterLocation.LineNumber, insertCharacterIndex);
-            var eofRange = new Range { Start = eofPosition, End = eofPosition };
-            var start = new TextEdit()
-            {
-                NewText = codeBlockStartText,
-                Range = eofRange
-            };
+            var eofRange = VsLspFactory.CreateZeroWidthRange(lastCharacterLocation.LineNumber, insertCharacterIndex);
+            var start = VsLspFactory.CreateTextEdit(eofRange, codeBlockStartText);
+            var method = VsLspFactory.CreateTextEdit(eofRange, indentedMethod);
+            var end = VsLspFactory.CreateTextEdit(eofRange, Environment.NewLine + "}");
 
-            var method = new TextEdit()
-            {
-                NewText = indentedMethod,
-                Range = eofRange
-            };
-
-            var end = new TextEdit()
-            {
-                NewText = Environment.NewLine + "}",
-                Range = eofRange
-            };
-
-            return new TextEdit[] { start, method, end };
+            return [start, method, end];
         }
 
         // A well-formed @code block exists, generate the method within it.
@@ -88,7 +73,7 @@ internal static class CodeBlockService
         var openBraceLocation = openBrace.GetSourceLocation(code.Source);
         var closeBraceLocation = closeBrace.GetSourceLocation(code.Source);
         var previousLineAbsoluteIndex = closeBraceLocation.AbsoluteIndex - closeBraceLocation.CharacterIndex - 1;
-        var previousLine = code.Source.Text.Lines.GetLinePosition(previousLineAbsoluteIndex);
+        var previousLine = code.Source.Text.GetLinePosition(previousLineAbsoluteIndex);
 
         var insertLineLocation =
             openBraceLocation.LineIndex == closeBraceLocation.LineIndex || !IsLineEmpty(code.Source.Text.Lines[previousLine.Line])
@@ -107,15 +92,8 @@ internal static class CodeBlockService
         var insertCharacter = openBraceLocation.LineIndex == closeBraceLocation.LineIndex
             ? closeBraceLocation.CharacterIndex
             : 0;
-        var insertPosition = new Position(insertLineLocation.LineIndex, insertCharacter);
 
-        var edit = new TextEdit()
-        {
-            Range = new Range { Start = insertPosition, End = insertPosition },
-            NewText = formattedGeneratedMethod
-        };
-
-        return new TextEdit[] { edit };
+        return [VsLspFactory.CreateTextEdit(insertLineLocation.LineIndex, insertCharacter, formattedGeneratedMethod)];
     }
 
     private static string FormatMethodInCodeBlock(
@@ -171,5 +149,6 @@ internal static class CodeBlockService
     /// </summary>
     /// <param name="textLine">The line to check.</param>
     /// <returns>true if the line is empty, otherwise false.</returns>
-    private static bool IsLineEmpty(TextLine textLine) => textLine.Start == textLine.End;
+    private static bool IsLineEmpty(TextLine textLine)
+        => textLine.Start == textLine.End;
 }

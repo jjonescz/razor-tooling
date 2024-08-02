@@ -6,14 +6,12 @@
 using System;
 using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.LanguageServer;
 using Microsoft.AspNetCore.Razor.LanguageServer.Semantic;
-using Microsoft.CodeAnalysis.Razor;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
 using Microsoft.CodeAnalysis.Razor.Logging;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
@@ -22,6 +20,7 @@ using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
+using Range = Microsoft.VisualStudio.LanguageServer.Protocol.Range;
 
 namespace Microsoft.AspNetCore.Razor.Microbenchmarks.LanguageServer;
 
@@ -67,19 +66,9 @@ public class RazorSemanticTokensBenchmark : RazorLanguageServerBenchmarkBase
         DocumentContext = new VersionedDocumentContext(documentUri, documentSnapshot, projectContext: null, version);
 
         var text = await DocumentContext.GetSourceTextAsync(CancellationToken.None).ConfigureAwait(false);
-        Range = new Range
-        {
-            Start = new Position
-            {
-                Line = 0,
-                Character = 0
-            },
-            End = new Position
-            {
-                Line = text.Lines.Count - 1,
-                Character = text.Lines.Last().Span.Length - 1
-            }
-        };
+        Range = VsLspFactory.CreateRange(
+            start: (0, 0),
+            end: (text.Lines.Count - 1, text.Lines[^1].Span.Length - 1));
     }
 
     [Benchmark(Description = "Razor Semantic Tokens Range Handling")]
@@ -96,9 +85,10 @@ public class RazorSemanticTokensBenchmark : RazorLanguageServerBenchmarkBase
     [GlobalCleanup]
     public async Task CleanupServerAsync()
     {
-        var innerServer = RazorLanguageServer.GetInnerLanguageServerForTesting();
-        await innerServer.ShutdownAsync();
-        await innerServer.ExitAsync();
+        var server = RazorLanguageServerHost.GetTestAccessor().Server;
+
+        await server.ShutdownAsync();
+        await server.ExitAsync();
     }
 
     protected internal override void Builder(IServiceCollection collection)
@@ -108,11 +98,10 @@ public class RazorSemanticTokensBenchmark : RazorLanguageServerBenchmarkBase
 
     private void EnsureServicesInitialized()
     {
-        var languageServer = RazorLanguageServer.GetInnerLanguageServerForTesting();
         var capabilitiesService = new BenchmarkClientCapabilitiesService(new VSInternalClientCapabilities { SupportsVisualStudioExtensions = true });
         var legend = new RazorSemanticTokensLegendService(capabilitiesService);
-        RazorSemanticTokenService = languageServer.GetRequiredService<IRazorSemanticTokensInfoService>();
-        VersionCache = languageServer.GetRequiredService<IDocumentVersionCache>();
+        RazorSemanticTokenService = RazorLanguageServerHost.GetRequiredService<IRazorSemanticTokensInfoService>();
+        VersionCache = RazorLanguageServerHost.GetRequiredService<IDocumentVersionCache>();
     }
 
     internal class TestRazorSemanticTokensInfoService : RazorSemanticTokensInfoService

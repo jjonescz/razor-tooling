@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.LanguageServer.EndpointContracts;
 using Microsoft.AspNetCore.Razor.LanguageServer.Hosting;
+using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
 using Microsoft.CodeAnalysis.Razor.Logging;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol;
 using Microsoft.CodeAnalysis.Razor.Protocol.DocumentPresentation;
 using Microsoft.CodeAnalysis.Razor.Workspaces;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer.DocumentPresentation;
@@ -34,10 +36,10 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
         IFilePathService filePathService,
         ILogger logger)
     {
-        _razorDocumentMappingService = razorDocumentMappingService ?? throw new ArgumentNullException(nameof(razorDocumentMappingService));
-        _clientConnection = clientConnection ?? throw new ArgumentNullException(nameof(clientConnection));
-        _filePathService = filePathService ?? throw new ArgumentNullException(nameof(filePathService));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _razorDocumentMappingService = razorDocumentMappingService;
+        _clientConnection = clientConnection;
+        _filePathService = filePathService;
+        _logger = logger;
     }
 
     public abstract string EndpointName { get; }
@@ -72,7 +74,7 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
         }
 
         var sourceText = await documentContext.GetSourceTextAsync(cancellationToken).ConfigureAwait(false);
-        if (request.Range.Start.TryGetAbsoluteIndex(sourceText, _logger, out var hostDocumentIndex) != true)
+        if (sourceText.TryGetAbsoluteIndex(request.Range.Start, out var hostDocumentIndex) != true)
         {
             return null;
         }
@@ -85,7 +87,13 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
             return result;
         }
 
-        if (languageKind is not (RazorLanguageKind.CSharp or RazorLanguageKind.Html))
+        if (languageKind is RazorLanguageKind.CSharp)
+        {
+            // Roslyn does not support Uri or Text presentation, so to prevent unnecessary LSP calls and misleading telemetry
+            // reports, we just return null here.
+            return null;
+        }
+        else if (languageKind is not RazorLanguageKind.Html)
         {
             _logger.LogInformation($"Unsupported language {languageKind}.");
             return null;
@@ -122,26 +130,26 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
 
     private static bool TryGetDocumentChanges(WorkspaceEdit workspaceEdit, [NotNullWhen(true)] out TextDocumentEdit[]? documentChanges)
     {
-        if (workspaceEdit.DocumentChanges?.Value is TextDocumentEdit[] documentEdits)
+        if (workspaceEdit.DocumentChanges?.Value is TextDocumentEdit[] documentEditArray)
         {
-            documentChanges = documentEdits;
+            documentChanges = documentEditArray;
             return true;
         }
 
         if (workspaceEdit.DocumentChanges?.Value is SumType<TextDocumentEdit, CreateFile, RenameFile, DeleteFile>[] sumTypeArray)
         {
-            var documentEditList = new List<TextDocumentEdit>();
+            using var documentEdits = new PooledArrayBuilder<TextDocumentEdit>();
             foreach (var sumType in sumTypeArray)
             {
                 if (sumType.Value is TextDocumentEdit textDocumentEdit)
                 {
-                    documentEditList.Add(textDocumentEdit);
+                    documentEdits.Add(textDocumentEdit);
                 }
             }
 
-            if (documentEditList.Count > 0)
+            if (documentEdits.Count > 0)
             {
-                documentChanges = documentEditList.ToArray();
+                documentChanges = documentEdits.ToArray();
                 return true;
             }
         }
@@ -166,7 +174,7 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
             }
 
             var remappedEdits = MapTextEdits(mapRanges, codeDocument, edits);
-            if (remappedEdits is null || remappedEdits.Length == 0)
+            if (remappedEdits.Length == 0)
             {
                 // Nothing to do.
                 continue;
@@ -181,7 +189,7 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
 
     private TextDocumentEdit[] MapDocumentChanges(TextDocumentEdit[] documentEdits, bool mapRanges, RazorCodeDocument codeDocument, int hostDocumentVersion)
     {
-        var remappedDocumentEdits = new List<TextDocumentEdit>();
+        using var remappedDocumentEdits = new PooledArrayBuilder<TextDocumentEdit>(documentEdits.Length);
         foreach (var entry in documentEdits)
         {
             var uri = entry.TextDocument.Uri;
@@ -189,7 +197,6 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
             {
                 // This location doesn't point to a background razor file. No need to remap.
                 remappedDocumentEdits.Add(entry);
-
                 continue;
             }
 
@@ -209,33 +216,29 @@ internal abstract class AbstractTextDocumentPresentationEndpointBase<TParams> : 
                     Uri = razorDocumentUri,
                     Version = hostDocumentVersion
                 },
-                Edits = remappedEdits
+                Edits = remappedEdits.ToArray()
             });
         }
 
         return remappedDocumentEdits.ToArray();
     }
 
-    private TextEdit[]? MapTextEdits(bool mapRanges, RazorCodeDocument codeDocument, IEnumerable<TextEdit> edits)
+    private TextEdit[] MapTextEdits(bool mapRanges, RazorCodeDocument codeDocument, TextEdit[] edits)
     {
         if (!mapRanges)
         {
-            return edits.ToArray();
+            return edits;
         }
 
-        var mappedEdits = new List<TextEdit>();
+        using var mappedEdits = new PooledArrayBuilder<TextEdit>();
         foreach (var edit in edits)
         {
             if (!_razorDocumentMappingService.TryMapToHostDocumentRange(codeDocument.GetCSharpDocument(), edit.Range, out var newRange))
             {
-                return null;
+                return [];
             }
 
-            var newEdit = new TextEdit()
-            {
-                NewText = edit.NewText,
-                Range = newRange
-            };
+            var newEdit = VsLspFactory.CreateTextEdit(newRange, edit.NewText);
             mappedEdits.Add(newEdit);
         }
 

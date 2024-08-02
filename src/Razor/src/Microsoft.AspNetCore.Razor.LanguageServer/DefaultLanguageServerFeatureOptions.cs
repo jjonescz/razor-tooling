@@ -13,13 +13,9 @@ internal class DefaultLanguageServerFeatureOptions : LanguageServerFeatureOption
 
     public override bool SupportsFileManipulation => true;
 
-    public override string ProjectConfigurationFileName => "project.razor.bin";
-
     public override string CSharpVirtualDocumentSuffix => DefaultCSharpVirtualDocumentSuffix;
 
     public override string HtmlVirtualDocumentSuffix => DefaultHtmlVirtualDocumentSuffix;
-
-    public override bool SingleServerCompletionSupport => false;
 
     public override bool SingleServerSupport => false;
 
@@ -38,13 +34,9 @@ internal class DefaultLanguageServerFeatureOptions : LanguageServerFeatureOption
 
     public override bool UsePreciseSemanticTokenRanges => false;
 
-    public override bool MonitorWorkspaceFolderForConfigurationFiles => true;
-
     public override bool UseRazorCohostServer => false;
 
     public override bool DisableRazorLanguageServer => false;
 
     public override bool ForceRuntimeCodeGeneration => false;
-
-    public override bool UseProjectConfigurationEndpoint => false;
 }

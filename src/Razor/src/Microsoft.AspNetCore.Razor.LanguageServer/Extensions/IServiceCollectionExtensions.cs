@@ -26,7 +26,6 @@ using Microsoft.CodeAnalysis.Razor.DocumentMapping;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol;
 using Microsoft.CodeAnalysis.Razor.SemanticTokens;
-using Microsoft.CodeAnalysis.Razor.Serialization;
 using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CommonLanguageServerProtocol.Framework;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +47,7 @@ internal static class IServiceCollectionExtensions
         services.AddSingleton<CapabilitiesManager>();
         services.AddSingleton<IInitializeManager<InitializeParams, InitializeResult>, CapabilitiesManager>(sp => sp.GetRequiredService<CapabilitiesManager>());
         services.AddSingleton<IClientCapabilitiesService>(sp => sp.GetRequiredService<CapabilitiesManager>());
+        services.AddSingleton<IWorkspaceRootPathProvider>(sp => sp.GetRequiredService<CapabilitiesManager>());
         services.AddSingleton<AbstractRequestContextFactory<RazorRequestContext>, RazorRequestContextFactory>();
 
         services.AddSingleton<ICapabilitiesProvider, RazorLanguageServerCapability>();
@@ -73,21 +73,11 @@ internal static class IServiceCollectionExtensions
         services.AddHandlerWithCapabilities<DocumentRangeFormattingEndpoint>();
     }
 
-    public static void AddCompletionServices(this IServiceCollection services, LanguageServerFeatureOptions featureOptions)
+    public static void AddCompletionServices(this IServiceCollection services)
     {
         services.AddHandlerWithCapabilities<InlineCompletionEndpoint>();
-
-        if (featureOptions.SingleServerCompletionSupport)
-        {
-            services.AddHandlerWithCapabilities<RazorCompletionEndpoint>();
-            services.AddHandlerWithCapabilities<RazorCompletionResolveEndpoint>();
-        }
-        else
-        {
-            services.AddHandlerWithCapabilities<LegacyRazorCompletionEndpoint>();
-            services.AddHandlerWithCapabilities<LegacyRazorCompletionResolveEndpoint>();
-        }
-
+        services.AddHandlerWithCapabilities<RazorCompletionEndpoint>();
+        services.AddHandlerWithCapabilities<RazorCompletionResolveEndpoint>();
         services.AddSingleton<CompletionListCache>();
         services.AddSingleton<CompletionListProvider>();
         services.AddSingleton<DelegatedCompletionListProvider>();
@@ -113,7 +103,6 @@ internal static class IServiceCollectionExtensions
     public static void AddDiagnosticServices(this IServiceCollection services)
     {
         services.AddHandlerWithCapabilities<DocumentPullDiagnosticsEndpoint>();
-        services.AddHandler<WorkspacePullDiagnosticsEndpoint>();
         services.AddSingleton<RazorTranslateDiagnosticsService>();
         services.AddSingleton(sp => new Lazy<RazorTranslateDiagnosticsService>(sp.GetRequiredService<RazorTranslateDiagnosticsService>));
     }
@@ -210,34 +199,14 @@ internal static class IServiceCollectionExtensions
         services.AddSingleton((services) => (IRazorStartupService)services.GetRequiredService<IDocumentVersionCache>());
 
         services.AddSingleton<RemoteTextLoaderFactory, DefaultRemoteTextLoaderFactory>();
-        services.AddSingleton<ISnapshotResolver, SnapshotResolver>();
-        services.AddSingleton<IOnInitialized>(sp => (SnapshotResolver)sp.GetRequiredService<ISnapshotResolver>());
         services.AddSingleton<IRazorProjectService, RazorProjectService>();
+        services.AddSingleton<IRazorStartupService>((services) => (RazorProjectService)services.GetRequiredService<IRazorProjectService>());
         services.AddSingleton<IRazorStartupService, OpenDocumentGenerator>();
         services.AddSingleton<IRazorDocumentMappingService, RazorDocumentMappingService>();
         services.AddSingleton<RazorFileChangeDetectorManager>();
         services.AddSingleton<IOnInitialized>(sp => sp.GetRequiredService<RazorFileChangeDetectorManager>());
 
-        if (featureOptions.UseProjectConfigurationEndpoint)
-        {
-            services.AddSingleton<IRazorProjectInfoFileSerializer, RazorProjectInfoFileSerializer>();
-            services.AddSingleton<ProjectConfigurationStateManager>();
-        }
-        else 
-        {
-            services.AddSingleton<IProjectConfigurationFileChangeListener, ProjectConfigurationStateSynchronizer>();
-        }
-
         services.AddSingleton<IRazorFileChangeListener, RazorFileSynchronizer>();
-
-        // If we're not monitoring the whole workspace folder for configuration changes, then we don't actually need the the file change
-        // detector wired up via DI, as the razor/monitorProjectConfigurationFilePath endpoint will directly construct one. This means
-        // it can be a little simpler, and doesn't need to worry about which folders it's told to listen to.
-        if (featureOptions.MonitorWorkspaceFolderForConfigurationFiles)
-        {
-            services.AddSingleton<IFileChangeDetector, ProjectConfigurationFileChangeDetector>();
-        }
-
         services.AddSingleton<IFileChangeDetector, RazorFileChangeDetector>();
 
         // Document processed listeners
@@ -256,7 +225,7 @@ internal static class IServiceCollectionExtensions
 
         // Add project snapshot manager
         services.AddSingleton<IProjectEngineFactoryProvider, LspProjectEngineFactoryProvider>();
-        services.AddSingleton<IProjectSnapshotManager, ProjectSnapshotManager>();
+        services.AddSingleton<IProjectSnapshotManager, LspProjectSnapshotManager>();
     }
 
     public static void AddHandlerWithCapabilities<T>(this IServiceCollection services)

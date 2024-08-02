@@ -20,22 +20,19 @@ using Xunit.Abstractions;
 namespace Microsoft.AspNetCore.Razor.LanguageServer;
 
 [UseExportProvider]
-public abstract partial class SingleServerDelegatingEndpointTestBase : LanguageServerTestBase
+public abstract partial class SingleServerDelegatingEndpointTestBase(ITestOutputHelper testOutput) : LanguageServerTestBase(testOutput)
 {
     private protected IDocumentContextFactory? DocumentContextFactory { get; private set; }
     private protected LanguageServerFeatureOptions? LanguageServerFeatureOptions { get; private set; }
     private protected IRazorDocumentMappingService? DocumentMappingService { get; private set; }
 
-    protected SingleServerDelegatingEndpointTestBase(ITestOutputHelper testOutput)
-        : base(testOutput)
-    {
-    }
-
     [MemberNotNull(nameof(DocumentContextFactory), nameof(LanguageServerFeatureOptions), nameof(DocumentMappingService))]
     private protected async Task<TestLanguageServer> CreateLanguageServerAsync(
         RazorCodeDocument codeDocument,
         string razorFilePath,
-        IEnumerable<(string, string)>? additionalRazorDocuments = null)
+        IEnumerable<(string, string)>? additionalRazorDocuments = null,
+        bool multiTargetProject = true,
+        Action<VSInternalClientCapabilities>? capabilitiesUpdater = null)
     {
         var projectKey = TestProjectKey.Create("");
         var csharpSourceText = codeDocument.GetCSharpSourceText();
@@ -76,6 +73,8 @@ public abstract partial class SingleServerDelegatingEndpointTestBase : LanguageS
                 SupportsDiagnosticRequests = true,
             },
             razorSpanMappingService: null,
+            multiTargetProject,
+            capabilitiesUpdater,
             DisposalToken);
 
         AddDisposable(csharpServer);

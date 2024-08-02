@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
+using Range = Microsoft.VisualStudio.LanguageServer.Protocol.Range;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer.Diagnostics;
 
@@ -15,27 +16,6 @@ internal static class RazorDiagnosticConverter
 {
     public static VSDiagnostic Convert(RazorDiagnostic razorDiagnostic, SourceText sourceText, IDocumentSnapshot? documentSnapshot)
     {
-        if (razorDiagnostic is null)
-        {
-            throw new ArgumentNullException(nameof(razorDiagnostic));
-        }
-
-        if (sourceText is null)
-        {
-            throw new ArgumentNullException(nameof(sourceText));
-        }
-
-        var projects = documentSnapshot is null
-            ? Array.Empty<VSDiagnosticProjectInformation>()
-            : [
-                new VSDiagnosticProjectInformation()
-                {
-                    Context = null,
-                    ProjectIdentifier = documentSnapshot.Project.Key.Id,
-                    ProjectName = documentSnapshot.Project.DisplayName
-                }
-            ];
-
         var diagnostic = new VSDiagnostic()
         {
             Message = razorDiagnostic.GetMessage(CultureInfo.InvariantCulture),
@@ -45,10 +25,25 @@ internal static class RazorDiagnosticConverter
             // This is annotated as not null, but we have tests that validate the behaviour when
             // we pass in null here
             Range = ConvertSpanToRange(razorDiagnostic.Span, sourceText)!,
-            Projects = projects
+            Projects = GetProjectInformation(documentSnapshot)
         };
 
         return diagnostic;
+    }
+
+    public static VSDiagnosticProjectInformation[] GetProjectInformation(IDocumentSnapshot? documentSnapshot)
+    {
+        if (documentSnapshot is null)
+        {
+            return [];
+        }
+
+        return [new VSDiagnosticProjectInformation()
+                {
+                    Context = null,
+                    ProjectIdentifier = documentSnapshot.Project.Key.Id,
+                    ProjectName = documentSnapshot.Project.DisplayName
+                }];
     }
 
     internal static Diagnostic[] Convert(IReadOnlyList<RazorDiagnostic> diagnostics, SourceText sourceText, IDocumentSnapshot documentSnapshot)
@@ -84,26 +79,8 @@ internal static class RazorDiagnosticConverter
         }
 
         var spanStartIndex = Math.Min(sourceSpan.AbsoluteIndex, sourceText.Length);
-        var startPosition = sourceText.Lines.GetLinePosition(spanStartIndex);
-        var start = new Position()
-        {
-            Line = startPosition.Line,
-            Character = startPosition.Character,
-        };
-
         var spanEndIndex = Math.Min(sourceSpan.AbsoluteIndex + sourceSpan.Length, sourceText.Length);
-        var endPosition = sourceText.Lines.GetLinePosition(spanEndIndex);
-        var end = new Position()
-        {
-            Line = endPosition.Line,
-            Character = endPosition.Character,
-        };
-        var range = new Range()
-        {
-            Start = start,
-            End = end,
-        };
 
-        return range;
+        return sourceText.GetRange(spanStartIndex, spanEndIndex);
     }
 }

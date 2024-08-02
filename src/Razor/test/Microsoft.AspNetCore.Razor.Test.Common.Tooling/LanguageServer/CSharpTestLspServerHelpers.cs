@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Razor.Test.Common.Mef;
 using Microsoft.AspNetCore.Razor.Test.Common.Workspaces;
 using Microsoft.AspNetCore.Razor.Threading;
@@ -34,13 +33,14 @@ internal static class CSharpTestLspServerHelpers
         Uri csharpDocumentUri,
         VSInternalServerCapabilities serverCapabilities,
         CancellationToken cancellationToken) =>
-        CreateCSharpLspServerAsync(csharpSourceText, csharpDocumentUri, serverCapabilities, new EmptyMappingService(), cancellationToken);
+        CreateCSharpLspServerAsync(csharpSourceText, csharpDocumentUri, serverCapabilities, new EmptyMappingService(), capabilitiesUpdater: null, cancellationToken);
 
     public static Task<CSharpTestLspServer> CreateCSharpLspServerAsync(
         SourceText csharpSourceText,
         Uri csharpDocumentUri,
         VSInternalServerCapabilities serverCapabilities,
         IRazorSpanMappingService razorSpanMappingService,
+        Action<VSInternalClientCapabilities> capabilitiesUpdater,
         CancellationToken cancellationToken)
     {
         var files = new[]
@@ -48,10 +48,16 @@ internal static class CSharpTestLspServerHelpers
             (csharpDocumentUri, csharpSourceText)
         };
 
-        return CreateCSharpLspServerAsync(files, serverCapabilities, razorSpanMappingService, cancellationToken);
+        return CreateCSharpLspServerAsync(files, serverCapabilities, razorSpanMappingService, multiTargetProject: true, capabilitiesUpdater, cancellationToken);
     }
 
-    public static async Task<CSharpTestLspServer> CreateCSharpLspServerAsync(IEnumerable<(Uri Uri, SourceText SourceText)> files, VSInternalServerCapabilities serverCapabilities, IRazorSpanMappingService razorSpanMappingService, CancellationToken cancellationToken)
+    public static async Task<CSharpTestLspServer> CreateCSharpLspServerAsync(
+        IEnumerable<(Uri Uri, SourceText SourceText)> files,
+        VSInternalServerCapabilities serverCapabilities,
+        IRazorSpanMappingService razorSpanMappingService,
+        bool multiTargetProject,
+         Action<VSInternalClientCapabilities> capabilitiesUpdater,
+        CancellationToken cancellationToken)
     {
         var csharpFiles = files.Select(f => new CSharpFile(f.Uri, f.SourceText));
 
@@ -60,7 +66,7 @@ internal static class CSharpTestLspServerHelpers
             // ComponentBase here comes from our ComponentShim project, not the real ASP.NET libraries. It's enough for the generated C#
             // in tests to at least compile better.
             .Add(ReferenceUtil.AspNetLatestComponents);
-        var workspace = CreateCSharpTestWorkspace(csharpFiles, exportProvider, metadataReferences, razorSpanMappingService);
+        var workspace = CreateCSharpTestWorkspace(csharpFiles, exportProvider, metadataReferences, razorSpanMappingService, multiTargetProject);
         var clientCapabilities = new VSInternalClientCapabilities
         {
             SupportsVisualStudioExtensions = true,
@@ -70,7 +76,7 @@ internal static class CSharpTestLspServerHelpers
                 {
                     CompletionListSetting = new()
                     {
-                        ItemDefaults = new string[] { EditRangeSetting }
+                        ItemDefaults = [EditRangeSetting]
                     },
                     CompletionItem = new()
                     {
@@ -89,6 +95,8 @@ internal static class CSharpTestLspServerHelpers
             }
         };
 
+        capabilitiesUpdater?.Invoke(clientCapabilities);
+
         return await CSharpTestLspServer.CreateAsync(
             workspace, exportProvider, clientCapabilities, serverCapabilities, cancellationToken);
     }
@@ -97,7 +105,8 @@ internal static class CSharpTestLspServerHelpers
         IEnumerable<CSharpFile> files,
         ExportProvider exportProvider,
         ImmutableArray<MetadataReference> metadataReferences,
-        IRazorSpanMappingService razorSpanMappingService)
+        IRazorSpanMappingService razorSpanMappingService,
+        bool multiTargetProject)
     {
         var hostServices = MefHostServices.Create(exportProvider.AsCompositionContext());
         var workspace = TestWorkspace.Create(hostServices);
@@ -121,7 +130,9 @@ internal static class CSharpTestLspServerHelpers
             filePath: @"C:\TestSolution\TestProject.csproj",
             metadataReferences: metadataReferences);
 
-        var projectInfos = new ProjectInfo[] { projectInfoNet60, projectInfoNet80 };
+        ProjectInfo[] projectInfos = multiTargetProject
+            ? [projectInfoNet60, projectInfoNet80]
+            : [projectInfoNet80];
 
         var solutionInfo = SolutionInfo.Create(
             id: SolutionId.CreateNewId("TestSolution"),

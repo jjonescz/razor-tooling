@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
@@ -11,12 +12,10 @@ using Microsoft.AspNetCore.Razor.Test.Common.LanguageServer;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol.CodeActions;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 using Moq;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -35,7 +34,7 @@ public class DefaultHtmlCodeActionProviderTest(ITestOutputHelper testOutput) : L
         var request = new VSCodeActionParams()
         {
             TextDocument = new VSTextDocumentIdentifier { Uri = new Uri(documentPath) },
-            Range = new Range(),
+            Range = VsLspFactory.DefaultRange,
             Context = new VSInternalCodeActionContext()
         };
 
@@ -46,16 +45,15 @@ public class DefaultHtmlCodeActionProviderTest(ITestOutputHelper testOutput) : L
         var documentMappingService = Mock.Of<IRazorDocumentMappingService>(MockBehavior.Strict);
         var provider = new DefaultHtmlCodeActionProvider(documentMappingService);
 
-        var codeActions = new[] { new RazorVSInternalCodeAction() { Name = "Test" } };
+        ImmutableArray<RazorVSInternalCodeAction> codeActions = [ new RazorVSInternalCodeAction() { Name = "Test" } ];
 
         // Act
         var providedCodeActions = await provider.ProvideAsync(context, codeActions, DisposalToken);
 
         // Assert
-        Assert.NotNull(providedCodeActions);
         var action = Assert.Single(providedCodeActions);
         Assert.Equal("Test", action.Name);
-        Assert.Equal("Html", ((JObject)action.Data!)["language"]!.ToString());
+        Assert.Equal("Html", ((JsonElement)action.Data!).GetProperty("language").GetString());
     }
 
     [Fact]
@@ -69,7 +67,7 @@ public class DefaultHtmlCodeActionProviderTest(ITestOutputHelper testOutput) : L
         var request = new VSCodeActionParams()
         {
             TextDocument = new VSTextDocumentIdentifier { Uri = new Uri(documentPath) },
-            Range = new Range(),
+            Range = VsLspFactory.DefaultRange,
             Context = new VSInternalCodeActionContext()
         };
 
@@ -81,13 +79,13 @@ public class DefaultHtmlCodeActionProviderTest(ITestOutputHelper testOutput) : L
         {
             DocumentChanges = new TextDocumentEdit[]
             {
-                new TextDocumentEdit
-                {
-                    TextDocument = new OptionalVersionedTextDocumentIdentifier { Uri= new Uri(documentPath), Version = 1 },
-                    Edits = new TextEdit[]
+                new() {
+                    TextDocument = new OptionalVersionedTextDocumentIdentifier
                     {
-                        new TextEdit { NewText = "Goo ~~~~~~~~~~~~~~~ Bar", Range = span.ToRange(context.SourceText) }
-                    }
+                        Uri = new Uri(documentPath),
+                        Version = 1
+                    },
+                    Edits = [VsLspFactory.CreateTextEdit(context.SourceText.GetRange(span), "Goo ~~~~~~~~~~~~~~~ Bar")]
                 }
             }
         };
@@ -99,33 +97,32 @@ public class DefaultHtmlCodeActionProviderTest(ITestOutputHelper testOutput) : L
 
         var provider = new DefaultHtmlCodeActionProvider(documentMappingServiceMock.Object);
 
-        var codeActions = new[]
+        ImmutableArray<RazorVSInternalCodeAction> codeActions =
+        [
+            new RazorVSInternalCodeAction()
             {
-                new RazorVSInternalCodeAction()
+                Name = "Test",
+                Edit = new WorkspaceEdit
                 {
-                    Name = "Test",
-                    Edit = new WorkspaceEdit
+                    DocumentChanges = new TextDocumentEdit[]
                     {
-                        DocumentChanges = new TextDocumentEdit[]
-                        {
-                            new TextDocumentEdit
+                        new() {
+                            TextDocument = new OptionalVersionedTextDocumentIdentifier
                             {
-                                TextDocument = new OptionalVersionedTextDocumentIdentifier { Uri= new Uri("c:/Test.razor.html"), Version = 1 },
-                                Edits = new TextEdit[]
-                                {
-                                    new TextEdit { NewText = "Goo" }
-                                }
-                            }
+                                Uri = new Uri("c:/Test.razor.html"),
+                                Version = 1
+                            },
+                            Edits = [VsLspFactory.CreateTextEdit(position: (0, 0), "Goo")]
                         }
                     }
                 }
-            };
+            }
+        ];
 
         // Act
         var providedCodeActions = await provider.ProvideAsync(context, codeActions, DisposalToken);
 
         // Assert
-        Assert.NotNull(providedCodeActions);
         var action = Assert.Single(providedCodeActions);
         Assert.NotNull(action.Edit);
         Assert.True(action.Edit.TryGetDocumentChanges(out var changes));
@@ -157,7 +154,7 @@ public class DefaultHtmlCodeActionProviderTest(ITestOutputHelper testOutput) : L
 
         var documentSnapshot = Mock.Of<IDocumentSnapshot>(document =>
             document.GetGeneratedOutputAsync() == Task.FromResult(codeDocument) &&
-            document.GetTextAsync() == Task.FromResult(codeDocument.GetSourceText()) &&
+            document.GetTextAsync() == Task.FromResult(codeDocument.Source.Text) &&
             document.Project.GetTagHelpersAsync(It.IsAny<CancellationToken>()) == new ValueTask<ImmutableArray<TagHelperDescriptor>>(tagHelpers), MockBehavior.Strict);
 
         var sourceText = SourceText.From(text);

@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 
@@ -51,7 +50,7 @@ internal class FormattingContext : IDisposable
     public int HostDocumentIndex { get; }
     public char TriggerCharacter { get; }
 
-    public SourceText SourceText => CodeDocument.GetSourceText();
+    public SourceText SourceText => CodeDocument.Source.Text;
 
     public SourceText CSharpSourceText => CodeDocument.GetCSharpSourceText();
 
@@ -73,28 +72,7 @@ internal class FormattingContext : IDisposable
         }
     }
 
-    public AdhocWorkspace CSharpWorkspace
-    {
-        get
-        {
-            if (_csharpWorkspace is null)
-            {
-                var adhocWorkspace = _workspaceFactory.Create();
-                var csharpOptions = GetChangedOptionSet(adhocWorkspace.Options);
-                adhocWorkspace.TryApplyChanges(adhocWorkspace.CurrentSolution.WithOptions(csharpOptions));
-                _csharpWorkspace = adhocWorkspace;
-            }
-
-            return _csharpWorkspace;
-        }
-    }
-
-    public CodeAnalysis.Options.OptionSet GetChangedOptionSet(CodeAnalysis.Options.OptionSet optionsSet)
-    {
-        return optionsSet.WithChangedOption(CodeAnalysis.Formatting.FormattingOptions.TabSize, LanguageNames.CSharp, Options.TabSize)
-                         .WithChangedOption(CodeAnalysis.Formatting.FormattingOptions.IndentationSize, LanguageNames.CSharp, Options.TabSize)
-                         .WithChangedOption(CodeAnalysis.Formatting.FormattingOptions.UseTabs, LanguageNames.CSharp, !Options.InsertSpaces);
-    }
+    public AdhocWorkspace CSharpWorkspace => _csharpWorkspace ??= _workspaceFactory.Create();
 
     /// <summary>A Dictionary of int (line number) to IndentationContext.</summary>
     /// <remarks>
@@ -287,7 +265,7 @@ internal class FormattingContext : IDisposable
 
         var changedSnapshot = OriginalSnapshot.WithText(changedText);
 
-        var codeDocument = await changedSnapshot.GetGeneratedOutputAsync().ConfigureAwait(false);
+        var codeDocument = await changedSnapshot.GetFormatterCodeDocumentAsync().ConfigureAwait(false);
 
         DEBUG_ValidateComponents(CodeDocument, codeDocument);
 

@@ -3,10 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
@@ -88,12 +89,11 @@ public class DefinitionEndpointDelegationTest(ITestOutputHelper testOutput) : Si
         Assert.EndsWith("String.cs", location.Uri.ToString());
 
         // Note: The location is in a generated C# "metadata-as-source" file, which has a different
-        // number of using directives in .NET Framework vs. .NET Core. So, the line numbers are different.
-#if NETFRAMEWORK
-        Assert.Equal(24, location.Range.Start.Line);
-#else
-        Assert.Equal(21, location.Range.Start.Line);
-#endif
+        // number of using directives in .NET Framework vs. .NET Core, so rather than relying on line
+        // numbers we do some vague notion of actual navigation and test the actual source line that
+        // the user would see.
+        var line = File.ReadLines(location.Uri.LocalPath).ElementAt(location.Range.Start.Line);
+        Assert.Contains("public sealed class String", line);
     }
 
     [Theory]
@@ -196,7 +196,7 @@ public class DefinitionEndpointDelegationTest(ITestOutputHelper testOutput) : Si
 
         // We can still expect the character to be correct, even if the line won't match
         var surveyPromptSourceText = SourceText.From(surveyPrompt);
-        var range = expectedSpan.ToRange(surveyPromptSourceText);
+        var range = surveyPromptSourceText.GetRange(expectedSpan);
         Assert.Equal(range.Start.Character, location.Range.Start.Character);
     }
 
@@ -217,7 +217,7 @@ public class DefinitionEndpointDelegationTest(ITestOutputHelper testOutput) : Si
         var location = Assert.Single(locations);
         Assert.Equal(new Uri(razorFilePath), location.Uri);
 
-        var expectedRange = expectedSpan.ToRange(codeDocument.GetSourceText());
+        var expectedRange = codeDocument.Source.Text.GetRange(expectedSpan);
         Assert.Equal(expectedRange, location.Range);
     }
 
@@ -244,14 +244,13 @@ public class DefinitionEndpointDelegationTest(ITestOutputHelper testOutput) : Si
 
         var endpoint = new DefinitionEndpoint(searchEngine, DocumentMappingService, LanguageServerFeatureOptions, languageServer, LoggerFactory);
 
-        codeDocument.GetSourceText().GetLineAndOffset(cursorPosition, out var line, out var offset);
         var request = new TextDocumentPositionParams
         {
             TextDocument = new TextDocumentIdentifier
             {
                 Uri = new Uri(razorFilePath)
             },
-            Position = new Position(line, offset)
+            Position = codeDocument.Source.Text.GetPosition(cursorPosition)
         };
 
         return await endpoint.HandleRequestAsync(request, requestContext, DisposalToken);

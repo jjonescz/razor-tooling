@@ -2,13 +2,14 @@
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
 using System;
+using System.Text.Json;
 using Microsoft.AspNetCore.Razor.LanguageServer.AutoInsert;
 using Microsoft.AspNetCore.Razor.LanguageServer.ColorPresentation;
 using Microsoft.AspNetCore.Razor.LanguageServer.Debugging;
 using Microsoft.AspNetCore.Razor.LanguageServer.Definition;
 using Microsoft.AspNetCore.Razor.LanguageServer.DocumentColor;
 using Microsoft.AspNetCore.Razor.LanguageServer.DocumentHighlighting;
-using Microsoft.AspNetCore.Razor.LanguageServer.DocumentSymbol;
+using Microsoft.AspNetCore.Razor.LanguageServer.DocumentSymbols;
 using Microsoft.AspNetCore.Razor.LanguageServer.EndpointContracts;
 using Microsoft.AspNetCore.Razor.LanguageServer.Extensions;
 using Microsoft.AspNetCore.Razor.LanguageServer.FindAllReferences;
@@ -25,45 +26,45 @@ using Microsoft.AspNetCore.Razor.LanguageServer.SignatureHelp;
 using Microsoft.AspNetCore.Razor.LanguageServer.WrapWithTag;
 using Microsoft.AspNetCore.Razor.Telemetry;
 using Microsoft.CodeAnalysis.Razor;
+using Microsoft.CodeAnalysis.Razor.FoldingRanges;
 using Microsoft.CodeAnalysis.Razor.Logging;
+using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CommonLanguageServerProtocol.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Newtonsoft.Json;
 using StreamJsonRpc;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer;
 
-internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorRequestContext>
+internal partial class RazorLanguageServer : SystemTextJsonLanguageServer<RazorRequestContext>, IDisposable
 {
     private readonly JsonRpc _jsonRpc;
     private readonly ILoggerFactory _loggerFactory;
     private readonly LanguageServerFeatureOptions? _featureOptions;
-    private readonly Action<IServiceCollection>? _configureServer;
+    private readonly Action<IServiceCollection>? _configureServices;
     private readonly RazorLSPOptions _lspOptions;
     private readonly ILspServerActivationTracker? _lspServerActivationTracker;
     private readonly ITelemetryReporter _telemetryReporter;
     private readonly ClientConnection _clientConnection;
 
-    // Cached for testing
     private AbstractHandlerProvider? _handlerProvider;
 
     public RazorLanguageServer(
         JsonRpc jsonRpc,
-        JsonSerializer serializer,
+        JsonSerializerOptions options,
         ILoggerFactory loggerFactory,
         LanguageServerFeatureOptions? featureOptions,
-        Action<IServiceCollection>? configureServer,
+        Action<IServiceCollection>? configureServices,
         RazorLSPOptions? lspOptions,
         ILspServerActivationTracker? lspServerActivationTracker,
         ITelemetryReporter telemetryReporter)
-        : base(jsonRpc, serializer, CreateILspLogger(loggerFactory, telemetryReporter))
+        : base(jsonRpc, options, CreateILspLogger(loggerFactory, telemetryReporter))
     {
         _jsonRpc = jsonRpc;
         _loggerFactory = loggerFactory;
         _featureOptions = featureOptions;
-        _configureServer = configureServer;
+        _configureServices = configureServices;
         _lspOptions = lspOptions ?? RazorLSPOptions.Default;
         _lspServerActivationTracker = lspServerActivationTracker;
         _telemetryReporter = telemetryReporter;
@@ -73,14 +74,24 @@ internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorReque
         Initialize();
     }
 
+    public void Dispose()
+    {
+        _jsonRpc.Dispose();
+    }
+
     private static ILspLogger CreateILspLogger(ILoggerFactory loggerFactory, ITelemetryReporter telemetryReporter)
     {
         return new ClaspLoggingBridge(loggerFactory, telemetryReporter);
     }
 
+    // We override this to ensure that base.HandlerProvider is only called once.
+    // CLaSP currently does not cache the result of this property, though it probably should.
+    protected override AbstractHandlerProvider HandlerProvider
+        => _handlerProvider ??= base.HandlerProvider;
+
     protected override IRequestExecutionQueue<RazorRequestContext> ConstructRequestExecutionQueue()
     {
-        var handlerProvider = this.HandlerProvider;
+        var handlerProvider = HandlerProvider;
         var queue = new RazorRequestExecutionQueue(this, Logger, handlerProvider);
         queue.Start();
 
@@ -95,9 +106,9 @@ internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorReque
         // Wrap the logger factory so that we can add [LSP] to the start of all the categories
         services.AddSingleton<ILoggerFactory>(loggerFactoryWrapper);
 
-        if (_configureServer is not null)
+        if (_configureServices is not null)
         {
-            _configureServer(services);
+            _configureServices(services);
         }
 
         services.AddSingleton<IClientConnection>(_clientConnection);
@@ -118,7 +129,7 @@ internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorReque
         services.AddDiagnosticServices();
         services.AddSemanticTokensServices(featureOptions);
         services.AddDocumentManagementServices(featureOptions);
-        services.AddCompletionServices(featureOptions);
+        services.AddCompletionServices();
         services.AddFormattingServices();
         services.AddCodeActionsServices();
         services.AddOptionsServices(_lspOptions);
@@ -129,14 +140,19 @@ internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorReque
         services.AddSingleton<IOnAutoInsertProvider, CloseTextTagOnAutoInsertProvider>();
         services.AddSingleton<IOnAutoInsertProvider, AutoClosingTagOnAutoInsertProvider>();
 
-        // Folding Range Providers
-        services.AddSingleton<IRazorFoldingRangeProvider, RazorCodeBlockFoldingProvider>();
-        services.AddSingleton<IRazorFoldingRangeProvider, RazorCSharpStatementFoldingProvider>();
-        services.AddSingleton<IRazorFoldingRangeProvider, SectionDirectiveFoldingProvider>();
-        services.AddSingleton<IRazorFoldingRangeProvider, UsingsFoldingRangeProvider>();
+        if (!featureOptions.UseRazorCohostServer)
+        {
+            // Folding Range Providers
+            services.AddSingleton<IRazorFoldingRangeProvider, RazorCodeBlockFoldingProvider>();
+            services.AddSingleton<IRazorFoldingRangeProvider, RazorCSharpStatementFoldingProvider>();
+            services.AddSingleton<IRazorFoldingRangeProvider, RazorCSharpStatementKeywordFoldingProvider>();
+            services.AddSingleton<IRazorFoldingRangeProvider, SectionDirectiveFoldingProvider>();
+            services.AddSingleton<IRazorFoldingRangeProvider, UsingsFoldingRangeProvider>();
+
+            services.AddSingleton<IFoldingRangeService, FoldingRangeService>();
+        }
 
         // Other
-        services.AddSingleton<WorkspaceDirectoryPathResolver, DefaultWorkspaceDirectoryPathResolver>();
         services.AddSingleton<RazorComponentSearchEngine, DefaultRazorComponentSearchEngine>();
 
         // Get the DefaultSession for telemetry. This is set by VS with
@@ -145,7 +161,7 @@ internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorReque
         services.AddSingleton<ITelemetryReporter>(_telemetryReporter);
 
         // Defaults: For when the caller hasn't provided them through the `configure` action.
-        services.TryAddSingleton<HostServicesProvider, DefaultHostServicesProvider>();
+        services.TryAddSingleton<IHostServicesProvider, DefaultHostServicesProvider>();
 
         AddHandlers(services, featureOptions);
 
@@ -162,26 +178,21 @@ internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorReque
             services.AddTransient<IOnInitialized>(sp => sp.GetRequiredService<RazorConfigurationEndpoint>());
 
             services.AddHandlerWithCapabilities<ImplementationEndpoint>();
-            services.AddHandlerWithCapabilities<SignatureHelpEndpoint>();
-            services.AddHandlerWithCapabilities<DocumentHighlightEndpoint>();
             services.AddHandlerWithCapabilities<OnAutoInsertEndpoint>();
-
-            // Project system info handler
-            if (featureOptions.UseProjectConfigurationEndpoint)
-            {
-                services.AddHandler<ProjectInfoEndpoint>();
-            }
-            else
-            {
-                services.AddHandler<MonitorProjectConfigurationFilePathEndpoint>();
-            }
 
             services.AddHandlerWithCapabilities<RenameEndpoint>();
             services.AddHandlerWithCapabilities<DefinitionEndpoint>();
 
             if (!featureOptions.UseRazorCohostServer)
             {
+                services.AddHandlerWithCapabilities<DocumentHighlightEndpoint>();
+                services.AddHandlerWithCapabilities<SignatureHelpEndpoint>();
                 services.AddHandlerWithCapabilities<LinkedEditingRangeEndpoint>();
+                services.AddHandlerWithCapabilities<FoldingRangeEndpoint>();
+
+                services.AddSingleton<IInlayHintService, InlayHintService>();
+                services.AddHandlerWithCapabilities<InlayHintEndpoint>();
+                services.AddHandler<InlayHintResolveEndpoint>();
             }
 
             services.AddHandler<WrapWithTagEndpoint>();
@@ -192,52 +203,11 @@ internal partial class RazorLanguageServer : NewtonsoftLanguageServer<RazorReque
             services.AddSingleton<IDocumentColorService, DocumentColorService>();
 
             services.AddHandler<ColorPresentationEndpoint>();
-            services.AddHandlerWithCapabilities<FoldingRangeEndpoint>();
             services.AddHandlerWithCapabilities<ValidateBreakpointRangeEndpoint>();
             services.AddHandlerWithCapabilities<FindAllReferencesEndpoint>();
             services.AddHandlerWithCapabilities<ProjectContextsEndpoint>();
             services.AddHandlerWithCapabilities<DocumentSymbolEndpoint>();
             services.AddHandlerWithCapabilities<MapCodeEndpoint>();
-
-            services.AddSingleton<IInlayHintService, InlayHintService>();
-
-            services.AddHandlerWithCapabilities<InlayHintEndpoint>();
-            services.AddHandler<InlayHintResolveEndpoint>();
-        }
-    }
-
-    protected override AbstractHandlerProvider HandlerProvider
-    {
-        get
-        {
-            _handlerProvider ??= base.HandlerProvider;
-
-            return _handlerProvider;
-        }
-    }
-
-    internal T GetRequiredService<T>() where T : notnull
-    {
-        var lspServices = GetLspServices();
-
-        return lspServices.GetRequiredService<T>();
-    }
-
-    // Internal for testing
-    internal new TestAccessor GetTestAccessor()
-    {
-        return new TestAccessor(this);
-    }
-
-    internal new class TestAccessor(RazorLanguageServer server)
-    {
-        private readonly RazorLanguageServer _server = server;
-
-        public AbstractHandlerProvider HandlerProvider => _server.HandlerProvider;
-
-        public RazorRequestExecutionQueue GetRequestExecutionQueue()
-        {
-            return (RazorRequestExecutionQueue)_server.GetRequestExecutionQueue();
         }
     }
 }

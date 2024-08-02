@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.LanguageServer.CodeActions.Models;
@@ -13,9 +14,9 @@ using Microsoft.CodeAnalysis.Razor.Protocol;
 using Microsoft.CodeAnalysis.Razor.Protocol.CodeActions;
 using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Testing;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 using Moq;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -38,14 +39,14 @@ public class DefaultHtmlCodeActionResolverTest(ITestOutputHelper testOutput) : L
         var remappedEdit = new WorkspaceEdit
         {
             DocumentChanges = new TextDocumentEdit[]
-           {
-                new TextDocumentEdit
-                {
-                    TextDocument = new OptionalVersionedTextDocumentIdentifier { Uri= documentUri, Version = 1 },
-                    Edits = new TextEdit[]
+            {
+                new() {
+                    TextDocument = new OptionalVersionedTextDocumentIdentifier
                     {
-                        new TextEdit { NewText = "Goo ~~~~~~~~~~~~~~~ Bar", Range = span.ToRange(sourceText) }
-                    }
+                        Uri = documentUri,
+                        Version = 1
+                    },
+                    Edits = [VsLspFactory.CreateTextEdit(sourceText.GetRange(span), "Goo ~~~~~~~~~~~~~~~ Bar")]
                 }
            }
         };
@@ -69,13 +70,14 @@ public class DefaultHtmlCodeActionResolverTest(ITestOutputHelper testOutput) : L
             {
                 DocumentChanges = new TextDocumentEdit[]
                         {
-                            new TextDocumentEdit
+                            new()
                             {
-                                TextDocument = new OptionalVersionedTextDocumentIdentifier { Uri= new Uri("c:/Test.razor.html"), Version = 1 },
-                                Edits = new TextEdit[]
+                                TextDocument = new OptionalVersionedTextDocumentIdentifier
                                 {
-                                    new TextEdit { NewText = "Goo" }
-                                }
+                                    Uri = new Uri("c:/Test.razor.html"),
+                                    Version = 1
+                                },
+                                Edits = [VsLspFactory.CreateTextEdit(position: (0, 0), "Goo")]
                             }
                         }
             }
@@ -83,7 +85,7 @@ public class DefaultHtmlCodeActionResolverTest(ITestOutputHelper testOutput) : L
 
         var codeActionParams = new CodeActionResolveParams()
         {
-            Data = new JObject(),
+            Data = new JsonElement(),
             RazorFileIdentifier = new VSTextDocumentIdentifier
             {
                 Uri = new Uri(documentPath)

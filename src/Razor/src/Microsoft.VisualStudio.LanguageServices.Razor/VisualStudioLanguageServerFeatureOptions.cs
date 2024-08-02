@@ -12,25 +12,16 @@ namespace Microsoft.VisualStudio.Razor;
 [Export(typeof(LanguageServerFeatureOptions))]
 internal class VisualStudioLanguageServerFeatureOptions : LanguageServerFeatureOptions
 {
-    private const string ShowAllCSharpCodeActionsFeatureFlag = "Razor.LSP.ShowAllCSharpCodeActions";
-    private const string IncludeProjectKeyInGeneratedFilePathFeatureFlag = "Razor.LSP.IncludeProjectKeyInGeneratedFilePath";
-    private const string UsePreciseSemanticTokenRangesFeatureFlag = "Razor.LSP.UsePreciseSemanticTokenRanges";
-    private const string UseRazorCohostServerFeatureFlag = "Razor.LSP.UseRazorCohostServer";
-    private const string DisableRazorLanguageServerFeatureFlag = "Razor.LSP.DisableRazorLanguageServer";
-    private const string ForceRuntimeCodeGenerationFeatureFlag = "Razor.LSP.ForceRuntimeCodeGeneration";
-    private const string UseProjectConfigurationEndpointFeatureFlag = "Razor.LSP.UseProjectConfigurationEndpoint";
-
-    private readonly LSPEditorFeatureDetector _lspEditorFeatureDetector;
+    private readonly ILspEditorFeatureDetector _lspEditorFeatureDetector;
     private readonly Lazy<bool> _showAllCSharpCodeActions;
     private readonly Lazy<bool> _includeProjectKeyInGeneratedFilePath;
     private readonly Lazy<bool> _usePreciseSemanticTokenRanges;
     private readonly Lazy<bool> _useRazorCohostServer;
     private readonly Lazy<bool> _disableRazorLanguageServer;
     private readonly Lazy<bool> _forceRuntimeCodeGeneration;
-    private readonly Lazy<bool> _useProjectConfigurationEndpoint;
 
     [ImportingConstructor]
-    public VisualStudioLanguageServerFeatureOptions(LSPEditorFeatureDetector lspEditorFeatureDetector)
+    public VisualStudioLanguageServerFeatureOptions(ILspEditorFeatureDetector lspEditorFeatureDetector)
     {
         if (lspEditorFeatureDetector is null)
         {
@@ -42,64 +33,53 @@ internal class VisualStudioLanguageServerFeatureOptions : LanguageServerFeatureO
         _showAllCSharpCodeActions = new Lazy<bool>(() =>
         {
             var featureFlags = (IVsFeatureFlags)Package.GetGlobalService(typeof(SVsFeatureFlags));
-            var showAllCSharpCodeActions = featureFlags.IsFeatureEnabled(ShowAllCSharpCodeActionsFeatureFlag, defaultValue: false);
+            var showAllCSharpCodeActions = featureFlags.IsFeatureEnabled(WellKnownFeatureFlagNames.ShowAllCSharpCodeActions, defaultValue: false);
             return showAllCSharpCodeActions;
         });
 
         _includeProjectKeyInGeneratedFilePath = new Lazy<bool>(() =>
         {
             var featureFlags = (IVsFeatureFlags)Package.GetGlobalService(typeof(SVsFeatureFlags));
-            var includeProjectKeyInGeneratedFilePath = featureFlags.IsFeatureEnabled(IncludeProjectKeyInGeneratedFilePathFeatureFlag, defaultValue: true);
+            var includeProjectKeyInGeneratedFilePath = featureFlags.IsFeatureEnabled(WellKnownFeatureFlagNames.IncludeProjectKeyInGeneratedFilePath, defaultValue: true);
             return includeProjectKeyInGeneratedFilePath;
         });
 
         _usePreciseSemanticTokenRanges = new Lazy<bool>(() =>
         {
             var featureFlags = (IVsFeatureFlags)Package.GetGlobalService(typeof(SVsFeatureFlags));
-            var usePreciseSemanticTokenRanges = featureFlags.IsFeatureEnabled(UsePreciseSemanticTokenRangesFeatureFlag, defaultValue: false);
+            var usePreciseSemanticTokenRanges = featureFlags.IsFeatureEnabled(WellKnownFeatureFlagNames.UsePreciseSemanticTokenRanges, defaultValue: false);
             return usePreciseSemanticTokenRanges;
         });
 
         _useRazorCohostServer = new Lazy<bool>(() =>
         {
             var featureFlags = (IVsFeatureFlags)Package.GetGlobalService(typeof(SVsFeatureFlags));
-            var useRazorCohostServer = featureFlags.IsFeatureEnabled(UseRazorCohostServerFeatureFlag, defaultValue: false);
+            var useRazorCohostServer = featureFlags.IsFeatureEnabled(WellKnownFeatureFlagNames.UseRazorCohostServer, defaultValue: false);
             return useRazorCohostServer;
         });
 
         _disableRazorLanguageServer = new Lazy<bool>(() =>
         {
             var featureFlags = (IVsFeatureFlags)Package.GetGlobalService(typeof(SVsFeatureFlags));
-            var disableRazorLanguageServer = featureFlags.IsFeatureEnabled(DisableRazorLanguageServerFeatureFlag, defaultValue: false);
+            var disableRazorLanguageServer = featureFlags.IsFeatureEnabled(WellKnownFeatureFlagNames.DisableRazorLanguageServer, defaultValue: false);
             return disableRazorLanguageServer;
         });
 
         _forceRuntimeCodeGeneration = new Lazy<bool>(() =>
         {
             var featureFlags = (IVsFeatureFlags)Package.GetGlobalService(typeof(SVsFeatureFlags));
-            var forceRuntimeCodeGeneration = featureFlags.IsFeatureEnabled(ForceRuntimeCodeGenerationFeatureFlag, defaultValue: false);
+            var forceRuntimeCodeGeneration = featureFlags.IsFeatureEnabled(WellKnownFeatureFlagNames.ForceRuntimeCodeGeneration, defaultValue: false);
             return forceRuntimeCodeGeneration;
-        });
-
-        _useProjectConfigurationEndpoint = new Lazy<bool>(() =>
-        {
-            var featureFlags = (IVsFeatureFlags)Package.GetGlobalService(typeof(SVsFeatureFlags));
-            var useProjectConfigurationEndpoint = featureFlags.IsFeatureEnabled(UseProjectConfigurationEndpointFeatureFlag, defaultValue: false);
-            return useProjectConfigurationEndpoint;
         });
     }
 
     // We don't currently support file creation operations on VS Codespaces or VS Liveshare
     public override bool SupportsFileManipulation => !IsCodespacesOrLiveshare;
 
-    // In VS we override the project configuration file name because we don't want our serialized state to clash with other platforms (VSCode)
-    public override string ProjectConfigurationFileName => "project.razor.vs.bin";
 
     public override string CSharpVirtualDocumentSuffix => ".ide.g.cs";
 
     public override string HtmlVirtualDocumentSuffix => "__virtual.html";
-
-    public override bool SingleServerCompletionSupport => true;
 
     public override bool SingleServerSupport => true;
 
@@ -117,15 +97,10 @@ internal class VisualStudioLanguageServerFeatureOptions : LanguageServerFeatureO
 
     public override bool UsePreciseSemanticTokenRanges => _usePreciseSemanticTokenRanges.Value;
 
-    public override bool MonitorWorkspaceFolderForConfigurationFiles => false;
-
     public override bool UseRazorCohostServer => _useRazorCohostServer.Value;
 
     public override bool DisableRazorLanguageServer => _disableRazorLanguageServer.Value;
 
     /// <inheritdoc />
     public override bool ForceRuntimeCodeGeneration => _forceRuntimeCodeGeneration.Value;
-
-    /// <inheritdoc />
-    public override bool UseProjectConfigurationEndpoint => _useProjectConfigurationEndpoint.Value;
 }

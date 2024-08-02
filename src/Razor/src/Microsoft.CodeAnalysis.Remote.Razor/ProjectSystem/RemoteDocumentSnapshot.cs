@@ -13,6 +13,9 @@ namespace Microsoft.CodeAnalysis.Remote.Razor.ProjectSystem;
 
 internal class RemoteDocumentSnapshot(TextDocument textDocument, RemoteProjectSnapshot projectSnapshot) : IDocumentSnapshot
 {
+    // TODO: Delete this field when the source generator is hooked up
+    private Document? _generatedDocument;
+
     private readonly TextDocument _textDocument = textDocument;
     private readonly RemoteProjectSnapshot _projectSnapshot = projectSnapshot;
 
@@ -58,8 +61,12 @@ internal class RemoteDocumentSnapshot(TextDocument textDocument, RemoteProjectSn
 
         var projectEngine = _projectSnapshot.GetProjectEngine_CohostOnly();
         var tagHelpers = await _projectSnapshot.GetTagHelpersAsync(CancellationToken.None).ConfigureAwait(false);
-        var imports = await DocumentState.ComputedStateTracker.GetImportsAsync(this, projectEngine).ConfigureAwait(false);
-        _codeDocument = await DocumentState.ComputedStateTracker.GenerateCodeDocumentAsync(tagHelpers, projectEngine, this, imports).ConfigureAwait(false);
+        var imports = await DocumentState.GetImportsAsync(this, projectEngine).ConfigureAwait(false);
+
+        // TODO: Get the configuration for forceRuntimeCodeGeneration
+        // var forceRuntimeCodeGeneration = _projectSnapshot.Configuration.LanguageServerFlags?.ForceRuntimeCodeGeneration ?? false;
+
+        _codeDocument = await DocumentState.GenerateCodeDocumentAsync(tagHelpers, projectEngine, this, imports, forceRuntimeCodeGeneration: false).ConfigureAwait(false);
 
         return _codeDocument;
     }
@@ -76,5 +83,45 @@ internal class RemoteDocumentSnapshot(TextDocument textDocument, RemoteProjectSn
         var newDocument = _textDocument.Project.Solution.WithAdditionalDocumentText(id, text).GetAdditionalDocument(id).AssumeNotNull();
 
         return new RemoteDocumentSnapshot(newDocument, _projectSnapshot);
+    }
+
+    public bool TryGetGeneratedDocument([NotNullWhen(true)] out Document? generatedDocument)
+    {
+        // TODO: Delete this method when the source generator is hooked up
+        generatedDocument = _generatedDocument;
+        return _generatedDocument is not null;
+    }
+
+    public void SetGeneratedDocument(Document generatedDocument)
+    {
+        if (_generatedDocument is not null)
+        {
+            ThrowHelper.ThrowInvalidOperationException("A single document snapshot can only ever possibly have a single generated document");
+        }
+
+        _generatedDocument = generatedDocument;
+    }
+
+    /// <summary>
+    /// Sets the generated C# document for this snapshot
+    /// </summary>
+    /// <remarks>
+    /// You're right, dear reader, it's very strange for a seemingly immutable object to have a set method, but we can get away
+    /// with it here for some arguably tenuous reasons:
+    ///     1. The generated document is generated from this snapshot, and we're only allowing setting it because it could be
+    ///        expensive to generate in the constructor.
+    ///     2. This is only temporary until the source generator is properly hooked up.
+    ///     3. If the Razor document changes, which would invalidate this generated document, then a new document snapshot would
+    ///        be created and this instance would never be used again
+    /// </remarks>
+    internal Document GetOrAddGeneratedDocument(Document generatedDocument)
+    {
+        // TODO: Delete this method when the source generator is hooked up
+        if (_generatedDocument is null)
+        {
+            _generatedDocument = generatedDocument;
+        }
+
+        return generatedDocument;
     }
 }

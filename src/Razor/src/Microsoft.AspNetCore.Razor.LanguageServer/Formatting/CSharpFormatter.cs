@@ -7,14 +7,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
-using Microsoft.AspNetCore.Razor.LanguageServer.Hosting;
+using Microsoft.AspNetCore.Razor.PooledObjects;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.ExternalAccess.Razor;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
+using Range = Microsoft.VisualStudio.LanguageServer.Protocol.Range;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer.Formatting;
 
@@ -79,16 +80,13 @@ internal sealed class CSharpFormatter(IRazorDocumentMappingService documentMappi
     private static async Task<TextEdit[]> GetFormattingEditsAsync(FormattingContext context, Range projectedRange, CancellationToken cancellationToken)
     {
         var csharpSourceText = context.CodeDocument.GetCSharpSourceText();
-        var spanToFormat = projectedRange.ToTextSpan(csharpSourceText);
+        var spanToFormat = csharpSourceText.GetTextSpan(projectedRange);
         var root = await context.CSharpWorkspaceDocument.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
         Assumes.NotNull(root);
 
-        var workspace = context.CSharpWorkspace;
+        var changes = RazorCSharpFormattingInteractionService.GetFormattedTextChanges(context.CSharpWorkspace.Services, root, spanToFormat, context.Options.GetIndentationOptions(), cancellationToken);
 
-        // Formatting options will already be set in the workspace.
-        var changes = CodeAnalysis.Formatting.Formatter.GetFormattedTextChanges(root, spanToFormat, workspace, cancellationToken: cancellationToken);
-
-        var edits = changes.Select(c => c.ToTextEdit(csharpSourceText)).ToArray();
+        var edits = changes.Select(csharpSourceText.GetTextEdit).ToArray();
         return edits;
     }
 
@@ -108,7 +106,7 @@ internal sealed class CSharpFormatter(IRazorDocumentMappingService documentMappi
 
         // At this point, we have added all the necessary markers and attached annotations.
         // Let's invoke the C# formatter and hope for the best.
-        var formattedRoot = CodeAnalysis.Formatting.Formatter.Format(root, context.CSharpWorkspace, cancellationToken: cancellationToken);
+        var formattedRoot = RazorCSharpFormattingInteractionService.Format(context.CSharpWorkspace.Services, root, context.Options.GetIndentationOptions(), cancellationToken);
         var formattedText = formattedRoot.GetText();
 
         var desiredIndentationMap = new Dictionary<int, int>();
@@ -266,8 +264,8 @@ internal sealed class CSharpFormatter(IRazorDocumentMappingService documentMappi
 
         static bool SpansMultipleLines(SyntaxNode node, SourceText text)
         {
-            var range = node.Span.ToRange(text);
-            return range.Start.Line != range.End.Line;
+            var range = text.GetRange(node.Span);
+            return range.SpansMultipleLines();
         }
     }
 
@@ -282,7 +280,8 @@ internal sealed class CSharpFormatter(IRazorDocumentMappingService documentMappi
         var indentationMap = new Dictionary<int, IndentationMapData>();
         var marker = "/*__marker__*/";
         var markerString = $"{context.NewLineString}{marker}{context.NewLineString}";
-        var changes = new List<TextChange>();
+
+        using var changes = new PooledArrayBuilder<TextChange>();
 
         var previousMarkerOffset = 0;
         foreach (var projectedDocumentIndex in projectedDocumentLocations)
@@ -320,7 +319,7 @@ internal sealed class CSharpFormatter(IRazorDocumentMappingService documentMappi
             }
         }
 
-        var changedText = context.CSharpSourceText.WithChanges(changes);
+        var changedText = context.CSharpSourceText.WithChanges(changes.ToImmutable());
         var syntaxTree = CSharpSyntaxTree.ParseText(changedText, cancellationToken: cancellationToken);
         return (indentationMap, syntaxTree);
     }

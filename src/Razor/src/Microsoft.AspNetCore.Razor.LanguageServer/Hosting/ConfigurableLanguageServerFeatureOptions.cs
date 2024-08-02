@@ -11,10 +11,8 @@ internal class ConfigurableLanguageServerFeatureOptions : LanguageServerFeatureO
     private readonly LanguageServerFeatureOptions _defaults = new DefaultLanguageServerFeatureOptions();
 
     private readonly bool? _supportsFileManipulation;
-    private readonly string? _projectConfigurationFileName;
     private readonly string? _csharpVirtualDocumentSuffix;
     private readonly string? _htmlVirtualDocumentSuffix;
-    private readonly bool? _singleServerCompletionSupport;
     private readonly bool? _singleServerSupport;
     private readonly bool? _delegateToCSharpOnDiagnosticPublish;
     private readonly bool? _returnCodeActionAndRenamePathsWithPrefixedSlash;
@@ -22,17 +20,13 @@ internal class ConfigurableLanguageServerFeatureOptions : LanguageServerFeatureO
     private readonly bool? _usePreciseSemanticTokenRanges;
     private readonly bool? _updateBuffersForClosedDocuments;
     private readonly bool? _includeProjectKeyInGeneratedFilePath;
-    private readonly bool? _monitorWorkspaceFolderForConfigurationFiles;
     private readonly bool? _useRazorCohostServer;
     private readonly bool? _disableRazorLanguageServer;
     private readonly bool? _forceRuntimeCodeGeneration;
-    private readonly bool? _useProjectConfigurationEndpoint;
 
     public override bool SupportsFileManipulation => _supportsFileManipulation ?? _defaults.SupportsFileManipulation;
-    public override string ProjectConfigurationFileName => _projectConfigurationFileName ?? _defaults.ProjectConfigurationFileName;
     public override string CSharpVirtualDocumentSuffix => _csharpVirtualDocumentSuffix ?? DefaultLanguageServerFeatureOptions.DefaultCSharpVirtualDocumentSuffix;
     public override string HtmlVirtualDocumentSuffix => _htmlVirtualDocumentSuffix ?? DefaultLanguageServerFeatureOptions.DefaultHtmlVirtualDocumentSuffix;
-    public override bool SingleServerCompletionSupport => _singleServerCompletionSupport ?? _defaults.SingleServerCompletionSupport;
     public override bool SingleServerSupport => _singleServerSupport ?? _defaults.SingleServerSupport;
     public override bool DelegateToCSharpOnDiagnosticPublish => _delegateToCSharpOnDiagnosticPublish ?? _defaults.DelegateToCSharpOnDiagnosticPublish;
     public override bool ReturnCodeActionAndRenamePathsWithPrefixedSlash => _returnCodeActionAndRenamePathsWithPrefixedSlash ?? _defaults.ReturnCodeActionAndRenamePathsWithPrefixedSlash;
@@ -40,11 +34,9 @@ internal class ConfigurableLanguageServerFeatureOptions : LanguageServerFeatureO
     public override bool UsePreciseSemanticTokenRanges => _usePreciseSemanticTokenRanges ?? _defaults.UsePreciseSemanticTokenRanges;
     public override bool UpdateBuffersForClosedDocuments => _updateBuffersForClosedDocuments ?? _defaults.UpdateBuffersForClosedDocuments;
     public override bool IncludeProjectKeyInGeneratedFilePath => _includeProjectKeyInGeneratedFilePath ?? _defaults.IncludeProjectKeyInGeneratedFilePath;
-    public override bool MonitorWorkspaceFolderForConfigurationFiles => _monitorWorkspaceFolderForConfigurationFiles ?? _defaults.MonitorWorkspaceFolderForConfigurationFiles;
     public override bool UseRazorCohostServer => _useRazorCohostServer ?? _defaults.UseRazorCohostServer;
     public override bool DisableRazorLanguageServer => _disableRazorLanguageServer ?? _defaults.DisableRazorLanguageServer;
     public override bool ForceRuntimeCodeGeneration => _forceRuntimeCodeGeneration ?? _defaults.ForceRuntimeCodeGeneration;
-    public override bool UseProjectConfigurationEndpoint => _useProjectConfigurationEndpoint ?? _defaults.UseProjectConfigurationEndpoint;
 
     public ConfigurableLanguageServerFeatureOptions(string[] args)
     {
@@ -56,10 +48,8 @@ internal class ConfigurableLanguageServerFeatureOptions : LanguageServerFeatureO
             }
 
             TryProcessBoolOption(nameof(SupportsFileManipulation), ref _supportsFileManipulation, option, args, i);
-            TryProcessStringOption(nameof(ProjectConfigurationFileName), ref _projectConfigurationFileName, option, args, i);
             TryProcessStringOption(nameof(CSharpVirtualDocumentSuffix), ref _csharpVirtualDocumentSuffix, option, args, i);
             TryProcessStringOption(nameof(HtmlVirtualDocumentSuffix), ref _htmlVirtualDocumentSuffix, option, args, i);
-            TryProcessBoolOption(nameof(SingleServerCompletionSupport), ref _singleServerCompletionSupport, option, args, i);
             TryProcessBoolOption(nameof(SingleServerSupport), ref _singleServerSupport, option, args, i);
             TryProcessBoolOption(nameof(DelegateToCSharpOnDiagnosticPublish), ref _delegateToCSharpOnDiagnosticPublish, option, args, i);
             TryProcessBoolOption(nameof(ReturnCodeActionAndRenamePathsWithPrefixedSlash), ref _returnCodeActionAndRenamePathsWithPrefixedSlash, option, args, i);
@@ -67,11 +57,9 @@ internal class ConfigurableLanguageServerFeatureOptions : LanguageServerFeatureO
             TryProcessBoolOption(nameof(UsePreciseSemanticTokenRanges), ref _usePreciseSemanticTokenRanges, option, args, i);
             TryProcessBoolOption(nameof(UpdateBuffersForClosedDocuments), ref _updateBuffersForClosedDocuments, option, args, i);
             TryProcessBoolOption(nameof(IncludeProjectKeyInGeneratedFilePath), ref _includeProjectKeyInGeneratedFilePath, option, args, i);
-            TryProcessBoolOption(nameof(MonitorWorkspaceFolderForConfigurationFiles), ref _monitorWorkspaceFolderForConfigurationFiles, option, args, i);
             TryProcessBoolOption(nameof(UseRazorCohostServer), ref _useRazorCohostServer, option, args, i);
             TryProcessBoolOption(nameof(DisableRazorLanguageServer), ref _disableRazorLanguageServer, option, args, i);
             TryProcessBoolOption(nameof(ForceRuntimeCodeGeneration), ref _forceRuntimeCodeGeneration, option, args, i);
-            TryProcessBoolOption(nameof(UseProjectConfigurationEndpoint), ref _useProjectConfigurationEndpoint, option, args, i);
         }
     }
 

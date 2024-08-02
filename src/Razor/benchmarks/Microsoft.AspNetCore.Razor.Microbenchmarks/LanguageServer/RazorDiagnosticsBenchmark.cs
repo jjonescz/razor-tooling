@@ -22,6 +22,7 @@ using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 using Moq;
+using Range = Microsoft.VisualStudio.LanguageServer.Protocol.Range;
 
 namespace Microsoft.AspNetCore.Razor.Microbenchmarks.LanguageServer;
 
@@ -85,7 +86,7 @@ public class RazorDiagnosticsBenchmark : RazorLanguageServerBenchmarkBase
         RazorRequestContext = new RazorRequestContext(documentContext.Object, null!, "lsp/method", uri: null);
         VersionedDocumentContext = documentContext.Object;
 
-        var loggerFactory = BuildLoggerFactory();
+        var loggerFactory = EmptyLoggerFactory.Instance;
         var languageServerFeatureOptions = BuildFeatureOptions();
         var languageServer = new ClientNotifierService(Diagnostics!);
         var documentMappingService = BuildRazorDocumentMappingService();
@@ -109,7 +110,6 @@ public class RazorDiagnosticsBenchmark : RazorLanguageServerBenchmarkBase
         return Mock.Of<LanguageServerFeatureOptions>(options =>
             options.SupportsFileManipulation == true &&
             options.SingleServerSupport == true &&
-            options.SingleServerCompletionSupport == true &&
             options.CSharpVirtualDocumentSuffix == ".ide.g.cs" &&
             options.HtmlVirtualDocumentSuffix == "__virtual.html",
             MockBehavior.Strict);
@@ -147,11 +147,6 @@ public class RazorDiagnosticsBenchmark : RazorLanguageServerBenchmarkBase
 
         return razorDocumentMappingService.Object;
     }
-
-    private ILoggerFactory BuildLoggerFactory() => Mock.Of<ILoggerFactory>(
-        r => r.GetOrCreateLogger(
-            It.IsAny<string>()) == new NoopLogger(),
-        MockBehavior.Strict);
 
     private string GetFileContents()
         => """
@@ -212,10 +207,10 @@ public class RazorDiagnosticsBenchmark : RazorLanguageServerBenchmarkBase
         }
     }
 
-    private Range InRange { get; set; } = new Range { Start = new Position(85, 8), End = new Position(85, 16) };
-    private Range OutRange { get; set; } = new Range { Start = new Position(6, 8), End = new Position(6, 16) };
+    private Range InRange { get; set; } = VsLspFactory.CreateSingleLineRange(line: 85, character: 8, length: 8);
+    private Range OutRange { get; set; } = VsLspFactory.CreateSingleLineRange(line: 6, character: 8, length: 8);
 
-    private Diagnostic[] GetDiagnostics(int N) => Enumerable.Range(1, N).Select(_ => new Diagnostic()
+    private Diagnostic[] GetDiagnostics(int n) => Enumerable.Range(1, n).Select(_ => new Diagnostic()
     {
         Range = InRange,
         Code = "CS0103",

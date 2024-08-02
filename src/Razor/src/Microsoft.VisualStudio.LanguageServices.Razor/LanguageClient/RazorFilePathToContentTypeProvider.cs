@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
 using System.ComponentModel.Composition;
-using Microsoft.CodeAnalysis.Razor.Workspaces;
 using Microsoft.VisualStudio.Utilities;
 
 namespace Microsoft.VisualStudio.Razor.LanguageClient;
@@ -10,12 +9,10 @@ namespace Microsoft.VisualStudio.Razor.LanguageClient;
 [FileExtension(RazorLSPConstants.RazorFileExtension)]
 [Name(nameof(RazorFilePathToContentTypeProvider))]
 [Export(typeof(IFilePathToContentTypeProvider))]
-internal class RazorFilePathToContentTypeProvider : RazorFilePathToContentTypeProviderBase
+[method: ImportingConstructor]
+internal class RazorFilePathToContentTypeProvider(
+    IContentTypeRegistryService contentTypeRegistryService,
+    ILspEditorFeatureDetector lspEditorFeatureDetector)
+    : RazorFilePathToContentTypeProviderBase(contentTypeRegistryService, lspEditorFeatureDetector)
 {
-    [ImportingConstructor]
-    public RazorFilePathToContentTypeProvider(
-        IContentTypeRegistryService contentTypeRegistryService,
-        LSPEditorFeatureDetector lspEditorFeatureDetector) : base(contentTypeRegistryService, lspEditorFeatureDetector)
-    {
-    }
 }
