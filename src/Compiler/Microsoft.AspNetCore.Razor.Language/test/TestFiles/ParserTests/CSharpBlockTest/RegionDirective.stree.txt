@@ -1,0 +1,59 @@
+﻿RazorDocument - [0..115)::115 - [@{LF    #regionLF    ViewData["Title"] = "Title";LF    #endregionLFLF    <h3>@ViewData["Title"]</h3>LF    <hr />LF}]
+    MarkupBlock - [0..115)::115
+        MarkupTextLiteral - [0..0)::0 - [] - Gen<Markup>
+            Marker;[];
+        CSharpCodeBlock - [0..115)::115
+            CSharpStatement - [0..115)::115
+                CSharpTransition - [0..1)::1 - Gen<None>
+                    Transition;[@];
+                CSharpStatementBody - [1..115)::114
+                    RazorMetaCode - [1..2)::1 - Gen<None>
+                        LeftBrace;[{];
+                    CSharpCodeBlock - [2..114)::112
+                        CSharpStatementLiteral - [2..114)::112 - [LF    #regionLF    ViewData["Title"] = "Title";LF    #endregionLFLF    <h3>@ViewData["Title"]</h3>LF    <hr />LF] - Gen<Stmt>
+                            NewLine;[LF];
+                            Whitespace;[    ];
+                            Hash;[#];
+                            Identifier;[region];
+                            NewLine;[LF];
+                            Whitespace;[    ];
+                            Identifier;[ViewData];
+                            LeftBracket;[[];
+                            StringLiteral;["Title"];
+                            RightBracket;[]];
+                            Whitespace;[ ];
+                            Assign;[=];
+                            Whitespace;[ ];
+                            StringLiteral;["Title"];
+                            Semicolon;[;];
+                            NewLine;[LF];
+                            Whitespace;[    ];
+                            Hash;[#];
+                            Identifier;[endregion];
+                            NewLine;[LF];
+                            NewLine;[LF];
+                            Whitespace;[    ];
+                            LessThan;[<];
+                            Identifier;[h3];
+                            GreaterThan;[>];
+                            Identifier;[@ViewData];
+                            LeftBracket;[[];
+                            StringLiteral;["Title"];
+                            RightBracket;[]];
+                            LessThan;[<];
+                            Slash;[/];
+                            Identifier;[h3];
+                            GreaterThan;[>];
+                            NewLine;[LF];
+                            Whitespace;[    ];
+                            LessThan;[<];
+                            Identifier;[hr];
+                            Whitespace;[ ];
+                            Slash;[/];
+                            GreaterThan;[>];
+                            NewLine;[LF];
+                    RazorMetaCode - [114..115)::1 - Gen<None>
+                        RightBrace;[}];
+        MarkupTextLiteral - [115..115)::0 - [] - Gen<Markup>
+            Marker;[];
+    EndOfFile;[];

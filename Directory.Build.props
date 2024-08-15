@@ -49,6 +49,8 @@
       Related to https://github.com/dotnet/sdk/issues/41791.
     -->
     <BuildWithNetFrameworkHostedCompiler>false</BuildWithNetFrameworkHostedCompiler>
+
+    <GenerateBaselines>true</GenerateBaselines>
   </PropertyGroup>
 
   <!--

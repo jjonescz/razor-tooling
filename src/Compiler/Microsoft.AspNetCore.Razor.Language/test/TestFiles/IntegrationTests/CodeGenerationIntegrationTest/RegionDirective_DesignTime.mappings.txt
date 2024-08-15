@@ -1,0 +1,19 @@
+﻿Source Location: (2:0,2 [112] TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml)
+|
+    #region
+    ViewData["Title"] = "Title";
+    #endregion
+
+    <h3>@ViewData["Title"]</h3>
+    <hr />
+|
+Generated Location: (1456:33,2 [112] )
+|
+    #region
+    ViewData["Title"] = "Title";
+    #endregion
+
+    <h3>@ViewData["Title"]</h3>
+    <hr />
+|
+

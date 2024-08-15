@@ -279,6 +279,9 @@ public class CodeGenerationIntegrationTest : IntegrationTestBase
     [IntegrationTestFact]
     public void AttributeDirective() => RunTest();
 
+    [IntegrationTestFact, Roslyn.Test.Utilities.WorkItem("https://github.com/dotnet/razor/issues/10737")]
+    public void RegionDirective() => RunTest();
+
     [IntegrationTestFact]
     public void SwitchExpression_RecursivePattern()
     {

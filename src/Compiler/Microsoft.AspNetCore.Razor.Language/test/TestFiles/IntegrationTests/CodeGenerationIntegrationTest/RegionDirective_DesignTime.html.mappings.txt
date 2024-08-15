@@ -1,0 +1,7 @@
+﻿Source Location: (115:7,1 [2] TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml)
+|
+|
+Generated Location: (115:7,1 [2] )
+|
+|
+

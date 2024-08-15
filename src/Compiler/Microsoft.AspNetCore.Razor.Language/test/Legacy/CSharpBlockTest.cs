@@ -693,6 +693,21 @@ catch(bar) { baz(); }");
             """);
     }
 
+    [Fact, Roslyn.Test.Utilities.WorkItem("https://github.com/dotnet/razor/issues/10737")]
+    public void RegionDirective()
+    {
+        ParseDocumentTest("""
+            @{
+                #region
+                ViewData["Title"] = "Title";
+                #endregion
+
+                <h3>@ViewData["Title"]</h3>
+                <hr />
+            }
+            """);
+    }
+
     [Fact]
     public void WithDoubleTransitionInAttributeValue_DoesNotThrow()
     {

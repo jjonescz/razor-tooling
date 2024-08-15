@@ -1,0 +1,27 @@
+﻿// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(3,33): error CS1525: Invalid expression term '<'
+//     ViewData["Title"] = "Title";
+Diagnostic(ErrorCode.ERR_InvalidExprTerm, "").WithArguments("<").WithLocation(3, 33),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(6,6): error CS0103: The name 'h3' does not exist in the current context
+//     <h3>@ViewData["Title"]</h3>
+Diagnostic(ErrorCode.ERR_NameNotInContext, "h3").WithArguments("h3").WithLocation(6, 6),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(6,28): error CS1525: Invalid expression term '/'
+//     <h3>@ViewData["Title"]</h3>
+Diagnostic(ErrorCode.ERR_InvalidExprTerm, "/").WithArguments("/").WithLocation(6, 28),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(6,29): error CS0103: The name 'h3' does not exist in the current context
+//     <h3>@ViewData["Title"]</h3>
+Diagnostic(ErrorCode.ERR_NameNotInContext, "h3").WithArguments("h3").WithLocation(6, 29),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(6,32): error CS1525: Invalid expression term '<'
+//     <h3>@ViewData["Title"]</h3>
+Diagnostic(ErrorCode.ERR_InvalidExprTerm, "").WithArguments("<").WithLocation(6, 32),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(7,6): error CS0103: The name 'hr' does not exist in the current context
+//     <hr />
+Diagnostic(ErrorCode.ERR_NameNotInContext, "hr").WithArguments("hr").WithLocation(7, 6),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(7,10): error CS1525: Invalid expression term '>'
+//     <hr />
+Diagnostic(ErrorCode.ERR_InvalidExprTerm, ">").WithArguments(">").WithLocation(7, 10),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(7,11): error CS1525: Invalid expression term '}'
+//     <hr />
+Diagnostic(ErrorCode.ERR_InvalidExprTerm, "").WithArguments("}").WithLocation(7, 11),
+// TestFiles/IntegrationTests/CodeGenerationIntegrationTest/RegionDirective.cshtml(7,11): error CS1002: ; expected
+//     <hr />
+Diagnostic(ErrorCode.ERR_SemicolonExpected, "").WithLocation(7, 11)
