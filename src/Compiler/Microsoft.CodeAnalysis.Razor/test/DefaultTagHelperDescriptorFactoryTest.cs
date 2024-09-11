@@ -7,24 +7,21 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Xunit;
 using static Microsoft.AspNetCore.Razor.Language.CommonMetadata;
 
 namespace Microsoft.CodeAnalysis.Razor.Workspaces;
 
-public class DefaultTagHelperDescriptorFactoryTest
+public class DefaultTagHelperDescriptorFactoryTest : TagHelperDescriptorProviderTestBase
 {
-    private static readonly Assembly _assembly = typeof(DefaultTagHelperDescriptorFactoryTest).GetTypeInfo().Assembly;
+    public DefaultTagHelperDescriptorFactoryTest() : base(AdditionalCode)
+    {
+        Compilation = BaseCompilation;
+    }
 
-    protected static readonly AssemblyName TagHelperDescriptorFactoryTestAssembly = _assembly.GetName();
-
-    protected static readonly string AssemblyName = TagHelperDescriptorFactoryTestAssembly.Name;
-
-    private static Compilation Compilation { get; } = TestCompilation.Create(_assembly);
+    private Compilation Compilation { get; }
 
     public static TheoryData RequiredAttributeParserErrorData
     {
@@ -325,7 +322,7 @@ public class DefaultTagHelperDescriptorFactoryTest
             return new TheoryData<string, TagHelperDescriptor>
             {
                 {
-                    "EnumTagHelper",
+                    "TestNamespace.EnumTagHelper",
                     TagHelperDescriptorBuilder.Create("TestNamespace.EnumTagHelper", AssemblyName)
                         .Metadata(GetMetadata("TestNamespace", "EnumTagHelper"))
                         .TagMatchingRuleDescriptor(ruleBuilder => ruleBuilder.RequireTagName("enum"))
@@ -392,12 +389,12 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(IsEnumData))]
     public void CreateDescriptor_IsEnumIsSetCorrectly(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         TagHelperDescriptor expectedDescriptor)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -443,12 +440,12 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(RequiredParentData))]
     public void CreateDescriptor_CreatesDesignTimeDescriptorsWithRequiredParent(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         TagHelperDescriptor expectedDescriptor)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -511,12 +508,12 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(RestrictChildrenData))]
     public void CreateDescriptor_CreatesDescriptorsWithAllowedChildren(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         TagHelperDescriptor expectedDescriptor)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -571,12 +568,12 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(TagStructureData))]
     public void CreateDescriptor_CreatesDesignTimeDescriptorsWithTagStructure(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         TagHelperDescriptor expectedDescriptor)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -765,13 +762,13 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(EditorBrowsableData))]
     public void CreateDescriptor_UnderstandsEditorBrowsableAttribute(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         bool designTime,
         TagHelperDescriptor expectedDescriptor)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, designTime, designTime);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -987,12 +984,12 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(AttributeTargetData))]
     public void CreateDescriptor_ReturnsExpectedDescriptors(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         TagHelperDescriptor expectedDescriptor)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -1023,13 +1020,13 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(HtmlCaseData))]
     public void CreateDescriptor_HtmlCasesTagNameAndAttributeName(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         string expectedTagName,
         string expectedAttributeName)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -1407,8 +1404,8 @@ public class DefaultTagHelperDescriptorFactoryTest
             {
             }
             """;
-        var syntaxTree = CSharpSyntaxTree.ParseText(text);
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var syntaxTree = Parse(text);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var tagHelperType = compilation.GetTypeByMetadataName("DynamicTestTagHelper");
         var attribute = tagHelperType.GetAttributes().Single();
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: false, excludeHidden: false);
@@ -1539,12 +1536,12 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(InvalidTagHelperAttributeDescriptorData))]
     public void CreateDescriptor_DoesNotAllowDataDashAttributes(
-        Type type,
+        string typeFullName,
         IEnumerable<BoundAttributeDescriptor> expectedAttributeDescriptors)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(type.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(typeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -1588,8 +1585,8 @@ public class DefaultTagHelperDescriptorFactoryTest
                 public string SomeAttribute { get; set; }
             }
             """;
-        var syntaxTree = CSharpSyntaxTree.ParseText(text);
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var syntaxTree = Parse(text);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var tagHelperType = compilation.GetTypeByMetadataName("DynamicTestTagHelper");
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: false, excludeHidden: false);
 
@@ -1629,8 +1626,8 @@ public class DefaultTagHelperDescriptorFactoryTest
                 public System.Collections.Generic.IDictionary<string, int> SomeAttribute { get; set; }
             }
             """;
-        var syntaxTree = CSharpSyntaxTree.ParseText(text);
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var syntaxTree = Parse(text);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var tagHelperType = compilation.GetTypeByMetadataName("DynamicTestTagHelper");
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: false, excludeHidden: false);
 
@@ -1673,8 +1670,8 @@ public class DefaultTagHelperDescriptorFactoryTest
                 public string InvalidProperty { get; set; }
             }
             """;
-        var syntaxTree = CSharpSyntaxTree.ParseText(text);
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var syntaxTree = Parse(text);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var tagHelperType = compilation.GetTypeByMetadataName("DynamicTestTagHelper");
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: false, excludeHidden: false);
 
@@ -1720,8 +1717,8 @@ public class DefaultTagHelperDescriptorFactoryTest
                 public System.Collections.Generic.IDictionary<System.String, System.Int32> InvalidProperty { get; set; }
             }
             """;
-        var syntaxTree = CSharpSyntaxTree.ParseText(text);
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var syntaxTree = Parse(text);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var tagHelperType = compilation.GetTypeByMetadataName("DynamicTestTagHelper");
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: false, excludeHidden: false);
 
@@ -1763,8 +1760,8 @@ public class DefaultTagHelperDescriptorFactoryTest
             {
             }
             """;
-        var syntaxTree = CSharpSyntaxTree.ParseText(text);
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var syntaxTree = Parse(text);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var tagHelperType = compilation.GetTypeByMetadataName("DynamicTestTagHelper");
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: false, excludeHidden: false);
 
@@ -1800,13 +1797,13 @@ public class DefaultTagHelperDescriptorFactoryTest
         // Arrange
         name = name.Replace("\n", "\\n").Replace("\r", "\\r").Replace("\"", "\\\"");
         var text = $$"""
-            [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElementAttribute).FullName(ParentTag = "{{name}}")]
+            [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElementAttribute(ParentTag = "{{name}}")]
             public class DynamicTestTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
             {
             }
             """;
-        var syntaxTree = CSharpSyntaxTree.ParseText(text);
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var syntaxTree = Parse(text);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var tagHelperType = compilation.GetTypeByMetadataName("DynamicTestTagHelper");
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: false, excludeHidden: false);
 
@@ -1823,7 +1820,7 @@ public class DefaultTagHelperDescriptorFactoryTest
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName("TestNamespace.Enumerable");
+        var typeSymbol = Compilation.GetTypeByMetadataName(typeof(Enumerable).FullName);
         var expectedDescriptor =
             CreateTagHelperDescriptor(
                 "enumerable",
@@ -1843,7 +1840,7 @@ public class DefaultTagHelperDescriptorFactoryTest
     {
         get
         {
-            var dictionaryNamespace = "TestNamespace.IDictionary<,>";
+            var dictionaryNamespace = typeof(IDictionary<,>).FullName;
             dictionaryNamespace = dictionaryNamespace.Substring(0, dictionaryNamespace.IndexOf('`'));
 
             // tagHelperType, expectedAttributeDescriptors, expectedDiagnostics
@@ -2078,13 +2075,13 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(TagHelperWithPrefixData))]
     public void CreateDescriptor_WithPrefixes_ReturnsExpectedAttributeDescriptors(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         IEnumerable<BoundAttributeDescriptor> expectedAttributeDescriptors,
         IEnumerable<RazorDiagnostic> expectedDiagnostics)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -2111,24 +2108,24 @@ public class DefaultTagHelperDescriptorFactoryTest
                         .Build()
                 },
                 {
-                    "TestNamespace.InheritedOutputElementHintTagHelper",
-                    TagHelperDescriptorBuilder.Create("TestNamespace.InheritedOutputElementHintTagHelper", AssemblyName)
-                        .Metadata(GetMetadata("TestNamespace", "InheritedOutputElementHintTagHelper"))
+                    "TestNamespace2.InheritedOutputElementHintTagHelper",
+                    TagHelperDescriptorBuilder.Create("TestNamespace2.InheritedOutputElementHintTagHelper", AssemblyName)
+                        .Metadata(GetMetadata("TestNamespace2", "InheritedOutputElementHintTagHelper"))
                         .TagMatchingRuleDescriptor(builder => builder.RequireTagName("inherited-output-element-hint"))
                         .Build()
                 },
                 {
-                    "TestNamespace.OutputElementHintTagHelper",
-                    TagHelperDescriptorBuilder.Create("TestNamespace.OutputElementHintTagHelper", AssemblyName)
-                        .Metadata(GetMetadata("TestNamespace", "OutputElementHintTagHelper"))
+                    "TestNamespace2.OutputElementHintTagHelper",
+                    TagHelperDescriptorBuilder.Create("TestNamespace2.OutputElementHintTagHelper", AssemblyName)
+                        .Metadata(GetMetadata("TestNamespace2", "OutputElementHintTagHelper"))
                         .TagMatchingRuleDescriptor(builder => builder.RequireTagName("output-element-hint"))
                         .TagOutputHint("hinted-value")
                         .Build()
                 },
                 {
-                    "TestNamespace.OverriddenOutputElementHintTagHelper",
-                    TagHelperDescriptorBuilder.Create("TestNamespace.OverriddenOutputElementHintTagHelper", AssemblyName)
-                        .Metadata(GetMetadata("TestNamespace", "OverriddenOutputElementHintTagHelper"))
+                    "TestNamespace2.OverriddenOutputElementHintTagHelper",
+                    TagHelperDescriptorBuilder.Create("TestNamespace2.OverriddenOutputElementHintTagHelper", AssemblyName)
+                        .Metadata(GetMetadata("TestNamespace2", "OverriddenOutputElementHintTagHelper"))
                         .TagMatchingRuleDescriptor(builder => builder.RequireTagName("overridden-output-element-hint"))
                         .TagOutputHint("overridden")
                         .Build()
@@ -2140,12 +2137,12 @@ public class DefaultTagHelperDescriptorFactoryTest
     [Theory]
     [MemberData(nameof(TagOutputHintData))]
     public void CreateDescriptor_CreatesDescriptorsWithOutputElementHint(
-        Type tagHelperType,
+        string tagHelperTypeFullName,
         TagHelperDescriptor expectedDescriptor)
     {
         // Arrange
         var factory = new DefaultTagHelperDescriptorFactory(Compilation, includeDocumentation: false, excludeHidden: false);
-        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperType.FullName);
+        var typeSymbol = Compilation.GetTypeByMetadataName(tagHelperTypeFullName);
 
         // Act
         var descriptor = factory.CreateDescriptor(typeSymbol);
@@ -2158,7 +2155,7 @@ public class DefaultTagHelperDescriptorFactoryTest
     public void CreateDescriptor_CapturesDocumentationOnTagHelperClass()
     {
         // Arrange
-        var syntaxTree = CSharpSyntaxTree.ParseText(@"
+        var syntaxTree = Parse(@"
         using Microsoft.AspNetCore.Razor.TagHelpers;
 
         /// <summary>
@@ -2170,7 +2167,7 @@ public class DefaultTagHelperDescriptorFactoryTest
         public class DocumentedTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
         {
         }");
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: true, excludeHidden: false);
         var typeSymbol = compilation.GetTypeByMetadataName("DocumentedTagHelper");
         var expectedDocumentation =
@@ -2195,7 +2192,7 @@ public class DefaultTagHelperDescriptorFactoryTest
     public void CreateDescriptor_CapturesDocumentationOnTagHelperProperties()
     {
         // Arrange
-        var syntaxTree = CSharpSyntaxTree.ParseText(@"
+        var syntaxTree = Parse(@"
         using System.Collections.Generic;
 
         public class DocumentedTagHelper : Microsoft.spNetCore.Razor.TagHelpers.TagHelper
@@ -2218,7 +2215,7 @@ public class DefaultTagHelperDescriptorFactoryTest
             /// </remarks>
             public List<bool> RemarksAndSummaryProperty { get; set; }
         }");
-        var compilation = TestCompilation.Create(_assembly, syntaxTree);
+        var compilation = Compilation.AddSyntaxTrees(syntaxTree);
         var factory = new DefaultTagHelperDescriptorFactory(compilation, includeDocumentation: true, excludeHidden: false);
         var typeSymbol = compilation.GetTypeByMetadataName("DocumentedTagHelper");
         var expectedDocumentations = new[]
@@ -2430,10 +2427,10 @@ public class DefaultTagHelperDescriptorFactoryTest
         return descriptor;
     }
 
-    private static BoundAttributeDescriptor CreateAttributeFor(string fullName, Action<BoundAttributeDescriptorBuilder> configure)
+    private static BoundAttributeDescriptor CreateAttributeFor(string tagHelperTypeFullName, Action<BoundAttributeDescriptorBuilder> configure)
     {
-        var tagHelperBuilder = new TagHelperDescriptorBuilder(TagHelperConventions.DefaultKind, fullName.Split('.')[^1], "Test");
-        tagHelperBuilder.Metadata(TypeName(fullName));
+        var tagHelperBuilder = new TagHelperDescriptorBuilder(TagHelperConventions.DefaultKind, tagHelperTypeFullName.Split('.')[^1], "Test");
+        tagHelperBuilder.Metadata(TypeName(tagHelperTypeFullName));
 
         var attributeBuilder = new BoundAttributeDescriptorBuilder(tagHelperBuilder, TagHelperConventions.DefaultKind);
         configure(attributeBuilder);
@@ -2442,20 +2439,21 @@ public class DefaultTagHelperDescriptorFactoryTest
 
     private const string AdditionalCode =
         """
-        namespace TestNamespace;
-
-        [Microsoft.AspNetCore.Razor.TagHelpers.OutputElementHint("hinted-value")]
-        public class OutputElementHintTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
+        namespace TestNamespace2
         {
-        }
+            [Microsoft.AspNetCore.Razor.TagHelpers.OutputElementHint("hinted-value")]
+            public class OutputElementHintTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
+            {
+            }
 
-        public class InheritedOutputElementHintTagHelper : OutputElementHintTagHelper
-        {
-        }
+            public class InheritedOutputElementHintTagHelper : OutputElementHintTagHelper
+            {
+            }
 
-        [Microsoft.AspNetCore.Razor.TagHelpers.OutputElementHint("overridden")]
-        public class OverriddenOutputElementHintTagHelper : OutputElementHintTagHelper
-        {
+            [Microsoft.AspNetCore.Razor.TagHelpers.OutputElementHint("overridden")]
+            public class OverriddenOutputElementHintTagHelper : OutputElementHintTagHelper
+            {
+            }
         }
         """;
 }

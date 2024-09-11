@@ -16,12 +16,16 @@ namespace Microsoft.CodeAnalysis.Razor;
 
 public abstract class TagHelperDescriptorProviderTestBase
 {
-    static TagHelperDescriptorProviderTestBase()
+    protected TagHelperDescriptorProviderTestBase(string additionalCodeOpt = null)
     {
         CSharpParseOptions = new CSharpParseOptions(LanguageVersion.CSharp7_3);
         var testTagHelpers = CSharpCompilation.Create(
-            assemblyName: "Microsoft.CodeAnalysis.Razor.Test",
-            syntaxTrees: [Parse(TagHelperDescriptorFactoryTagHelpers.Code)],
+            assemblyName: AssemblyName,
+            syntaxTrees:
+            [
+                Parse(TagHelperDescriptorFactoryTagHelpers.Code),
+                ..(additionalCodeOpt != null ? [Parse(additionalCodeOpt)] : Enumerable.Empty<SyntaxTree>()),
+            ],
             references: ReferenceUtil.AspNetLatestAll,
             options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         BaseCompilation = TestCompilation.Create(
@@ -29,11 +33,13 @@ public abstract class TagHelperDescriptorProviderTestBase
             references: [testTagHelpers.VerifyDiagnostics().EmitToImageReference()]);
     }
 
-    protected static Compilation BaseCompilation { get; }
+    protected Compilation BaseCompilation { get; }
 
-    protected static CSharpParseOptions CSharpParseOptions { get; }
+    protected CSharpParseOptions CSharpParseOptions { get; }
 
-    protected static CSharpSyntaxTree Parse(string text)
+    protected static string AssemblyName { get; } = "Microsoft.CodeAnalysis.Razor.Test";
+
+    protected CSharpSyntaxTree Parse(string text)
     {
         return (CSharpSyntaxTree)CSharpSyntaxTree.ParseText(text, CSharpParseOptions);
     }
