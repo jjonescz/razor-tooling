@@ -5,6 +5,7 @@
 
 using System.Linq;
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Microsoft.CodeAnalysis.CSharp;
 using Moq;
 using Xunit;
@@ -19,7 +20,7 @@ public class CompilationTagHelperFeatureTest
         // Arrange
         var references = new[]
         {
-            Basic.Reference.Assemblies.Net80.References.SystemRuntime,
+            ReferenceUtil.NetLatestSystemRuntime,
         };
         var compilation = CSharpCompilation.Create("Test", references: references);
 
@@ -36,7 +37,7 @@ public class CompilationTagHelperFeatureTest
         // Arrange
         var references = new[]
         {
-            Basic.Reference.Assemblies.AspNet80.References.MicrosoftAspNetCoreRazor,
+            ReferenceUtil.AspNetLatestRazor,
         };
         var compilation = CSharpCompilation.Create("Test", references: references);
 
@@ -53,8 +54,8 @@ public class CompilationTagHelperFeatureTest
         // Arrange
         var references = new[]
         {
-            Basic.Reference.Assemblies.Net80.References.SystemRuntime,
-            Basic.Reference.Assemblies.AspNet80.References.MicrosoftAspNetCoreRazor,
+            ReferenceUtil.NetLatestSystemRuntime,
+            ReferenceUtil.AspNetLatestRazor,
         };
         var compilation = CSharpCompilation.Create("Test", references: references);
 
@@ -103,8 +104,8 @@ public class CompilationTagHelperFeatureTest
 
         var references = new[]
         {
-            Basic.Reference.Assemblies.Net80.References.SystemRuntime,
-            Basic.Reference.Assemblies.AspNet80.References.MicrosoftAspNetCoreRazor,
+            ReferenceUtil.NetLatestSystemRuntime,
+            ReferenceUtil.AspNetLatestRazor,
         };
 
         var engine = RazorProjectEngine.Create(
