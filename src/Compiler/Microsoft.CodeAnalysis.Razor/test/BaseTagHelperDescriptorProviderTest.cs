@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Test.Utilities;
 using Xunit;
 
 namespace Microsoft.CodeAnalysis.Razor;
@@ -16,8 +18,15 @@ public abstract class TagHelperDescriptorProviderTestBase
 {
     static TagHelperDescriptorProviderTestBase()
     {
-        BaseCompilation = TestCompilation.Create(typeof(ComponentTagHelperDescriptorProviderTest).Assembly);
         CSharpParseOptions = new CSharpParseOptions(LanguageVersion.CSharp7_3);
+        var testTagHelpers = CSharpCompilation.Create(
+            assemblyName: "Microsoft.CodeAnalysis.Razor.Test",
+            syntaxTrees: [Parse(TagHelperDescriptorFactoryTagHelpers.Code)],
+            references: ReferenceUtil.AspNetLatestAll,
+            options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        BaseCompilation = TestCompilation.Create(
+            syntaxTrees: [],
+            references: [testTagHelpers.VerifyDiagnostics().EmitToImageReference()]);
     }
 
     protected static Compilation BaseCompilation { get; }
@@ -35,9 +44,7 @@ public abstract class TagHelperDescriptorProviderTestBase
     {
         var results =
          context.Results
-            .Where(c => c.AssemblyName != "Microsoft.AspNetCore.Razor.Test.ComponentShim")
-            .Where(c => !c.DisplayName.StartsWith("Microsoft.AspNetCore.Components.Web", StringComparison.Ordinal))
-            .Where(c => c.GetTypeName() != "Microsoft.AspNetCore.Components.Bind")
+            .Where(c => !c.DisplayName.StartsWith("Microsoft.AspNetCore.Components.", StringComparison.Ordinal))
             .OrderBy(c => c.Name)
             .ToArray();
 

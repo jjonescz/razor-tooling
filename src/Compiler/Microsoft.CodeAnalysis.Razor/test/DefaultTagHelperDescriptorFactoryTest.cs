@@ -9,10 +9,8 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Razor.Language;
-using Microsoft.AspNetCore.Razor.Language.Legacy;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Razor.Workspaces.Test;
 using Xunit;
 using static Microsoft.AspNetCore.Razor.Language.CommonMetadata;
 
