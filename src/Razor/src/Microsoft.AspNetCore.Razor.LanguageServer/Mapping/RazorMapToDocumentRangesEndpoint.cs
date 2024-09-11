@@ -20,9 +20,9 @@ internal sealed class RazorMapToDocumentRangesEndpoint :
     IRazorDocumentlessRequestHandler<RazorMapToDocumentRangesParams, RazorMapToDocumentRangesResponse?>,
     ITextDocumentIdentifierHandler<RazorMapToDocumentRangesParams, Uri>
 {
-    private readonly IRazorDocumentMappingService _documentMappingService;
+    private readonly IDocumentMappingService _documentMappingService;
 
-    public RazorMapToDocumentRangesEndpoint(IRazorDocumentMappingService documentMappingService)
+    public RazorMapToDocumentRangesEndpoint(IDocumentMappingService documentMappingService)
     {
         _documentMappingService = documentMappingService;
     }
@@ -53,7 +53,7 @@ internal sealed class RazorMapToDocumentRangesEndpoint :
             return new RazorMapToDocumentRangesResponse()
             {
                 Ranges = request.ProjectedRanges,
-                HostDocumentVersion = documentContext.Version,
+                HostDocumentVersion = documentContext.Snapshot.Version,
             };
         }
 
@@ -76,7 +76,7 @@ internal sealed class RazorMapToDocumentRangesEndpoint :
         return new RazorMapToDocumentRangesResponse()
         {
             Ranges = ranges,
-            HostDocumentVersion = documentContext.Version,
+            HostDocumentVersion = documentContext.Snapshot.Version,
         };
     }
 }

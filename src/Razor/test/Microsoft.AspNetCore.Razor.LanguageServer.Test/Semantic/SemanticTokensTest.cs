@@ -919,42 +919,41 @@ public partial class SemanticTokensTest(ITestOutputHelper testOutput) : TagHelpe
         AssertSemanticTokensMatchesBaseline(sourceText, tokens, testName.AssumeNotNull());
     }
 
-    private static VersionedDocumentContext CreateDocumentContext(
+    private static DocumentContext CreateDocumentContext(
         string documentText,
         bool isRazorFile,
         ImmutableArray<TagHelperDescriptor> tagHelpers,
-        int? documentVersion)
+        int version)
     {
         var document = CreateCodeDocument(documentText, isRazorFile, tagHelpers);
-        var random = new Random();
 
-        var projectSnapshot = new Mock<IProjectSnapshot>(MockBehavior.Strict);
+        var projectSnapshot = new StrictMock<IProjectSnapshot>();
         projectSnapshot
-            .Setup(p => p.Version)
-            .Returns(default(VersionStamp));
+            .SetupGet(p => p.Version)
+            .Returns(VersionStamp.Default);
 
-        var documentSnapshot = Mock.Of<IDocumentSnapshot>(MockBehavior.Strict);
-        var documentContext = new Mock<VersionedDocumentContext>(MockBehavior.Strict, new Uri("c:/path/to/file.razor"), documentSnapshot, /* projectContext */ null, 0);
-        documentContext.Setup(d => d.GetCodeDocumentAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(document);
-
-        documentContext.SetupGet(d => d.Version)
-            .Returns(documentVersion ?? random.Next());
-
-        documentContext.Setup(d => d.Project)
+        var documentSnapshotMock = new StrictMock<IDocumentSnapshot>();
+        documentSnapshotMock
+            .SetupGet(x => x.Project)
             .Returns(projectSnapshot.Object);
+        documentSnapshotMock
+            .Setup(x => x.GetGeneratedOutputAsync(It.IsAny<bool>()))
+            .ReturnsAsync(document);
+        documentSnapshotMock
+            .Setup(x => x.GetTextAsync())
+            .ReturnsAsync(document.Source.Text);
+        documentSnapshotMock
+            .SetupGet(x => x.Version)
+            .Returns(version);
 
-        documentContext.Setup(d => d.GetSourceTextAsync(It.IsAny<CancellationToken>()))
-            .Returns(Task.FromResult(document.Source.Text));
-
-        documentContext.Setup(d => d.Uri)
-            .Returns(new Uri($"c:\\${(isRazorFile ? RazorFile : CSHtmlFile)}"));
-
-        return documentContext.Object;
+        return new DocumentContext(
+            uri: new Uri($@"c:\${GetFileName(isRazorFile)}"),
+            snapshot: documentSnapshotMock.Object,
+            projectContext: null);
     }
 
     private async Task<IRazorSemanticTokensInfoService> CreateServiceAsync(
-        VersionedDocumentContext documentSnapshot,
+        DocumentContext documentSnapshot,
         ProvideSemanticTokensResponse? csharpTokens,
         bool withCSharpBackground,
         bool serverSupportsPreciseRanges,
@@ -977,7 +976,7 @@ public partial class SemanticTokensTest(ITestOutputHelper testOutput) : TagHelpe
                 : It.Is<ProvideSemanticTokensResponse>(x => x.Tokens == null));
 
         var documentContextFactory = new TestDocumentContextFactory(documentSnapshot);
-        var documentMappingService = new RazorDocumentMappingService(FilePathService, documentContextFactory, LoggerFactory);
+        var documentMappingService = new LspDocumentMappingService(FilePathService, documentContextFactory, LoggerFactory);
 
         var configurationSyncService = new Mock<IConfigurationSyncService>(MockBehavior.Strict);
 
@@ -1113,7 +1112,7 @@ public partial class SemanticTokensTest(ITestOutputHelper testOutput) : TagHelpe
 
     private ImmutableArray<LinePositionSpan>? GetMappedCSharpRanges(RazorCodeDocument codeDocument, LinePositionSpan razorRange, bool precise)
     {
-        var documentMappingService = new RazorDocumentMappingService(FilePathService, new TestDocumentContextFactory(), LoggerFactory);
+        var documentMappingService = new LspDocumentMappingService(FilePathService, new TestDocumentContextFactory(), LoggerFactory);
 
         if (precise)
         {
@@ -1201,12 +1200,11 @@ public partial class SemanticTokensTest(ITestOutputHelper testOutput) : TagHelpe
         return builder.ToString();
     }
 
-    private class TestDocumentContextFactory(VersionedDocumentContext? documentContext = null) : IDocumentContextFactory
+    private class TestDocumentContextFactory(DocumentContext? documentContext = null) : IDocumentContextFactory
     {
         public bool TryCreate(
             Uri documentUri,
             VSProjectContext? projectContext,
-            bool versioned,
             [NotNullWhen(true)] out DocumentContext? context)
         {
             context = documentContext;

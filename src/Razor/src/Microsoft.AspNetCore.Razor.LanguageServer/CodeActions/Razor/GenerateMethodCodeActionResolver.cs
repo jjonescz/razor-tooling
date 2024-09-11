@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -18,8 +19,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Razor;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
+using Microsoft.CodeAnalysis.Razor.Formatting;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
 using CSharpSyntaxFactory = Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -29,13 +32,13 @@ internal sealed class GenerateMethodCodeActionResolver(
     IDocumentContextFactory documentContextFactory,
     RazorLSPOptionsMonitor razorLSPOptionsMonitor,
     IClientConnection clientConnection,
-    IRazorDocumentMappingService razorDocumentMappingService,
+    IDocumentMappingService documentMappingService,
     IRazorFormattingService razorFormattingService) : IRazorCodeActionResolver
 {
     private readonly IDocumentContextFactory _documentContextFactory = documentContextFactory;
     private readonly RazorLSPOptionsMonitor _razorLSPOptionsMonitor = razorLSPOptionsMonitor;
     private readonly IClientConnection _clientConnection = clientConnection;
-    private readonly IRazorDocumentMappingService _documentMappingService = razorDocumentMappingService;
+    private readonly IDocumentMappingService _documentMappingService = documentMappingService;
     private readonly IRazorFormattingService _razorFormattingService = razorFormattingService;
 
     private const string ReturnType = "$$ReturnType$$";
@@ -58,7 +61,7 @@ internal sealed class GenerateMethodCodeActionResolver(
             return null;
         }
 
-        if (!_documentContextFactory.TryCreateForOpenDocument(actionParams.Uri, out var documentContext))
+        if (!_documentContextFactory.TryCreate(actionParams.Uri, out var documentContext))
         {
             return null;
         }
@@ -107,7 +110,8 @@ internal sealed class GenerateMethodCodeActionResolver(
         var classLocationLineSpan = @class.GetLocation().GetLineSpan();
         var formattedMethod = FormattingUtilities.AddIndentationToMethod(
             templateWithMethodSignature,
-            _razorLSPOptionsMonitor.CurrentValue,
+            _razorLSPOptionsMonitor.CurrentValue.TabSize,
+            _razorLSPOptionsMonitor.CurrentValue.InsertSpaces,
             @class.SpanStart,
             classLocationLineSpan.StartLinePosition.Character,
             content);
@@ -139,7 +143,7 @@ internal sealed class GenerateMethodCodeActionResolver(
     private async Task<WorkspaceEdit> GenerateMethodInCodeBlockAsync(
         RazorCodeDocument code,
         GenerateMethodCodeActionParams actionParams,
-        VersionedDocumentContext documentContext,
+        DocumentContext documentContext,
         string? razorNamespace,
         string? razorClassName,
         CancellationToken cancellationToken)
@@ -166,7 +170,7 @@ internal sealed class GenerateMethodCodeActionResolver(
                 character: 0,
                 editToSendToRoslyn.NewText);
 
-            var delegatedParams = new DelegatedSimplifyMethodParams(documentContext.Identifier, RequiresVirtualDocument: true, tempTextEdit);
+            var delegatedParams = new DelegatedSimplifyMethodParams(documentContext.GetTextDocumentIdentifierAndVersion(), RequiresVirtualDocument: true, tempTextEdit);
             var result = await _clientConnection.SendRequestAsync<DelegatedSimplifyMethodParams, TextEdit[]?>(
                 CustomMessageNames.RazorSimplifyMethodEndpointName,
                 delegatedParams,
@@ -194,7 +198,7 @@ internal sealed class GenerateMethodCodeActionResolver(
 
             var remappedEdit = VsLspFactory.CreateTextEdit(remappedRange, unformattedMethodSignature);
 
-            var delegatedParams = new DelegatedSimplifyMethodParams(documentContext.Identifier, RequiresVirtualDocument: true, remappedEdit);
+            var delegatedParams = new DelegatedSimplifyMethodParams(documentContext.GetTextDocumentIdentifierAndVersion(), RequiresVirtualDocument: true, remappedEdit);
             var result = await _clientConnection.SendRequestAsync<DelegatedSimplifyMethodParams, TextEdit[]?>(
                 CustomMessageNames.RazorSimplifyMethodEndpointName,
                 delegatedParams,
@@ -202,20 +206,20 @@ internal sealed class GenerateMethodCodeActionResolver(
 
             if (result is not null)
             {
-                var formattingOptions = new FormattingOptions()
+                var formattingOptions = new RazorFormattingOptions()
                 {
                     TabSize = _razorLSPOptionsMonitor.CurrentValue.TabSize,
                     InsertSpaces = _razorLSPOptionsMonitor.CurrentValue.InsertSpaces,
+                    CodeBlockBraceOnNextLine = _razorLSPOptionsMonitor.CurrentValue.CodeBlockBraceOnNextLine
                 };
 
-                var formattedEdits = await _razorFormattingService.FormatCodeActionAsync(
+                var formattedChange = await _razorFormattingService.TryGetCSharpCodeActionEditAsync(
                     documentContext,
-                    RazorLanguageKind.CSharp,
-                    result,
+                    result.SelectAsArray(code.Source.Text.GetTextChange),
                     formattingOptions,
                     cancellationToken).ConfigureAwait(false);
 
-                edits = formattedEdits;
+                edits = formattedChange is { } change ? [code.Source.Text.GetTextEdit(change)] : [];
             }
         }
 
@@ -228,7 +232,7 @@ internal sealed class GenerateMethodCodeActionResolver(
         return new WorkspaceEdit() { DocumentChanges = new[] { razorTextDocEdit } };
     }
 
-    private static async Task<string> PopulateMethodSignatureAsync(VersionedDocumentContext documentContext, GenerateMethodCodeActionParams actionParams, CancellationToken cancellationToken)
+    private static async Task<string> PopulateMethodSignatureAsync(DocumentContext documentContext, GenerateMethodCodeActionParams actionParams, CancellationToken cancellationToken)
     {
         var templateWithMethodSignature = s_generateMethodTemplate.Replace(MethodName, actionParams.MethodName);
 

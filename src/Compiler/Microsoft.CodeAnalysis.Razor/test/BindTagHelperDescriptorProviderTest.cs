@@ -48,8 +48,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
+        var context = new TagHelperDescriptorProviderContext(compilation);
 
         // We run after component discovery and depend on the results.
         var componentProvider = new ComponentTagHelperDescriptorProvider();
@@ -183,8 +182,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
+        var context = new TagHelperDescriptorProviderContext(compilation);
 
         var bindTagHelperProvider = new BindTagHelperDescriptorProvider();
 
@@ -208,11 +206,8 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
         var bindConverterSymbol = compilation.GetTypeByMetadataName(ComponentsApi.BindConverter.FullTypeName);
-        context.Items.SetTargetSymbol(bindConverterSymbol.ContainingAssembly);
+        var context = new TagHelperDescriptorProviderContext(compilation, bindConverterSymbol.ContainingAssembly);
 
         var bindTagHelperProvider = new BindTagHelperDescriptorProvider();
 
@@ -236,9 +231,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-        context.Items.SetTargetSymbol(compilation.Assembly);
+        var context = new TagHelperDescriptorProviderContext(compilation, compilation.Assembly);
 
         var bindTagHelperProvider = new BindTagHelperDescriptorProvider();
 
@@ -280,8 +273,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
+        var context = new TagHelperDescriptorProviderContext(compilation);
 
         // We run after component discovery and depend on the results.
         var componentProvider = new ComponentTagHelperDescriptorProvider();
@@ -431,8 +423,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
+        var context = new TagHelperDescriptorProviderContext(compilation);
 
         // We run after component discovery and depend on the results.
         var componentProvider = new ComponentTagHelperDescriptorProvider();
@@ -467,9 +458,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
+        var context = new TagHelperDescriptorProviderContext(compilation);
         var provider = new BindTagHelperDescriptorProvider();
 
         // Act
@@ -728,9 +717,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
+        var context = new TagHelperDescriptorProviderContext(compilation);
         var provider = new BindTagHelperDescriptorProvider();
 
         // Act
@@ -813,9 +800,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
+        var context = new TagHelperDescriptorProviderContext(compilation);
         var provider = new BindTagHelperDescriptorProvider();
 
         // Act
@@ -889,9 +874,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
+        var context = new TagHelperDescriptorProviderContext(compilation);
         var provider = new BindTagHelperDescriptorProvider();
 
         // Act
@@ -986,9 +969,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
+        var context = new TagHelperDescriptorProviderContext(compilation);
         var provider = new BindTagHelperDescriptorProvider();
 
         // Act
@@ -1085,9 +1066,7 @@ namespace Test
 
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
+        var context = new TagHelperDescriptorProviderContext(compilation);
         var provider = new BindTagHelperDescriptorProvider();
 
         // Act
@@ -1114,9 +1093,7 @@ namespace Test
         var compilation = BaseCompilation;
         Assert.Empty(compilation.GetDiagnostics());
 
-        var context = TagHelperDescriptorProviderContext.Create();
-        context.SetCompilation(compilation);
-
+        var context = new TagHelperDescriptorProviderContext(compilation);
         var provider = new BindTagHelperDescriptorProvider();
 
         // Act

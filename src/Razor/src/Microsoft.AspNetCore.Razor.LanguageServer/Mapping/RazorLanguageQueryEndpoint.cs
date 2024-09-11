@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.LanguageServer.EndpointContracts;
 using Microsoft.CodeAnalysis.Razor.DocumentMapping;
 using Microsoft.CodeAnalysis.Razor.Logging;
+using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.LanguageServer.Protocol;
@@ -14,10 +15,10 @@ using Microsoft.VisualStudio.LanguageServer.Protocol;
 namespace Microsoft.AspNetCore.Razor.LanguageServer.Mapping;
 
 [RazorLanguageServerEndpoint(LanguageServerConstants.RazorLanguageQueryEndpoint)]
-internal sealed class RazorLanguageQueryEndpoint(IRazorDocumentMappingService documentMappingService, ILoggerFactory loggerFactory)
+internal sealed class RazorLanguageQueryEndpoint(IDocumentMappingService documentMappingService, ILoggerFactory loggerFactory)
     : IRazorRequestHandler<RazorLanguageQueryParams, RazorLanguageQueryResponse?>
 {
-    private readonly IRazorDocumentMappingService _documentMappingService = documentMappingService;
+    private readonly IDocumentMappingService _documentMappingService = documentMappingService;
     private readonly ILogger _logger = loggerFactory.GetOrCreateLogger<RazorLanguageQueryEndpoint>();
 
     public bool MutatesSolutionState { get; } = false;
@@ -39,7 +40,7 @@ internal sealed class RazorLanguageQueryEndpoint(IRazorDocumentMappingService do
         }
 
         var documentSnapshot = documentContext.Snapshot;
-        var documentVersion = documentContext.Version;
+        var documentVersion = documentContext.Snapshot.Version;
 
         var codeDocument = await documentSnapshot.GetGeneratedOutputAsync().ConfigureAwait(false);
         var sourceText = await documentSnapshot.GetTextAsync().ConfigureAwait(false);
@@ -60,7 +61,7 @@ internal sealed class RazorLanguageQueryEndpoint(IRazorDocumentMappingService do
 
         var responsePositionIndex = hostDocumentIndex;
 
-        var languageKind = _documentMappingService.GetLanguageKind(codeDocument, hostDocumentIndex, rightAssociative: false);
+        var languageKind = codeDocument.GetLanguageKind(hostDocumentIndex, rightAssociative: false);
         if (languageKind == RazorLanguageKind.CSharp)
         {
             if (_documentMappingService.TryMapToGeneratedDocumentPosition(codeDocument.GetCSharpDocument(), hostDocumentIndex, out Position? projectedPosition, out var projectedIndex))

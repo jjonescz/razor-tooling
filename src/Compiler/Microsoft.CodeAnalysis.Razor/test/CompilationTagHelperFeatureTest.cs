@@ -69,11 +69,8 @@ public class CompilationTagHelperFeatureTest
     public void GetDescriptors_DoesNotSetCompilation_IfCompilationIsInvalid()
     {
         // Arrange
-        Compilation compilation = null;
         var provider = new Mock<ITagHelperDescriptorProvider>();
-        provider.Setup(c => c.Execute(It.IsAny<TagHelperDescriptorProviderContext>()))
-            .Callback<TagHelperDescriptorProviderContext>(c => compilation = c.GetCompilation())
-            .Verifiable();
+        provider.Setup(c => c.Execute(It.IsAny<TagHelperDescriptorProviderContext>()));
 
         var engine = RazorProjectEngine.Create(
             configure =>
@@ -90,8 +87,7 @@ public class CompilationTagHelperFeatureTest
 
         // Assert
         Assert.Empty(result);
-        provider.Verify();
-        Assert.Null(compilation);
+        provider.Verify(c => c.Execute(It.IsAny<TagHelperDescriptorProviderContext>()), Times.Never);
     }
 
     [Fact]
@@ -100,8 +96,9 @@ public class CompilationTagHelperFeatureTest
         // Arrange
         Compilation compilation = null;
         var provider = new Mock<ITagHelperDescriptorProvider>();
-        provider.Setup(c => c.Execute(It.IsAny<TagHelperDescriptorProviderContext>()))
-            .Callback<TagHelperDescriptorProviderContext>(c => compilation = c.GetCompilation())
+        provider
+            .Setup(c => c.Execute(It.IsAny<TagHelperDescriptorProviderContext>()))
+            .Callback<TagHelperDescriptorProviderContext>(c => compilation = c.Compilation)
             .Verifiable();
 
         var references = new[]

@@ -37,12 +37,12 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.MapCode;
 /// </remarks>
 [RazorLanguageServerEndpoint(VSInternalMethods.WorkspaceMapCodeName)]
 internal sealed class MapCodeEndpoint(
-    IRazorDocumentMappingService documentMappingService,
+    IDocumentMappingService documentMappingService,
     IDocumentContextFactory documentContextFactory,
     IClientConnection clientConnection,
     ITelemetryReporter telemetryReporter) : IRazorDocumentlessRequestHandler<VSInternalMapCodeParams, WorkspaceEdit?>, ICapabilitiesProvider
 {
-    private readonly IRazorDocumentMappingService _documentMappingService = documentMappingService ?? throw new ArgumentNullException(nameof(documentMappingService));
+    private readonly IDocumentMappingService _documentMappingService = documentMappingService ?? throw new ArgumentNullException(nameof(documentMappingService));
     private readonly IDocumentContextFactory _documentContextFactory = documentContextFactory ?? throw new ArgumentNullException(nameof(documentContextFactory));
     private readonly IClientConnection _clientConnection = clientConnection ?? throw new ArgumentNullException(nameof(clientConnection));
     private readonly ITelemetryReporter _telemetryReporter = telemetryReporter ?? throw new ArgumentNullException(nameof(telemetryReporter));
@@ -85,7 +85,7 @@ internal sealed class MapCodeEndpoint(
                 continue;
             }
 
-            if (!_documentContextFactory.TryCreateForOpenDocument(mapping.TextDocument.Uri, out var documentContext))
+            if (!_documentContextFactory.TryCreate(mapping.TextDocument.Uri, out var documentContext))
             {
                 continue;
             }
@@ -131,7 +131,7 @@ internal sealed class MapCodeEndpoint(
         Location[][] locations,
         List<TextDocumentEdit> changes,
         Guid mapCodeCorrelationId,
-        VersionedDocumentContext documentContext,
+        DocumentContext documentContext,
         CancellationToken cancellationToken)
     {
         var syntaxTree = codeToMap.GetSyntaxTree();
@@ -162,7 +162,7 @@ internal sealed class MapCodeEndpoint(
         ImmutableArray<SyntaxNode> nodesToMap,
         Guid mapCodeCorrelationId,
         List<TextDocumentEdit> changes,
-        VersionedDocumentContext documentContext,
+        DocumentContext documentContext,
         CancellationToken cancellationToken)
     {
         var didCalculateCSharpFocusLocations = false;
@@ -202,7 +202,7 @@ internal sealed class MapCodeEndpoint(
                         }
 
                         var csharpMappingSuccessful = await TrySendCSharpDelegatedMappingRequestAsync(
-                            documentContext.Identifier,
+                            documentContext.GetTextDocumentIdentifierAndVersion(),
                             csharpBody,
                             csharpFocusLocations,
                             mapCodeCorrelationId,
@@ -357,7 +357,7 @@ internal sealed class MapCodeEndpoint(
                     continue;
                 }
 
-                if (!_documentContextFactory.TryCreateForOpenDocument(potentialLocation.Uri, out var documentContext))
+                if (!_documentContextFactory.TryCreate(potentialLocation.Uri, out var documentContext))
                 {
                     continue;
                 }

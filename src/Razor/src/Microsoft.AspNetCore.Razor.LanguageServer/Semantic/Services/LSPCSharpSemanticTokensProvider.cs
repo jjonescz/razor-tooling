@@ -26,12 +26,12 @@ internal class LSPCSharpSemanticTokensProvider(LanguageServerFeatureOptions lang
     private readonly ILogger _logger = loggerFactory.GetOrCreateLogger<LSPCSharpSemanticTokensProvider>();
 
     public async Task<int[]?> GetCSharpSemanticTokensResponseAsync(
-            VersionedDocumentContext documentContext,
+            DocumentContext documentContext,
             ImmutableArray<LinePositionSpan> csharpSpans,
             Guid correlationId,
             CancellationToken cancellationToken)
     {
-        var documentVersion = documentContext.Version;
+        var documentVersion = documentContext.Snapshot.Version;
 
         using var _ = ListPool<Range>.GetPooledObject(out var csharpRangeList);
         foreach (var span in csharpSpans)
@@ -41,7 +41,12 @@ internal class LSPCSharpSemanticTokensProvider(LanguageServerFeatureOptions lang
 
         var csharpRanges = csharpRangeList.ToArray();
 
-        var parameter = new ProvideSemanticTokensRangesParams(documentContext.Identifier.TextDocumentIdentifier, documentVersion, csharpRanges, correlationId);
+        var parameter = new ProvideSemanticTokensRangesParams(
+            documentContext.GetTextDocumentIdentifierAndVersion().TextDocumentIdentifier,
+            documentVersion,
+            csharpRanges,
+            correlationId);
+
         ProvideSemanticTokensResponse? csharpResponse;
         if (_languageServerFeatureOptions.UsePreciseSemanticTokenRanges)
         {

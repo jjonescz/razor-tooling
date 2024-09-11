@@ -30,7 +30,7 @@ namespace Microsoft.AspNetCore.Razor.LanguageServer.CodeActions;
 
 [RazorLanguageServerEndpoint(LspEndpointName)]
 internal sealed class CodeActionEndpoint(
-    IRazorDocumentMappingService documentMappingService,
+    IDocumentMappingService documentMappingService,
     IEnumerable<IRazorCodeActionProvider> razorCodeActionProviders,
     IEnumerable<ICSharpCodeActionProvider> csharpCodeActionProviders,
     IEnumerable<IHtmlCodeActionProvider> htmlCodeActionProviders,
@@ -42,7 +42,7 @@ internal sealed class CodeActionEndpoint(
 {
     private const string LspEndpointName = Methods.TextDocumentCodeActionName;
 
-    private readonly IRazorDocumentMappingService _documentMappingService = documentMappingService ?? throw new ArgumentNullException(nameof(documentMappingService));
+    private readonly IDocumentMappingService _documentMappingService = documentMappingService ?? throw new ArgumentNullException(nameof(documentMappingService));
     private readonly IEnumerable<IRazorCodeActionProvider> _razorCodeActionProviders = razorCodeActionProviders ?? throw new ArgumentNullException(nameof(razorCodeActionProviders));
     private readonly IEnumerable<ICSharpCodeActionProvider> _csharpCodeActionProviders = csharpCodeActionProviders ?? throw new ArgumentNullException(nameof(csharpCodeActionProviders));
     private readonly IEnumerable<IHtmlCodeActionProvider> _htmlCodeActionProviders = htmlCodeActionProviders ?? throw new ArgumentNullException(nameof(htmlCodeActionProviders));
@@ -175,9 +175,9 @@ internal sealed class CodeActionEndpoint(
         return context;
     }
 
-    private async Task<ImmutableArray<RazorVSInternalCodeAction>> GetDelegatedCodeActionsAsync(VersionedDocumentContext documentContext, RazorCodeActionContext context, Guid correlationId, CancellationToken cancellationToken)
+    private async Task<ImmutableArray<RazorVSInternalCodeAction>> GetDelegatedCodeActionsAsync(DocumentContext documentContext, RazorCodeActionContext context, Guid correlationId, CancellationToken cancellationToken)
     {
-        var languageKind = _documentMappingService.GetLanguageKind(context.CodeDocument, context.Location.AbsoluteIndex, rightAssociative: false);
+        var languageKind = context.CodeDocument.GetLanguageKind(context.Location.AbsoluteIndex, rightAssociative: false);
 
         // No point delegating if we're in a Razor context
         if (languageKind == RazorLanguageKind.Razor)
@@ -256,7 +256,7 @@ internal sealed class CodeActionEndpoint(
     }
 
     // Internal for testing
-    internal async Task<RazorVSInternalCodeAction[]> GetCodeActionsFromLanguageServerAsync(RazorLanguageKind languageKind, VersionedDocumentContext documentContext, RazorCodeActionContext context, Guid correlationId, CancellationToken cancellationToken)
+    internal async Task<RazorVSInternalCodeAction[]> GetCodeActionsFromLanguageServerAsync(RazorLanguageKind languageKind, DocumentContext documentContext, RazorCodeActionContext context, Guid correlationId, CancellationToken cancellationToken)
     {
         if (languageKind == RazorLanguageKind.CSharp)
         {
@@ -282,7 +282,7 @@ internal sealed class CodeActionEndpoint(
 
         var delegatedParams = new DelegatedCodeActionParams()
         {
-            HostDocumentVersion = documentContext.Version,
+            HostDocumentVersion = documentContext.Snapshot.Version,
             CodeActionParams = context.Request,
             LanguageKind = languageKind,
             CorrelationId = correlationId

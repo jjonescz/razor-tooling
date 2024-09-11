@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Razor.Test.Common.Workspaces;
 using Microsoft.AspNetCore.Razor.Utilities;
 using Microsoft.CodeAnalysis.ExternalAccess.Razor;
 using Microsoft.CodeAnalysis.Razor;
+using Microsoft.CodeAnalysis.Razor.Formatting;
 using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Razor.Protocol.CodeActions;
 using Microsoft.CodeAnalysis.Razor.Workspaces;
@@ -55,7 +56,7 @@ public class CodeActionEndToEndTest(ITestOutputHelper testOutput) : SingleServer
                     new GenerateMethodResolverDocumentContextFactory(filePath, codeDocument),
                     optionsMonitor ?? TestRazorLSPOptionsMonitor.Create(),
                     clientConnection,
-                    new RazorDocumentMappingService(FilePathService, new TestDocumentContextFactory(), LoggerFactory),
+                    new LspDocumentMappingService(FilePathService, new TestDocumentContextFactory(), LoggerFactory),
                     razorFormattingService)
             ];
 
@@ -1131,7 +1132,7 @@ public class CodeActionEndToEndTest(ITestOutputHelper testOutput) : SingleServer
 
         Assert.NotNull(codeActionToRun);
 
-        var formattingService = await TestRazorFormattingService.CreateWithFullSupportAsync(LoggerFactory, codeDocument, documentContext.Snapshot, optionsMonitor?.CurrentValue);
+        var formattingService = await TestRazorFormattingService.CreateWithFullSupportAsync(LoggerFactory, codeDocument, optionsMonitor?.CurrentValue);
         var changes = await GetEditsAsync(
             codeActionToRun,
             requestContext,
@@ -1228,9 +1229,9 @@ public class CodeActionEndToEndTest(ITestOutputHelper testOutput) : SingleServer
         Assert.NotNull(resolveResult.Edit);
 
         var workspaceEdit = resolveResult.Edit;
-        Assert.True(workspaceEdit.TryGetDocumentChanges(out var changes));
+        Assert.True(workspaceEdit.TryGetTextDocumentEdits(out var documentEdits));
 
-        return changes;
+        return documentEdits;
     }
 
     private class GenerateMethodResolverDocumentContextFactory : TestDocumentContextFactory
@@ -1240,9 +1241,8 @@ public class CodeActionEndToEndTest(ITestOutputHelper testOutput) : SingleServer
         public GenerateMethodResolverDocumentContextFactory
             (string filePath,
             RazorCodeDocument codeDocument,
-            TagHelperDescriptor[]? tagHelpers = null,
-            int? version = null)
-            : base(filePath, codeDocument, version)
+            TagHelperDescriptor[]? tagHelpers = null)
+            : base(filePath, codeDocument)
         {
             _tagHelperDescriptors = CreateTagHelperDescriptors();
             if (tagHelpers is not null)
@@ -1254,7 +1254,6 @@ public class CodeActionEndToEndTest(ITestOutputHelper testOutput) : SingleServer
         public override bool TryCreate(
             Uri documentUri,
             VSProjectContext? projectContext,
-            bool versioned,
             [NotNullWhen(true)] out DocumentContext? context)
         {
             if (FilePath is null || CodeDocument is null)
