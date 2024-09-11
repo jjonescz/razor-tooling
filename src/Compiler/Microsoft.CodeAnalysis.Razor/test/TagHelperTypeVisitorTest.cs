@@ -4,18 +4,21 @@
 #nullable disable
 
 using System.Collections.Generic;
-using System.Reflection;
 using Xunit;
 
 namespace Microsoft.CodeAnalysis.Razor.Workspaces;
 
-public class TagHelperTypeVisitorTest
+public class TagHelperTypeVisitorTest : TagHelperDescriptorProviderTestBase
 {
-    private static readonly Assembly _assembly = typeof(TagHelperTypeVisitorTest).GetTypeInfo().Assembly;
+    public TagHelperTypeVisitorTest() : base(AdditionalCode)
+    {
+        Compilation = BaseCompilation;
+        ITagHelperSymbol = Compilation.GetTypeByMetadataName(TagHelperTypes.ITagHelper);
+    }
 
-    private static Compilation Compilation { get; } = TestCompilation.Create(_assembly);
+    private Compilation Compilation { get; }
 
-    private static INamedTypeSymbol ITagHelperSymbol { get; } = Compilation.GetTypeByMetadataName(TagHelperTypes.ITagHelper);
+    private INamedTypeSymbol ITagHelperSymbol { get; }
 
     [Fact]
     public void IsTagHelper_PlainTagHelper_ReturnsTrue()
@@ -64,7 +67,7 @@ public class TagHelperTypeVisitorTest
     {
         // Arrange
         var testVisitor = new TagHelperTypeVisitor(ITagHelperSymbol, new List<INamedTypeSymbol>());
-        var tagHelperSymbol = Compilation.GetTypeByMetadataName("TestNamespace.Invalid_GenericTagHelper<>");
+        var tagHelperSymbol = Compilation.GetTypeByMetadataName("TestNamespace.Invalid_GenericTagHelper`1");
 
         // Act
         var isTagHelper = testVisitor.IsTagHelper(tagHelperSymbol);
@@ -91,35 +94,36 @@ public class TagHelperTypeVisitorTest
         """
         using Microsoft.AspNetCore.Razor.TagHelpers;
 
-        namespace TestNamespace;
-
-        public class Invalid_NestedPublicTagHelper : TagHelper
+        namespace TestNamespace
         {
-        }
+            public class Invalid_NestedPublicTagHelper : TagHelper
+            {
+            }
 
-        public class Valid_NestedPublicViewComponent
-        {
-            public string Invoke(string foo) => null;
-        }
+            public class Valid_NestedPublicViewComponent
+            {
+                public string Invoke(string foo) => null;
+            }
 
-        public abstract class Invalid_AbstractTagHelper : TagHelper
-        {
-        }
+            public abstract class Invalid_AbstractTagHelper : TagHelper
+            {
+            }
 
-        public class Invalid_GenericTagHelper<T> : TagHelper
-        {
-        }
+            public class Invalid_GenericTagHelper<T> : TagHelper
+            {
+            }
 
-        internal class Invalid_InternalTagHelper : TagHelper
-        {
-        }
+            internal class Invalid_InternalTagHelper : TagHelper
+            {
+            }
 
-        public class Valid_PlainTagHelper : TagHelper
-        {
-        }
+            public class Valid_PlainTagHelper : TagHelper
+            {
+            }
 
-        public class Valid_InheritedTagHelper : Valid_PlainTagHelper
-        {
+            public class Valid_InheritedTagHelper : Valid_PlainTagHelper
+            {
+            }
         }
         """;
 }
