@@ -22,7 +22,8 @@
       IsImplicitlyDefined="true" />
   </ItemGroup>
 
-  <Import Project="$(SolutionRoot)..\..\eng\Versions.props" />
+  <Import Project="$(RepositoryRoot)eng\Versions.props" />
+  <Import Project="$(RepositoryRoot)eng\targets\TargetFrameworks.props" />
 
   <PropertyGroup>
     <!-- Working around an issue in XDT transforms -->
