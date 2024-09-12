@@ -14,7 +14,7 @@ Command Line:
 To run a specific benchmark add it as parameter.
 
 ```cmd
-dotnet run -c Release -f net472 <benchmark_name>
+dotnet run -c Release -f net472 -- --filter *<benchmark_name>*
 ```
 
 If you run without any parameters, you'll be offered the list of all benchmarks and get to choose.
