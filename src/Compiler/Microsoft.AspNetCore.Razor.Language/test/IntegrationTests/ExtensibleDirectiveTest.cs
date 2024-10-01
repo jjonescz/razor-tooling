@@ -36,5 +36,6 @@ public class ExtensibleDirectiveTest : IntegrationTestBase
         AssertCSharpDocumentMatchesBaseline(codeDocument.GetCSharpDocument());
         AssertLinePragmas(codeDocument, designTime: true);
         AssertSourceMappingsMatchBaseline(codeDocument);
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument);
     }
 }

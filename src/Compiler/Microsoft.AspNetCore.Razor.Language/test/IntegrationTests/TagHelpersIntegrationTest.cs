@@ -32,6 +32,7 @@ public class TagHelpersIntegrationTest() : IntegrationTestBase(layer: TestProjec
 
         // Assert
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode());
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument);
     }
 
     [Fact]
@@ -61,6 +62,7 @@ public class TagHelpersIntegrationTest() : IntegrationTestBase(layer: TestProjec
 
         // Assert
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode());
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument);
     }
 
     [Fact]
@@ -100,6 +102,7 @@ public class TagHelpersIntegrationTest() : IntegrationTestBase(layer: TestProjec
         var syntaxTree = codeDocument.GetSyntaxTree();
         var irTree = codeDocument.GetDocumentIntermediateNode();
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode());
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument);
     }
 
     private static TagHelperDescriptor CreateTagHelperDescriptor(

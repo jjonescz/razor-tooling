@@ -21,6 +21,7 @@ public class BasicIntegrationTest() : IntegrationTestBase(layer: TestProject.Lay
 
         // Assert
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode());
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument);
     }
 
     [Fact]
@@ -35,6 +36,7 @@ public class BasicIntegrationTest() : IntegrationTestBase(layer: TestProject.Lay
 
         // Assert
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode());
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument);
     }
 
     [Fact]
@@ -53,5 +55,6 @@ public class BasicIntegrationTest() : IntegrationTestBase(layer: TestProject.Lay
 
         // Assert
         AssertDocumentNodeMatchesBaseline(codeDocument.GetDocumentIntermediateNode());
+        AssertCSharpDiagnosticsMatchBaseline(codeDocument);
     }
 }
