@@ -415,4 +415,25 @@ public class HtmlBlockTest() : ParserTestBase(layer: TestProject.Layer.Compiler)
             }
             """);
     }
+
+    [Fact, WorkItem("https://github.com/dotnet/razor/issues/8460")]
+    public void VoidTag_Multiple()
+    {
+        ParseDocumentTest("""
+            @{
+                <Row>in row</Row>
+                <input>
+                var x = 2;
+                <Input>in input</Input>
+                x = 3;
+                <Link>
+                @{
+                    <Link>
+                    <Link>nested link</Link>
+                    x = 4;
+                }
+                </Link>
+            }
+            """);
+    }
 }

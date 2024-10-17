@@ -41,6 +41,8 @@
     <ExcludeFromSourceBuild>true</ExcludeFromSourceBuild>
 
     <DefaultNetFxTargetFramework>net472</DefaultNetFxTargetFramework>
+
+    <GenerateBaselines>true</GenerateBaselines>
   </PropertyGroup>
 
   <!--
